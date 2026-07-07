@@ -1,0 +1,102 @@
+# Section Hub Report
+
+Site: `edhfilmgroup.com`
+
+| Section | URL Count | Unique Inlinks Into Section | Total Inlinks Into Section | Outlinks From Section | Top Pages |
+| --- | ---: | ---: | ---: | ---: | --- |
+| blog | 315 | 3496 | 8538 | 27684 | https://edhfilmgroup.com/blog/ (410); https://edhfilmgroup.com/blog/category/home-window-tinting-film/ (163); https://edhfilmgroup.com/blog/category/commercial-window-film/ (161); https://edhfilmgroup.com/blog/category/decorative-window-film/ (159); https://edhfilmgroup.com/blog/category/anti-graffiti-film/ (157) |
+| locations | 18 | 3355 | 6941 | 1136 | https://edhfilmgroup.com/locations/ (410); https://edhfilmgroup.com/locations/missouri/window-tinting-st-louis/ (410); https://edhfilmgroup.com/locations/oklahoma/window-tinting-oklahoma-city/ (410); https://edhfilmgroup.com/locations/oklahoma/window-tinting-tulsa/ (410); https://edhfilmgroup.com/locations/texas/window-tinting-dallas/ (410) |
+| products | 9 | 3282 | 6785 | 780 | https://edhfilmgroup.com/products/architectural-resurfacing-film/ (410); https://edhfilmgroup.com/products/bird-safety-film/ (410); https://edhfilmgroup.com/products/custom-graphics-window-film/ (410); https://edhfilmgroup.com/products/decorative-window-film/ (410); https://edhfilmgroup.com/products/security-glass/ (410) |
+| home | 2 | 825 | 2193 | 98 | https://edhfilmgroup.com/ (415); https://edhfilmgroup.com/?page_id=254 (410) |
+| about-edh | 1 | 410 | 1656 | 78 | https://edhfilmgroup.com/about-edh/ (410) |
+| commercial-decorative-window-film | 1 | 410 | 448 | 81 | https://edhfilmgroup.com/commercial-decorative-window-film/ (410) |
+| commercial-di-noc-film | 1 | 410 | 433 | 79 | https://edhfilmgroup.com/commercial-di-noc-film/ (410) |
+| commercial-market | 1 | 410 | 434 | 93 | https://edhfilmgroup.com/commercial-market/ (410) |
+| commercial-security-film | 1 | 410 | 447 | 79 | https://edhfilmgroup.com/commercial-security-film/ (410) |
+| commercial-solar-films | 1 | 410 | 457 | 81 | https://edhfilmgroup.com/commercial-solar-films/ (410) |
+| commercial-window-tinting | 1 | 410 | 457 | 83 | https://edhfilmgroup.com/commercial-window-tinting/ (410) |
+| contact | 1 | 410 | 2696 | 77 | https://edhfilmgroup.com/contact/ (410) |
+| contact-old | 1 | 410 | 423 | 77 | https://edhfilmgroup.com/contact-old/ (410) |
+| decorative-home-window-film | 1 | 410 | 447 | 79 | https://edhfilmgroup.com/decorative-home-window-film/ (410) |
+| home-security-window-film | 1 | 410 | 452 | 79 | https://edhfilmgroup.com/home-security-window-film/ (410) |
+| home-solar-film | 1 | 410 | 463 | 81 | https://edhfilmgroup.com/home-solar-film/ (410) |
+| residential-market | 1 | 410 | 843 | 88 | https://edhfilmgroup.com/residential-market/ (410) |
+| school-security-window-film | 1 | 410 | 433 | 81 | https://edhfilmgroup.com/school-security-window-film/ (410) |
+| sitemap | 1 | 410 | 833 | 339 | https://edhfilmgroup.com/sitemap/ (410) |
+| solar-window-film | 1 | 38 | 46 | 0 | https://edhfilmgroup.com/solar-window-film/ (38) |
+| home-window-tinting | 1 | 35 | 52 | 82 | https://edhfilmgroup.com/home-window-tinting/ (35) |
+| decorative-window-film | 1 | 31 | 50 | 81 | https://edhfilmgroup.com/decorative-window-film/ (31) |
+| security-window-film | 1 | 31 | 45 | 83 | https://edhfilmgroup.com/security-window-film/ (31) |
+| privacy-policy | 1 | 13 | 35 | 79 | https://edhfilmgroup.com/privacy-policy/ (13) |
+| terms-and-conditions | 1 | 12 | 34 | 80 | https://edhfilmgroup.com/terms-and-conditions/ (12) |
+| 3m-resources | 1 | 2 | 24 | 87 | https://edhfilmgroup.com/3m-resources/ (2) |
+| armored-panels-riot-glass | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/armored-panels-riot-glass/ (2) |
+| batteries-included | 1 | 2 | 14 | 77 | https://edhfilmgroup.com/batteries-included/ (2) |
+| commercial-decorative-film-st-louis | 1 | 2 | 14 | 80 | https://edhfilmgroup.com/commercial-decorative-film-st-louis/ (2) |
+| commercial-decorative-window-film-in-dallas-tx | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/commercial-decorative-window-film-in-dallas-tx/ (2) |
+| commercial-decorative-window-film-in-fort-worth-tx | 1 | 2 | 14 | 87 | https://edhfilmgroup.com/commercial-decorative-window-film-in-fort-worth-tx/ (2) |
+| commercial-decorative-window-film-in-oklahoma-city-ok | 1 | 2 | 14 | 84 | https://edhfilmgroup.com/commercial-decorative-window-film-in-oklahoma-city-ok/ (2) |
+| commercial-security-window-film-in-dallas-tx | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/commercial-security-window-film-in-dallas-tx/ (2) |
+| commercial-security-window-film-in-fort-worth-tx | 1 | 2 | 14 | 81 | https://edhfilmgroup.com/commercial-security-window-film-in-fort-worth-tx/ (2) |
+| commercial-security-window-film-in-oklahoma-city-ok | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/commercial-security-window-film-in-oklahoma-city-ok/ (2) |
+| commercial-solar-film-in-dallas-tx | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/commercial-solar-film-in-dallas-tx/ (2) |
+| commercial-solar-film-in-oklahoma-city-ok | 1 | 2 | 14 | 81 | https://edhfilmgroup.com/commercial-solar-film-in-oklahoma-city-ok/ (2) |
+| commercial-solar-window-film-in-fort-worth-tx | 1 | 2 | 14 | 81 | https://edhfilmgroup.com/commercial-solar-window-film-in-fort-worth-tx/ (2) |
+| commercial-window-tinting-tulsa-ok | 1 | 2 | 14 | 80 | https://edhfilmgroup.com/commercial-window-tinting-tulsa-ok/ (2) |
+| custom-graphics-redesign | 1 | 2 | 14 | 80 | https://edhfilmgroup.com/custom-graphics-redesign/ (2) |
+| dallas-commercial-window-film | 1 | 2 | 2 | 6 | https://edhfilmgroup.com/dallas-commercial-window-film/ (2) |
+| dallas-residential-window-film | 1 | 2 | 2 | 6 | https://edhfilmgroup.com/dallas-residential-window-film/ (2) |
+| decorative-home-window-film-in-dallas-tx | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/decorative-home-window-film-in-dallas-tx/ (2) |
+| decorative-home-window-film-in-fort-worth-tx | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/decorative-home-window-film-in-fort-worth-tx/ (2) |
+| decorative-home-window-film-in-oklahoma-city-ok | 1 | 2 | 14 | 80 | https://edhfilmgroup.com/decorative-home-window-film-in-oklahoma-city-ok/ (2) |
+| decorative-window-film-in-dallas-tx | 1 | 2 | 14 | 85 | https://edhfilmgroup.com/decorative-window-film-in-dallas-tx/ (2) |
+| decorative-window-film-in-fort-worth-tx | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/decorative-window-film-in-fort-worth-tx/ (2) |
+| decorative-window-film-in-oklahoma-city-ok | 1 | 2 | 14 | 84 | https://edhfilmgroup.com/decorative-window-film-in-oklahoma-city-ok/ (2) |
+| des-moines-commercial-window-film | 1 | 2 | 2 | 5 | https://edhfilmgroup.com/des-moines-commercial-window-film/ (2) |
+| des-moines-residential-window-film | 1 | 2 | 2 | 5 | https://edhfilmgroup.com/des-moines-residential-window-film/ (2) |
+| home-security-film-st-louis-mo | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/home-security-film-st-louis-mo/ (2) |
+| home-security-window-film-in-dallas-tx | 1 | 2 | 14 | 81 | https://edhfilmgroup.com/home-security-window-film-in-dallas-tx/ (2) |
+| home-security-window-film-in-fort-worth-tx | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/home-security-window-film-in-fort-worth-tx/ (2) |
+| home-security-window-film-in-oklahoma-city-ok | 1 | 2 | 14 | 81 | https://edhfilmgroup.com/home-security-window-film-in-oklahoma-city-ok/ (2) |
+| home-solar-film-in-arlington-tx | 1 | 2 | 14 | 81 | https://edhfilmgroup.com/home-solar-film-in-arlington-tx/ (2) |
+| home-solar-film-in-dallas-tx | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/home-solar-film-in-dallas-tx/ (2) |
+| home-solar-film-in-fort-worth-tx | 1 | 2 | 14 | 81 | https://edhfilmgroup.com/home-solar-film-in-fort-worth-tx/ (2) |
+| home-solar-window-film-in-oklahoma-city-ok | 1 | 2 | 14 | 80 | https://edhfilmgroup.com/home-solar-window-film-in-oklahoma-city-ok/ (2) |
+| houston-commercial-window-film | 1 | 2 | 2 | 5 | https://edhfilmgroup.com/houston-commercial-window-film/ (2) |
+| houston-residential-window-film | 1 | 2 | 2 | 5 | https://edhfilmgroup.com/houston-residential-window-film/ (2) |
+| mississippi | 1 | 2 | 14 | 78 | https://edhfilmgroup.com/mississippi/ (2) |
+| okc-commercial-window-film | 1 | 2 | 2 | 6 | https://edhfilmgroup.com/okc-commercial-window-film/ (2) |
+| okc-residential-window-film | 1 | 2 | 2 | 6 | https://edhfilmgroup.com/okc-residential-window-film/ (2) |
+| professional-decorative-window-film-in-arlington-tx | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/professional-decorative-window-film-in-arlington-tx/ (2) |
+| security-window-film-in-arlington-tx | 1 | 2 | 14 | 86 | https://edhfilmgroup.com/security-window-film-in-arlington-tx/ (2) |
+| security-window-film-in-dallas-tx | 1 | 2 | 15 | 83 | https://edhfilmgroup.com/security-window-film-in-dallas-tx/ (2) |
+| security-window-film-in-fort-worth-tx | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/security-window-film-in-fort-worth-tx/ (2) |
+| security-window-film-in-oklahoma-city-ok | 1 | 2 | 14 | 84 | https://edhfilmgroup.com/security-window-film-in-oklahoma-city-ok/ (2) |
+| security-window-films-for-schools-in-dallas-tx | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/security-window-films-for-schools-in-dallas-tx/ (2) |
+| security-window-films-for-schools-in-oklahoma-city-ok | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/security-window-films-for-schools-in-oklahoma-city-ok/ (2) |
+| solar-window-film-dallas-texas | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/solar-window-film-dallas-texas/ (2) |
+| solar-window-film-in-arlington-tx | 1 | 2 | 14 | 84 | https://edhfilmgroup.com/solar-window-film-in-arlington-tx/ (2) |
+| solar-window-film-in-fort-worth-tx | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/solar-window-film-in-fort-worth-tx/ (2) |
+| solar-window-film-in-oklahoma-city-ok | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/solar-window-film-in-oklahoma-city-ok/ (2) |
+| st-louis-commercial-window-film | 1 | 2 | 2 | 6 | https://edhfilmgroup.com/st-louis-commercial-window-film/ (2) |
+| st-louis-residential-window-film | 1 | 2 | 2 | 5 | https://edhfilmgroup.com/st-louis-residential-window-film/ (2) |
+| st-louis-window-security-film-for-retail-stores | 1 | 2 | 14 | 80 | https://edhfilmgroup.com/st-louis-window-security-film-for-retail-stores/ (2) |
+| stained-glass-window-film | 1 | 2 | 14 | 81 | https://edhfilmgroup.com/stained-glass-window-film/ (2) |
+| switchable-film | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/switchable-film/ (2) |
+| window-film-tint-dinoc-grapevine-texas | 1 | 2 | 14 | 78 | https://edhfilmgroup.com/window-film-tint-dinoc-grapevine-texas/ (2) |
+| window-film-tint-dinoc-plano-texas | 1 | 2 | 14 | 78 | https://edhfilmgroup.com/window-film-tint-dinoc-plano-texas/ (2) |
+| window-film-tint-dinoc-redoak-texas | 1 | 2 | 14 | 78 | https://edhfilmgroup.com/window-film-tint-dinoc-redoak-texas/ (2) |
+| window-tinting-in-arlington-tx | 1 | 2 | 14 | 87 | https://edhfilmgroup.com/window-tinting-in-arlington-tx/ (2) |
+| window-tinting-in-denton-tx | 1 | 2 | 14 | 84 | https://edhfilmgroup.com/window-tinting-in-denton-tx/ (2) |
+| window-tinting-in-edmond-ok | 1 | 2 | 14 | 85 | https://edhfilmgroup.com/window-tinting-in-edmond-ok/ (2) |
+| window-tinting-in-frisco-tx | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/window-tinting-in-frisco-tx/ (2) |
+| window-tinting-in-garland-tx | 1 | 2 | 14 | 87 | https://edhfilmgroup.com/window-tinting-in-garland-tx/ (2) |
+| window-tinting-in-grand-prairie-tx | 1 | 2 | 14 | 83 | https://edhfilmgroup.com/window-tinting-in-grand-prairie-tx/ (2) |
+| window-tinting-in-irving-tx | 1 | 2 | 14 | 86 | https://edhfilmgroup.com/window-tinting-in-irving-tx/ (2) |
+| window-tinting-in-mckinney-tx | 1 | 2 | 14 | 82 | https://edhfilmgroup.com/window-tinting-in-mckinney-tx/ (2) |
+| window-tinting-in-mesquite-tx | 1 | 2 | 14 | 84 | https://edhfilmgroup.com/window-tinting-in-mesquite-tx/ (2) |
+| window-tinting-in-moore-ok | 1 | 2 | 14 | 85 | https://edhfilmgroup.com/window-tinting-in-moore-ok/ (2) |
+| window-tinting-in-norman-ok | 1 | 2 | 14 | 86 | https://edhfilmgroup.com/window-tinting-in-norman-ok/ (2) |
+| window-tinting-in-plano-tx | 1 | 2 | 14 | 86 | https://edhfilmgroup.com/window-tinting-in-plano-tx/ (2) |
+| window-film-tint-and-dinoc-services-in-the-chicago-illinois-area | 1 | 1 | 1 | 0 | https://edhfilmgroup.com/window-film-tint-and-dinoc-services-in-the-chicago-illinois-area/ (1) |
+| wp-includes | 5 | 0 | 0 | 0 | https://edhfilmgroup.com/wp-includes/js/dist/dom-ready.min.js?ver=f77871ff7694fffea381 (0); https://edhfilmgroup.com/wp-includes/js/dist/hooks.min.js?ver=4d63a3d491d11ffd8ac6 (0); https://edhfilmgroup.com/wp-includes/js/dist/i18n.min.js?ver=5e580eb46a90c2b997e6 (0); https://edhfilmgroup.com/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0 (0); https://edhfilmgroup.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1 (0) |

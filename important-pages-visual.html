@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Visual</title>
+  <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #f3efe6;
+      color: #1f1b17;
+    }
+    .wrap {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero, .panel {
+      background: #fffdf8;
+      border: 1px solid #d9cfbf;
+      border-radius: 22px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+    }
+    .hero {
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+    .panel {
+      overflow: hidden;
+    }
+    h1, h2 {
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0;
+      line-height: 1.5;
+      color: #6a6258;
+    }
+    .network {
+      height: 760px;
+      border-top: 1px solid #d9cfbf;
+      background: linear-gradient(180deg, #fff, #f6efe5);
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .meta-card {
+      border: 1px solid #d9cfbf;
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
+    }
+    .meta-card strong {
+      display: block;
+      font-size: 1.6rem;
+      color: #a64b2a;
+      margin-bottom: 4px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    input {
+      flex: 1 1 280px;
+      border: 1px solid #d9cfbf;
+      border-radius: 999px;
+      padding: 11px 15px;
+      font: inherit;
+    }
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 15px;
+      background: #245d66;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+    .legend {
+      margin-top: 12px;
+      font-size: .92rem;
+      color: #6a6258;
+    }
+    .table-wrap {
+      max-height: 420px;
+      overflow: auto;
+      margin-top: 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 9px 8px;
+      border-bottom: 1px solid #ece4d8;
+      vertical-align: top;
+    }
+    th {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6a6258;
+    }
+    a { color: #a64b2a; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Broken And Important Pages Visual</h1>
+      <p>edhfilmgroup.com graph generated from the Screaming Frog crawl. This file is meant for presenting page relationships and exploring where authority and broken links concentrate.</p>
+      <div class="meta">
+        <div class="meta-card"><strong>47</strong><span>Pages Shown</span></div>
+        <div class="meta-card"><strong>260</strong><span>Connections Shown</span></div>
+      </div>
+      <div class="controls">
+        <input id="searchBox" type="search" placeholder="Search URL or title in the table">
+        <button id="fitBtn">Refit Graph</button>
+      </div>
+      <div class="legend">Red nodes are error URLs or non-200 targets. Blue nodes are stable pages.</div>
+    </section>
+    <section class="panel">
+      <div id="network" class="network"></div>
+    </section>
+    <section class="hero" style="margin-top:18px;">
+      <h2>Pages In This Graph</h2>
+      <div class="table-wrap"><table id="nodeTable"><thead><tr><th>URL</th><th>Unique Inlinks</th><th>Status</th><th>Inlinks File</th></tr></thead><tbody>
+<tr><td><div><a href="https://edhfilmgroup.com/">https://edhfilmgroup.com/</a></div><div style="color:#6a6258;font-size:.9rem;">Trusted Window Tinting Services | EDH Film Group Official</div></td><td>415</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/?page_id=254">https://edhfilmgroup.com/?page_id=254</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>410</td><td>404</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_page_id_254.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/about-edh/">https://edhfilmgroup.com/about-edh/</a></div><div style="color:#6a6258;font-size:.9rem;">About EDH Film Group in Chicago, Illinois &amp; Surrounding Areas</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_about_edh.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/">https://edhfilmgroup.com/blog/</a></div><div style="color:#6a6258;font-size:.9rem;">Blog - EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/commercial-decorative-window-film/">https://edhfilmgroup.com/commercial-decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Decorative Window Film &amp; Colored Tint | EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_commercial_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/commercial-di-noc-film/">https://edhfilmgroup.com/commercial-di-noc-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Di-Noc Film in Chicago, Illinois &amp; Surrounding Areas</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_commercial_di_noc_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/commercial-market/">https://edhfilmgroup.com/commercial-market/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film Solutions for Commercial Building Performance</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_commercial_market.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/commercial-security-film/">https://edhfilmgroup.com/commercial-security-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Best Commercial Security Window Film | EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_commercial_security_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/commercial-solar-films/">https://edhfilmgroup.com/commercial-solar-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Solar Film Solutions | EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_commercial_solar_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/commercial-window-tinting/">https://edhfilmgroup.com/commercial-window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Tinting for Businesses | EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_commercial_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/contact-old/">https://edhfilmgroup.com/contact-old/</a></div><div style="color:#6a6258;font-size:.9rem;">Contact EDH Film Group Today for Your Window Film Services</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_contact_old.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/contact/">https://edhfilmgroup.com/contact/</a></div><div style="color:#6a6258;font-size:.9rem;">Contact EDH Film Group Today for Your Window Film Services</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_contact.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/decorative-home-window-film/">https://edhfilmgroup.com/decorative-home-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Home Window Film | EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_decorative_home_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/home-security-window-film/">https://edhfilmgroup.com/home-security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Home Security Window Film Installation | EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_home_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/home-solar-film/">https://edhfilmgroup.com/home-solar-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Solar Film for Home Windows to Block Sun | EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_home_solar_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/locations/">https://edhfilmgroup.com/locations/</a></div><div style="color:#6a6258;font-size:.9rem;">EDH Film Group Locations - Find Window Tinting Services</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_locations.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/locations/missouri/window-tinting-st-louis/">https://edhfilmgroup.com/locations/missouri/window-tinting-st-louis/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film in St. Louis</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_locations_missouri_window_tinting_st_louis.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/locations/oklahoma/window-tinting-oklahoma-city/">https://edhfilmgroup.com/locations/oklahoma/window-tinting-oklahoma-city/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film in Oklahoma</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_locations_oklahoma_window_tinting_oklahoma_city.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/locations/oklahoma/window-tinting-tulsa/">https://edhfilmgroup.com/locations/oklahoma/window-tinting-tulsa/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film in Tulsa</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_locations_oklahoma_window_tinting_tulsa.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/locations/texas/window-tinting-dallas/">https://edhfilmgroup.com/locations/texas/window-tinting-dallas/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film Installation in Dallas, TX</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_locations_texas_window_tinting_dallas.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/locations/texas/window-tinting-fort-worth/">https://edhfilmgroup.com/locations/texas/window-tinting-fort-worth/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film in Fort Worth</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_locations_texas_window_tinting_fort_worth.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/locations/window-tinting-des-moines/">https://edhfilmgroup.com/locations/window-tinting-des-moines/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film in Des Moines, IA</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_locations_window_tinting_des_moines.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/locations/window-tinting-houston/">https://edhfilmgroup.com/locations/window-tinting-houston/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film in Houston</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_locations_window_tinting_houston.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/products/architectural-resurfacing-film/">https://edhfilmgroup.com/products/architectural-resurfacing-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Architectural Resurfacing Film</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_products_architectural_resurfacing_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/products/bird-safety-film/">https://edhfilmgroup.com/products/bird-safety-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Bird Safety Film Window Film</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_products_bird_safety_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/products/custom-graphics-window-film/">https://edhfilmgroup.com/products/custom-graphics-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Graphics Window Film</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_products_custom_graphics_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/products/decorative-window-film/">https://edhfilmgroup.com/products/decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Window Film</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_products_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/products/security-glass/">https://edhfilmgroup.com/products/security-glass/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Glass</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_products_security_glass.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/products/security-window-film/">https://edhfilmgroup.com/products/security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Window Film</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_products_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/products/solar-window-film/">https://edhfilmgroup.com/products/solar-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Solar Window Film for Homes &amp; Offices | EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_products_solar_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/products/switchable-film/">https://edhfilmgroup.com/products/switchable-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Switchable Film</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_products_switchable_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/residential-market/">https://edhfilmgroup.com/residential-market/</a></div><div style="color:#6a6258;font-size:.9rem;">Residential Window Tinting for a Cooler, More Comfortable Home</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_residential_market.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/school-security-window-film/">https://edhfilmgroup.com/school-security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Ballistic Film for School Windows | EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_school_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/sitemap/">https://edhfilmgroup.com/sitemap/</a></div><div style="color:#6a6258;font-size:.9rem;">Sitemap - EDH Film Group</div></td><td>410</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_sitemap.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/home-window-tinting-film/">https://edhfilmgroup.com/blog/category/home-window-tinting-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Home Window Tinting &amp; Film Archives - EDH Film Group</div></td><td>163</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_home_window_tinting_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/commercial-window-film/">https://edhfilmgroup.com/blog/category/commercial-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film Archives - EDH Film Group</div></td><td>161</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_commercial_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/decorative-window-film/">https://edhfilmgroup.com/blog/category/decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Window Film Archives - EDH Film Group</div></td><td>159</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/anti-graffiti-film/">https://edhfilmgroup.com/blog/category/anti-graffiti-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Anti-Graffiti Film Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_anti_graffiti_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/custom-graphics/">https://edhfilmgroup.com/blog/category/custom-graphics/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Graphics Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_custom_graphics.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/energy-efficiency/">https://edhfilmgroup.com/blog/category/energy-efficiency/</a></div><div style="color:#6a6258;font-size:.9rem;">Energy Efficiency Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_energy_efficiency.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/riot-glass/">https://edhfilmgroup.com/blog/category/riot-glass/</a></div><div style="color:#6a6258;font-size:.9rem;">Riot Glass Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_riot_glass.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/school-safety/">https://edhfilmgroup.com/blog/category/school-safety/</a></div><div style="color:#6a6258;font-size:.9rem;">School Safety Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_school_safety.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/security-window-film/">https://edhfilmgroup.com/blog/category/security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Window Film Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/solar-window-film/">https://edhfilmgroup.com/blog/category/solar-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Solar Window Film Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_solar_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/switchable-smart-film/">https://edhfilmgroup.com/blog/category/switchable-smart-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Switchable Smart Film Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_switchable_smart_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/uncategorized/">https://edhfilmgroup.com/blog/category/uncategorized/</a></div><div style="color:#6a6258;font-size:.9rem;">Uncategorized Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_uncategorized.csv">open file</a></td></tr>
+<tr><td><div><a href="https://edhfilmgroup.com/blog/category/window-tinting/">https://edhfilmgroup.com/blog/category/window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Archives - EDH Film Group</div></td><td>157</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/edhfilmgroup.com-sitewide/inlinks/edhfilmgroup_com_blog_category_window_tinting.csv">open file</a></td></tr>
+      </tbody></table></div>
+    </section>
+  </div>
+  <script>
+const nodes = [
+  { id: "https://edhfilmgroup.com/", label: "/", title: "https://edhfilmgroup.com/\nUnique inlinks: 415\nStatus: 200", value: 415, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/?page_id=254", label: "/", title: "https://edhfilmgroup.com/?page_id=254\nUnique inlinks: 410\nStatus: 404", value: 410, color: { background: "#ffd7d0", border: "#a62a2a" } },
+  { id: "https://edhfilmgroup.com/about-edh/", label: "/about-edh/", title: "https://edhfilmgroup.com/about-edh/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/", label: "/blog/", title: "https://edhfilmgroup.com/blog/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/commercial-decorative-window-film/", label: "/commercial-decorative-window-film/", title: "https://edhfilmgroup.com/commercial-decorative-window-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/commercial-di-noc-film/", label: "/commercial-di-noc-film/", title: "https://edhfilmgroup.com/commercial-di-noc-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/commercial-market/", label: "/commercial-market/", title: "https://edhfilmgroup.com/commercial-market/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/commercial-security-film/", label: "/commercial-security-film/", title: "https://edhfilmgroup.com/commercial-security-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/commercial-solar-films/", label: "/commercial-solar-films/", title: "https://edhfilmgroup.com/commercial-solar-films/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/commercial-window-tinting/", label: "/commercial-window-tinting/", title: "https://edhfilmgroup.com/commercial-window-tinting/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/contact-old/", label: "/contact-old/", title: "https://edhfilmgroup.com/contact-old/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/contact/", label: "/contact/", title: "https://edhfilmgroup.com/contact/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/decorative-home-window-film/", label: "/decorative-home-window-film/", title: "https://edhfilmgroup.com/decorative-home-window-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/home-security-window-film/", label: "/home-security-window-film/", title: "https://edhfilmgroup.com/home-security-window-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/home-solar-film/", label: "/home-solar-film/", title: "https://edhfilmgroup.com/home-solar-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/locations/", label: "/locations/", title: "https://edhfilmgroup.com/locations/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/locations/missouri/window-tinting-st-louis/", label: "/locations/missouri/window-tinting-st-louis/", title: "https://edhfilmgroup.com/locations/missouri/window-tinting-st-louis/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-oklahoma-city/", label: "/locations/oklahoma/window-tinting-oklahoma-city/", title: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-oklahoma-city/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-tulsa/", label: "/locations/oklahoma/window-tinting-tulsa/", title: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-tulsa/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/locations/texas/window-tinting-dallas/", label: "/locations/texas/window-tinting-dallas/", title: "https://edhfilmgroup.com/locations/texas/window-tinting-dallas/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/locations/texas/window-tinting-fort-worth/", label: "/locations/texas/window-tinting-fort-worth/", title: "https://edhfilmgroup.com/locations/texas/window-tinting-fort-worth/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/locations/window-tinting-des-moines/", label: "/locations/window-tinting-des-moines/", title: "https://edhfilmgroup.com/locations/window-tinting-des-moines/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/locations/window-tinting-houston/", label: "/locations/window-tinting-houston/", title: "https://edhfilmgroup.com/locations/window-tinting-houston/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/products/architectural-resurfacing-film/", label: "/products/architectural-resurfacing-film/", title: "https://edhfilmgroup.com/products/architectural-resurfacing-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/products/bird-safety-film/", label: "/products/bird-safety-film/", title: "https://edhfilmgroup.com/products/bird-safety-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/products/custom-graphics-window-film/", label: "/products/custom-graphics-window-film/", title: "https://edhfilmgroup.com/products/custom-graphics-window-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/products/decorative-window-film/", label: "/products/decorative-window-film/", title: "https://edhfilmgroup.com/products/decorative-window-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/products/security-glass/", label: "/products/security-glass/", title: "https://edhfilmgroup.com/products/security-glass/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/products/security-window-film/", label: "/products/security-window-film/", title: "https://edhfilmgroup.com/products/security-window-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/products/solar-window-film/", label: "/products/solar-window-film/", title: "https://edhfilmgroup.com/products/solar-window-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/products/switchable-film/", label: "/products/switchable-film/", title: "https://edhfilmgroup.com/products/switchable-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/residential-market/", label: "/residential-market/", title: "https://edhfilmgroup.com/residential-market/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/school-security-window-film/", label: "/school-security-window-film/", title: "https://edhfilmgroup.com/school-security-window-film/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/sitemap/", label: "/sitemap/", title: "https://edhfilmgroup.com/sitemap/\nUnique inlinks: 410\nStatus: 200", value: 410, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/home-window-tinting-film/", label: "/blog/category/home-window-tinting-film/", title: "https://edhfilmgroup.com/blog/category/home-window-tinting-film/\nUnique inlinks: 163\nStatus: 200", value: 163, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/commercial-window-film/", label: "/blog/category/commercial-window-film/", title: "https://edhfilmgroup.com/blog/category/commercial-window-film/\nUnique inlinks: 161\nStatus: 200", value: 161, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/decorative-window-film/", label: "/blog/category/decorative-window-film/", title: "https://edhfilmgroup.com/blog/category/decorative-window-film/\nUnique inlinks: 159\nStatus: 200", value: 159, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/anti-graffiti-film/", label: "/blog/category/anti-graffiti-film/", title: "https://edhfilmgroup.com/blog/category/anti-graffiti-film/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/custom-graphics/", label: "/blog/category/custom-graphics/", title: "https://edhfilmgroup.com/blog/category/custom-graphics/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/energy-efficiency/", label: "/blog/category/energy-efficiency/", title: "https://edhfilmgroup.com/blog/category/energy-efficiency/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/riot-glass/", label: "/blog/category/riot-glass/", title: "https://edhfilmgroup.com/blog/category/riot-glass/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/school-safety/", label: "/blog/category/school-safety/", title: "https://edhfilmgroup.com/blog/category/school-safety/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/security-window-film/", label: "/blog/category/security-window-film/", title: "https://edhfilmgroup.com/blog/category/security-window-film/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/solar-window-film/", label: "/blog/category/solar-window-film/", title: "https://edhfilmgroup.com/blog/category/solar-window-film/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/switchable-smart-film/", label: "/blog/category/switchable-smart-film/", title: "https://edhfilmgroup.com/blog/category/switchable-smart-film/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/uncategorized/", label: "/blog/category/uncategorized/", title: "https://edhfilmgroup.com/blog/category/uncategorized/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://edhfilmgroup.com/blog/category/window-tinting/", label: "/blog/category/window-tinting/", title: "https://edhfilmgroup.com/blog/category/window-tinting/\nUnique inlinks: 157\nStatus: 200", value: 157, color: { background: "#f4e6d7", border: "#245d66" } },
+];
+const edges = [
+  { from: "https://edhfilmgroup.com/locations/texas/window-tinting-dallas/", to: "https://edhfilmgroup.com/contact/", value: 20 },
+  { from: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-oklahoma-city/", to: "https://edhfilmgroup.com/contact/", value: 20 },
+  { from: "https://edhfilmgroup.com/products/bird-safety-film/", to: "https://edhfilmgroup.com/products/bird-safety-film/", value: 20 },
+  { from: "https://edhfilmgroup.com/locations/texas/window-tinting-fort-worth/", to: "https://edhfilmgroup.com/contact/", value: 20 },
+  { from: "https://edhfilmgroup.com/products/security-window-film/", to: "https://edhfilmgroup.com/products/security-window-film/", value: 20 },
+  { from: "https://edhfilmgroup.com/products/switchable-film/", to: "https://edhfilmgroup.com/products/switchable-film/", value: 19 },
+  { from: "https://edhfilmgroup.com/products/custom-graphics-window-film/", to: "https://edhfilmgroup.com/products/custom-graphics-window-film/", value: 19 },
+  { from: "https://edhfilmgroup.com/products/decorative-window-film/", to: "https://edhfilmgroup.com/products/decorative-window-film/", value: 19 },
+  { from: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-tulsa/", to: "https://edhfilmgroup.com/contact/", value: 19 },
+  { from: "https://edhfilmgroup.com/products/architectural-resurfacing-film/", to: "https://edhfilmgroup.com/products/architectural-resurfacing-film/", value: 19 },
+  { from: "https://edhfilmgroup.com/products/solar-window-film/", to: "https://edhfilmgroup.com/products/solar-window-film/", value: 19 },
+  { from: "https://edhfilmgroup.com/products/security-glass/", to: "https://edhfilmgroup.com/products/security-glass/", value: 19 },
+  { from: "https://edhfilmgroup.com/contact/", to: "https://edhfilmgroup.com/contact/", value: 18 },
+  { from: "https://edhfilmgroup.com/locations/", to: "https://edhfilmgroup.com/locations/", value: 18 },
+  { from: "https://edhfilmgroup.com/locations/window-tinting-houston/", to: "https://edhfilmgroup.com/locations/", value: 17 },
+  { from: "https://edhfilmgroup.com/", to: "https://edhfilmgroup.com/", value: 17 },
+  { from: "https://edhfilmgroup.com/about-edh/", to: "https://edhfilmgroup.com/about-edh/", value: 17 },
+  { from: "https://edhfilmgroup.com/locations/window-tinting-des-moines/", to: "https://edhfilmgroup.com/locations/window-tinting-des-moines/", value: 16 },
+  { from: "https://edhfilmgroup.com/blog/", to: "https://edhfilmgroup.com/blog/", value: 16 },
+  { from: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-tulsa/", to: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-tulsa/", value: 15 },
+  { from: "https://edhfilmgroup.com/locations/missouri/window-tinting-st-louis/", to: "https://edhfilmgroup.com/contact/", value: 15 },
+  { from: "https://edhfilmgroup.com/residential-market/", to: "https://edhfilmgroup.com/residential-market/", value: 15 },
+  { from: "https://edhfilmgroup.com/locations/window-tinting-houston/", to: "https://edhfilmgroup.com/locations/window-tinting-houston/", value: 15 },
+  { from: "https://edhfilmgroup.com/locations/window-tinting-houston/", to: "https://edhfilmgroup.com/contact/", value: 15 },
+  { from: "https://edhfilmgroup.com/locations/texas/window-tinting-fort-worth/", to: "https://edhfilmgroup.com/locations/texas/window-tinting-fort-worth/", value: 15 },
+  { from: "https://edhfilmgroup.com/sitemap/", to: "https://edhfilmgroup.com/sitemap/", value: 15 },
+  { from: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-oklahoma-city/", to: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-oklahoma-city/", value: 15 },
+  { from: "https://edhfilmgroup.com/locations/texas/window-tinting-dallas/", to: "https://edhfilmgroup.com/locations/texas/window-tinting-dallas/", value: 15 },
+  { from: "https://edhfilmgroup.com/commercial-solar-films/", to: "https://edhfilmgroup.com/commercial-solar-films/", value: 14 },
+  { from: "https://edhfilmgroup.com/commercial-di-noc-film/", to: "https://edhfilmgroup.com/commercial-di-noc-film/", value: 14 },
+  { from: "https://edhfilmgroup.com/commercial-security-film/", to: "https://edhfilmgroup.com/commercial-security-film/", value: 14 },
+  { from: "https://edhfilmgroup.com/contact-old/", to: "https://edhfilmgroup.com/contact-old/", value: 14 },
+  { from: "https://edhfilmgroup.com/commercial-decorative-window-film/", to: "https://edhfilmgroup.com/commercial-decorative-window-film/", value: 14 },
+  { from: "https://edhfilmgroup.com/decorative-home-window-film/", to: "https://edhfilmgroup.com/decorative-home-window-film/", value: 14 },
+  { from: "https://edhfilmgroup.com/locations/missouri/window-tinting-st-louis/", to: "https://edhfilmgroup.com/locations/missouri/window-tinting-st-louis/", value: 14 },
+  { from: "https://edhfilmgroup.com/commercial-window-tinting/", to: "https://edhfilmgroup.com/commercial-window-tinting/", value: 14 },
+  { from: "https://edhfilmgroup.com/school-security-window-film/", to: "https://edhfilmgroup.com/school-security-window-film/", value: 14 },
+  { from: "https://edhfilmgroup.com/commercial-market/", to: "https://edhfilmgroup.com/commercial-market/", value: 14 },
+  { from: "https://edhfilmgroup.com/home-solar-film/", to: "https://edhfilmgroup.com/home-solar-film/", value: 14 },
+  { from: "https://edhfilmgroup.com/home-security-window-film/", to: "https://edhfilmgroup.com/home-security-window-film/", value: 14 },
+  { from: "https://edhfilmgroup.com/blog/category/riot-glass/", to: "https://edhfilmgroup.com/blog/category/riot-glass/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/energy-efficiency/", to: "https://edhfilmgroup.com/blog/category/energy-efficiency/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/window-tinting/", to: "https://edhfilmgroup.com/blog/category/window-tinting/", value: 13 },
+  { from: "https://edhfilmgroup.com/products/switchable-film/", to: "https://edhfilmgroup.com/contact/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/solar-window-film/", to: "https://edhfilmgroup.com/blog/category/solar-window-film/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/uncategorized/", to: "https://edhfilmgroup.com/blog/category/uncategorized/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/commercial-window-film/", to: "https://edhfilmgroup.com/blog/category/commercial-window-film/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/security-window-film/", to: "https://edhfilmgroup.com/blog/category/security-window-film/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/custom-graphics/", to: "https://edhfilmgroup.com/blog/category/custom-graphics/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/decorative-window-film/", to: "https://edhfilmgroup.com/blog/category/decorative-window-film/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/switchable-smart-film/", to: "https://edhfilmgroup.com/blog/category/switchable-smart-film/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/anti-graffiti-film/", to: "https://edhfilmgroup.com/blog/category/anti-graffiti-film/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/home-window-tinting-film/", to: "https://edhfilmgroup.com/blog/category/home-window-tinting-film/", value: 13 },
+  { from: "https://edhfilmgroup.com/locations/window-tinting-des-moines/", to: "https://edhfilmgroup.com/contact/", value: 13 },
+  { from: "https://edhfilmgroup.com/blog/category/school-safety/", to: "https://edhfilmgroup.com/blog/category/school-safety/", value: 13 },
+  { from: "https://edhfilmgroup.com/locations/texas/window-tinting-dallas/", to: "https://edhfilmgroup.com/locations/", value: 12 },
+  { from: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-tulsa/", to: "https://edhfilmgroup.com/locations/", value: 12 },
+  { from: "https://edhfilmgroup.com/locations/missouri/window-tinting-st-louis/", to: "https://edhfilmgroup.com/locations/", value: 12 },
+  { from: "https://edhfilmgroup.com/locations/oklahoma/window-tinting-oklahoma-city/", to: "https://edhfilmgroup.com/locations/", value: 12 },
+  { from: "https://edhfilmgroup.com/locations/texas/window-tinting-fort-worth/", to: "https://edhfilmgroup.com/locations/", value: 12 },
+  { from: "https://edhfilmgroup.com/products/security-glass/", to: "https://edhfilmgroup.com/contact/", value: 11 },
+  { from: "https://edhfilmgroup.com/products/security-window-film/", to: "https://edhfilmgroup.com/contact/", value: 11 },
+  { from: "https://edhfilmgroup.com/locations/window-tinting-des-moines/", to: "https://edhfilmgroup.com/locations/", value: 11 },
+  { from: "https://edhfilmgroup.com/products/architectural-resurfacing-film/", to: "https://edhfilmgroup.com/contact/", value: 11 },
+  { from: "https://edhfilmgroup.com/products/solar-window-film/", to: "https://edhfilmgroup.com/contact/", value: 10 },
+  { from: "https://edhfilmgroup.com/products/bird-safety-film/", to: "https://edhfilmgroup.com/contact/", value: 10 },
+  { from: "https://edhfilmgroup.com/products/decorative-window-film/", to: "https://edhfilmgroup.com/contact/", value: 10 },
+  { from: "https://edhfilmgroup.com/products/custom-graphics-window-film/", to: "https://edhfilmgroup.com/contact/", value: 10 },
+  { from: "https://edhfilmgroup.com/home-solar-film/", to: "https://edhfilmgroup.com/contact/", value: 9 },
+  { from: "https://edhfilmgroup.com/commercial-decorative-window-film/", to: "https://edhfilmgroup.com/contact/", value: 9 },
+  { from: "https://edhfilmgroup.com/", to: "https://edhfilmgroup.com/contact/", value: 9 },
+  { from: "https://edhfilmgroup.com/commercial-solar-films/", to: "https://edhfilmgroup.com/contact/", value: 9 },
+  { from: "https://edhfilmgroup.com/commercial-window-tinting/", to: "https://edhfilmgroup.com/contact/", value: 9 },
+  { from: "https://edhfilmgroup.com/school-security-window-film/", to: "https://edhfilmgroup.com/contact/", value: 9 },
+  { from: "https://edhfilmgroup.com/commercial-security-film/", to: "https://edhfilmgroup.com/contact/", value: 7 },
+  { from: "https://edhfilmgroup.com/decorative-home-window-film/", to: "https://edhfilmgroup.com/contact/", value: 7 },
+  { from: "https://edhfilmgroup.com/home-security-window-film/", to: "https://edhfilmgroup.com/contact/", value: 7 },
+  { from: "https://edhfilmgroup.com/residential-market/", to: "https://edhfilmgroup.com/contact/", value: 7 },
+  { from: "https://edhfilmgroup.com/commercial-market/", to: "https://edhfilmgroup.com/contact/", value: 7 },
+  { from: "https://edhfilmgroup.com/commercial-market/", to: "https://edhfilmgroup.com/products/solar-window-film/", value: 7 },
+  { from: "https://edhfilmgroup.com/commercial-di-noc-film/", to: "https://edhfilmgroup.com/contact/", value: 7 },
+  { from: "https://edhfilmgroup.com/locations/", to: "https://edhfilmgroup.com/contact/", value: 7 },
+];
+const network = new vis.Network(
+  document.getElementById("network"),
+  { nodes, edges },
+  {
+    nodes: {
+      shape: "dot",
+      scaling: { min: 8, max: 38 },
+      font: { face: "Georgia", size: 15, color: "#1f1b17" },
+      borderWidth: 1
+    },
+    edges: {
+      smooth: true,
+      color: { color: "#9e8f7e", highlight: "#245d66" },
+      scaling: { min: 1, max: 9 }
+    },
+    physics: {
+      stabilization: true,
+      barnesHut: {
+        gravitationalConstant: -6200,
+        springLength: 135,
+        springConstant: 0.028
+      }
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 100,
+      navigationButtons: true,
+      keyboard: true
+    }
+  }
+);
+
+document.getElementById("fitBtn").addEventListener("click", () => network.fit());
+
+const searchBox = document.getElementById("searchBox");
+const rows = Array.from(document.querySelectorAll("#nodeTable tbody tr"));
+searchBox.addEventListener("input", () => {
+  const term = searchBox.value.trim().toLowerCase();
+  rows.forEach((row) => {
+    row.style.display = row.textContent.toLowerCase().includes(term) ? "" : "none";
+  });
+});
+  </script>
+</body>
+</html>
