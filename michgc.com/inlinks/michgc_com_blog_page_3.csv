@@ -1,0 +1,10 @@
+source_url,target_url,anchor_text,alt_text,nofollow,path_type
+"https://michgc.com/blog/","https://michgc.com/blog/page/3/","3","","false","2"
+"https://michgc.com/blog/page/2/","https://michgc.com/blog/page/3/","→","","false","2"
+"https://michgc.com/blog/page/2/","https://michgc.com/blog/page/3/","3","","false","2"
+"https://michgc.com/blog/page/3/","https://michgc.com/blog/page/3/","Resources","","false","3"
+"https://michgc.com/blog/page/3/","https://michgc.com/blog/page/3/","Market","","false","3"
+"https://michgc.com/blog/page/3/","https://michgc.com/blog/page/3/","Resources","","false","3"
+"https://michgc.com/blog/page/3/","https://michgc.com/blog/page/3/","Market","","false","3"
+"https://michgc.com/blog/page/4/","https://michgc.com/blog/page/3/","3","","false","2"
+"https://michgc.com/blog/page/4/","https://michgc.com/blog/page/3/","←","","false","2"

@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Visual</title>
+  <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #f3efe6;
+      color: #1f1b17;
+    }
+    .wrap {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero, .panel {
+      background: #fffdf8;
+      border: 1px solid #d9cfbf;
+      border-radius: 22px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+    }
+    .hero {
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+    .panel {
+      overflow: hidden;
+    }
+    h1, h2 {
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0;
+      line-height: 1.5;
+      color: #6a6258;
+    }
+    .network {
+      height: 760px;
+      border-top: 1px solid #d9cfbf;
+      background: linear-gradient(180deg, #fff, #f6efe5);
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .meta-card {
+      border: 1px solid #d9cfbf;
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
+    }
+    .meta-card strong {
+      display: block;
+      font-size: 1.6rem;
+      color: #a64b2a;
+      margin-bottom: 4px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    input {
+      flex: 1 1 280px;
+      border: 1px solid #d9cfbf;
+      border-radius: 999px;
+      padding: 11px 15px;
+      font: inherit;
+    }
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 15px;
+      background: #245d66;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+    .legend {
+      margin-top: 12px;
+      font-size: .92rem;
+      color: #6a6258;
+    }
+    .table-wrap {
+      max-height: 420px;
+      overflow: auto;
+      margin-top: 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 9px 8px;
+      border-bottom: 1px solid #ece4d8;
+      vertical-align: top;
+    }
+    th {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6a6258;
+    }
+    a { color: #a64b2a; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Broken And Important Pages Visual</h1>
+      <p>mgtfilms.com graph generated from the Screaming Frog crawl. This file is meant for presenting page relationships and exploring where authority and broken links concentrate.</p>
+      <div class="meta">
+        <div class="meta-card"><strong>25</strong><span>Pages Shown</span></div>
+        <div class="meta-card"><strong>260</strong><span>Connections Shown</span></div>
+      </div>
+      <div class="controls">
+        <input id="searchBox" type="search" placeholder="Search URL or title in the table">
+        <button id="fitBtn">Refit Graph</button>
+      </div>
+      <div class="legend">Red nodes are error URLs or non-200 targets. Blue nodes are stable pages.</div>
+    </section>
+    <section class="panel">
+      <div id="network" class="network"></div>
+    </section>
+    <section class="hero" style="margin-top:18px;">
+      <h2>Pages In This Graph</h2>
+      <div class="table-wrap"><table id="nodeTable"><thead><tr><th>URL</th><th>Unique Inlinks</th><th>Status</th><th>Inlinks File</th></tr></thead><tbody>
+<tr><td><div><a href="https://mgtfilms.com/">https://mgtfilms.com/</a></div><div style="color:#6a6258;font-size:.9rem;">America's #1 Window Tint and Tinting Installation</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/">https://mgtfilms.com/blog/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Blogs | MGT Window Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/commercial-window-tinting/">https://mgtfilms.com/commercial-window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film &amp; Tinting | MGT Glass Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_commercial_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/contact-mgt-films/">https://mgtfilms.com/contact-mgt-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Contact MGT Films - Find Your Local Business Today</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_contact_mgt_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/">https://mgtfilms.com/locations/</a></div><div style="color:#6a6258;font-size:.9rem;">Locations - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/baton-rouge/">https://mgtfilms.com/locations/baton-rouge/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in Baton Rouge, LA</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_baton_rouge.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/central-il/">https://mgtfilms.com/locations/central-il/</a></div><div style="color:#6a6258;font-size:.9rem;">Professional Window Film Installation in Central IL</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_central_il.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/chicago/">https://mgtfilms.com/locations/chicago/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in Chicago | MGT Glass Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_chicago.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/jackson-ms/">https://mgtfilms.com/locations/jackson-ms/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in Jackson, MS</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_jackson_ms.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/madison/">https://mgtfilms.com/locations/madison/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in Madison, WI</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_madison.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/milwaukee/">https://mgtfilms.com/locations/milwaukee/</a></div><div style="color:#6a6258;font-size:.9rem;">Location - Milwaukee - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_milwaukee.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/new-orleans/">https://mgtfilms.com/locations/new-orleans/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in New Orleans</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_new_orleans.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/our-services/3m-resources/">https://mgtfilms.com/our-services/3m-resources/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Resources For Commercial and Residential Films - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_our_services_3m_resources.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/privacy-policy/">https://mgtfilms.com/privacy-policy/</a></div><div style="color:#6a6258;font-size:.9rem;">Privacy Policy - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_privacy_policy.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/residential-window-films/">https://mgtfilms.com/residential-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Residential Window Tinting for Homes | MGT Glass Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_residential_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/architectural-resurfacing/">https://mgtfilms.com/services/architectural-resurfacing/</a></div><div style="color:#6a6258;font-size:.9rem;">Architectural Resurfacing Film Installation For Commercial Interior</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_architectural_resurfacing.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/custom-graphics/">https://mgtfilms.com/services/custom-graphics/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Graphics Installation for Commercial Interiors</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_custom_graphics.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/decorative-window-film/">https://mgtfilms.com/services/decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Window Film for Interior Glass | MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/feather-friendly/">https://mgtfilms.com/services/feather-friendly/</a></div><div style="color:#6a6258;font-size:.9rem;">Bird Safety Window Film Installation | Feather-Friendly</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_feather_friendly.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/security-film/">https://mgtfilms.com/services/security-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Service - Security Film - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_security_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/security-glass/">https://mgtfilms.com/services/security-glass/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Glass Installation for High-Risk Entry Points</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_security_glass.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/solar-control-film/">https://mgtfilms.com/services/solar-control-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Solar Control Window Film Installation | MGT Glass Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_solar_control_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/switchable-film/">https://mgtfilms.com/services/switchable-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Switchable Film Installation | Smart Glass Privacy Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_switchable_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/terms-and-conditions/">https://mgtfilms.com/terms-and-conditions/</a></div><div style="color:#6a6258;font-size:.9rem;">Terms and Conditions - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_terms_and_conditions.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/window-film-installation/">https://mgtfilms.com/services/window-film-installation/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>2</td><td>404</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_window_film_installation.csv">open file</a></td></tr>
+      </tbody></table></div>
+    </section>
+  </div>
+  <script>
+const nodes = [
+  { id: "https://mgtfilms.com/", label: "/", title: "https://mgtfilms.com/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/", label: "/blog/", title: "https://mgtfilms.com/blog/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/commercial-window-tinting/", label: "/commercial-window-tinting/", title: "https://mgtfilms.com/commercial-window-tinting/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/contact-mgt-films/", label: "/contact-mgt-films/", title: "https://mgtfilms.com/contact-mgt-films/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/", label: "/locations/", title: "https://mgtfilms.com/locations/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/baton-rouge/", label: "/locations/baton-rouge/", title: "https://mgtfilms.com/locations/baton-rouge/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/central-il/", label: "/locations/central-il/", title: "https://mgtfilms.com/locations/central-il/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/chicago/", label: "/locations/chicago/", title: "https://mgtfilms.com/locations/chicago/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/jackson-ms/", label: "/locations/jackson-ms/", title: "https://mgtfilms.com/locations/jackson-ms/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/madison/", label: "/locations/madison/", title: "https://mgtfilms.com/locations/madison/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/milwaukee/", label: "/locations/milwaukee/", title: "https://mgtfilms.com/locations/milwaukee/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/new-orleans/", label: "/locations/new-orleans/", title: "https://mgtfilms.com/locations/new-orleans/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/our-services/3m-resources/", label: "/our-services/3m-resources/", title: "https://mgtfilms.com/our-services/3m-resources/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/privacy-policy/", label: "/privacy-policy/", title: "https://mgtfilms.com/privacy-policy/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/residential-window-films/", label: "/residential-window-films/", title: "https://mgtfilms.com/residential-window-films/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/architectural-resurfacing/", label: "/services/architectural-resurfacing/", title: "https://mgtfilms.com/services/architectural-resurfacing/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/custom-graphics/", label: "/services/custom-graphics/", title: "https://mgtfilms.com/services/custom-graphics/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/decorative-window-film/", label: "/services/decorative-window-film/", title: "https://mgtfilms.com/services/decorative-window-film/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/feather-friendly/", label: "/services/feather-friendly/", title: "https://mgtfilms.com/services/feather-friendly/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/security-film/", label: "/services/security-film/", title: "https://mgtfilms.com/services/security-film/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/security-glass/", label: "/services/security-glass/", title: "https://mgtfilms.com/services/security-glass/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/solar-control-film/", label: "/services/solar-control-film/", title: "https://mgtfilms.com/services/solar-control-film/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/switchable-film/", label: "/services/switchable-film/", title: "https://mgtfilms.com/services/switchable-film/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/terms-and-conditions/", label: "/terms-and-conditions/", title: "https://mgtfilms.com/terms-and-conditions/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/window-film-installation/", label: "/services/window-film-installation/", title: "https://mgtfilms.com/services/window-film-installation/\nUnique inlinks: 2\nStatus: 404", value: 8, color: { background: "#ffd7d0", border: "#a62a2a" } },
+];
+const edges = [
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/", value: 17 },
+  { from: "https://mgtfilms.com/contact-mgt-films/", to: "https://mgtfilms.com/contact-mgt-films/", value: 16 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/locations/", value: 14 },
+  { from: "https://mgtfilms.com/services/feather-friendly/", to: "https://mgtfilms.com/services/feather-friendly/", value: 14 },
+  { from: "https://mgtfilms.com/services/solar-control-film/", to: "https://mgtfilms.com/services/solar-control-film/", value: 14 },
+  { from: "https://mgtfilms.com/services/security-film/", to: "https://mgtfilms.com/services/security-film/", value: 14 },
+  { from: "https://mgtfilms.com/services/decorative-window-film/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 13 },
+  { from: "https://mgtfilms.com/services/architectural-resurfacing/", to: "https://mgtfilms.com/services/architectural-resurfacing/", value: 13 },
+  { from: "https://mgtfilms.com/services/custom-graphics/", to: "https://mgtfilms.com/services/custom-graphics/", value: 13 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/locations/new-orleans/", value: 13 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/locations/jackson-ms/", value: 13 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/locations/chicago/", value: 13 },
+  { from: "https://mgtfilms.com/residential-window-films/", to: "https://mgtfilms.com/residential-window-films/", value: 13 },
+  { from: "https://mgtfilms.com/our-services/3m-resources/", to: "https://mgtfilms.com/our-services/3m-resources/", value: 13 },
+  { from: "https://mgtfilms.com/services/switchable-film/", to: "https://mgtfilms.com/services/switchable-film/", value: 13 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/locations/milwaukee/", value: 13 },
+  { from: "https://mgtfilms.com/commercial-window-tinting/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 13 },
+  { from: "https://mgtfilms.com/blog/", to: "https://mgtfilms.com/blog/", value: 13 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/locations/madison/", value: 13 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/locations/baton-rouge/", value: 13 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/locations/central-il/", value: 13 },
+  { from: "https://mgtfilms.com/services/security-glass/", to: "https://mgtfilms.com/services/security-glass/", value: 13 },
+  { from: "https://mgtfilms.com/terms-and-conditions/", to: "https://mgtfilms.com/terms-and-conditions/", value: 11 },
+  { from: "https://mgtfilms.com/privacy-policy/", to: "https://mgtfilms.com/privacy-policy/", value: 11 },
+  { from: "https://mgtfilms.com/services/security-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 11 },
+  { from: "https://mgtfilms.com/services/decorative-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 10 },
+  { from: "https://mgtfilms.com/terms-and-conditions/", to: "https://mgtfilms.com/", value: 9 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/switchable-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/solar-control-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/feather-friendly/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/custom-graphics/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/architectural-resurfacing/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/decorative-window-film/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/security-glass/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/architectural-resurfacing/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/solar-control-film/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/custom-graphics/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/security-glass/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/residential-window-films/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/privacy-policy/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/commercial-window-tinting/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/switchable-film/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/feather-friendly/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/security-film/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/blog/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/commercial-window-tinting/", to: "https://mgtfilms.com/", value: 7 },
+];
+const network = new vis.Network(
+  document.getElementById("network"),
+  { nodes, edges },
+  {
+    nodes: {
+      shape: "dot",
+      scaling: { min: 8, max: 38 },
+      font: { face: "Georgia", size: 15, color: "#1f1b17" },
+      borderWidth: 1
+    },
+    edges: {
+      smooth: true,
+      color: { color: "#9e8f7e", highlight: "#245d66" },
+      scaling: { min: 1, max: 9 }
+    },
+    physics: {
+      stabilization: true,
+      barnesHut: {
+        gravitationalConstant: -6200,
+        springLength: 135,
+        springConstant: 0.028
+      }
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 100,
+      navigationButtons: true,
+      keyboard: true
+    }
+  }
+);
+
+document.getElementById("fitBtn").addEventListener("click", () => network.fit());
+
+const searchBox = document.getElementById("searchBox");
+const rows = Array.from(document.querySelectorAll("#nodeTable tbody tr"));
+searchBox.addEventListener("input", () => {
+  const term = searchBox.value.trim().toLowerCase();
+  rows.forEach((row) => {
+    row.style.display = row.textContent.toLowerCase().includes(term) ? "" : "none";
+  });
+});
+  </script>
+</body>
+</html>

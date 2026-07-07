@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Visual</title>
+  <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #f3efe6;
+      color: #1f1b17;
+    }
+    .wrap {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero, .panel {
+      background: #fffdf8;
+      border: 1px solid #d9cfbf;
+      border-radius: 22px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+    }
+    .hero {
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+    .panel {
+      overflow: hidden;
+    }
+    h1, h2 {
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0;
+      line-height: 1.5;
+      color: #6a6258;
+    }
+    .network {
+      height: 760px;
+      border-top: 1px solid #d9cfbf;
+      background: linear-gradient(180deg, #fff, #f6efe5);
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .meta-card {
+      border: 1px solid #d9cfbf;
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
+    }
+    .meta-card strong {
+      display: block;
+      font-size: 1.6rem;
+      color: #a64b2a;
+      margin-bottom: 4px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    input {
+      flex: 1 1 280px;
+      border: 1px solid #d9cfbf;
+      border-radius: 999px;
+      padding: 11px 15px;
+      font: inherit;
+    }
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 15px;
+      background: #245d66;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+    .legend {
+      margin-top: 12px;
+      font-size: .92rem;
+      color: #6a6258;
+    }
+    .table-wrap {
+      max-height: 420px;
+      overflow: auto;
+      margin-top: 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 9px 8px;
+      border-bottom: 1px solid #ece4d8;
+      vertical-align: top;
+    }
+    th {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6a6258;
+    }
+    a { color: #a64b2a; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Interactive Internal Link Force Graph</h1>
+      <p>michgc.com graph generated from the Screaming Frog crawl. This file is meant for presenting page relationships and exploring where authority and broken links concentrate.</p>
+      <div class="meta">
+        <div class="meta-card"><strong>120</strong><span>Pages Shown</span></div>
+        <div class="meta-card"><strong>420</strong><span>Connections Shown</span></div>
+      </div>
+      <div class="controls">
+        <input id="searchBox" type="search" placeholder="Search URL or title in the table">
+        <button id="fitBtn">Refit Graph</button>
+      </div>
+      <div class="legend">Node size reflects exported unique inlinks. Denser clusters usually indicate navigational or topical hubs.</div>
+    </section>
+    <section class="panel">
+      <div id="network" class="network"></div>
+    </section>
+    <section class="hero" style="margin-top:18px;">
+      <h2>Pages In This Graph</h2>
+      <div class="table-wrap"><table id="nodeTable"><thead><tr><th>URL</th><th>Unique Inlinks</th><th>Status</th><th>Inlinks File</th></tr></thead><tbody>
+<tr><td><div><a href="https://michgc.com/">https://michgc.com/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Michigan | Michigan Glass Coatings</div></td><td>350</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com.csv">open file</a></td></tr>
+<tr><td><div><a href="http://michgc.com/">http://michgc.com/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>332</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/about-us/">https://michgc.com/about-us/</a></div><div style="color:#6a6258;font-size:.9rem;">About Michigan Glass Coatings in Detroit, Michigan</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_about_us.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/blog/">https://michgc.com/blog/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting News and Information for Detroit, Michigan</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_blog.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/c-bond-systems-glass-solution/">https://michgc.com/c-bond-systems-glass-solution/</a></div><div style="color:#6a6258;font-size:.9rem;">C-Bond Systems Glass Solution by Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_c_bond_systems_glass_solution.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/commercial/">https://michgc.com/commercial/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Tinting Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_commercial.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/contact-us-old/">https://michgc.com/contact-us-old/</a></div><div style="color:#6a6258;font-size:.9rem;">Contact Michigan Glass Coatings in Detroit, Michigan</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_contact_us_old.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/contact-us/">https://michgc.com/contact-us/</a></div><div style="color:#6a6258;font-size:.9rem;">Contact Michigan Glass Coatings in Detroit, Michigan</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_contact_us.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/frequently-asked-questions/">https://michgc.com/frequently-asked-questions/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Frequently Asked Questions - Detroit, Michigan</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_frequently_asked_questions.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/html-sitemap/">https://michgc.com/html-sitemap/</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /html-sitemap</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_html_sitemap.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/image-gallery/">https://michgc.com/image-gallery/</a></div><div style="color:#6a6258;font-size:.9rem;">Image Gallery - Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_image_gallery.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/locations/">https://michgc.com/locations/</a></div><div style="color:#6a6258;font-size:.9rem;">Michigan Window Tinting Locations | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_locations.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/product-videos/">https://michgc.com/product-videos/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Product Videos for Detroit, Michigan</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_product_videos.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/residential/">https://michgc.com/residential/</a></div><div style="color:#6a6258;font-size:.9rem;">Residential Window Tinting Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_residential.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/school-protection/">https://michgc.com/school-protection/</a></div><div style="color:#6a6258;font-size:.9rem;">School Protection for Detroit, Michigan - Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_school_protection.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/services/">https://michgc.com/services/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Services Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_services.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/services/bird-film/">https://michgc.com/services/bird-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Bird Deterrent Window Film Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_services_bird_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/services/custom-graphics/">https://michgc.com/services/custom-graphics/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Window Graphics Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_services_custom_graphics.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/services/decorative-window-film/">https://michgc.com/services/decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Window Film Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_services_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/services/di-noc-resourfacing/">https://michgc.com/services/di-noc-resourfacing/</a></div><div style="color:#6a6258;font-size:.9rem;">3M DI-NOC Finishes Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_services_di_noc_resourfacing.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/services/riot-glass/">https://michgc.com/services/riot-glass/</a></div><div style="color:#6a6258;font-size:.9rem;">Riot Glass Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_services_riot_glass.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/services/security-window-film/">https://michgc.com/services/security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Window Film Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_services_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/services/solar-film/">https://michgc.com/services/solar-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Solar Control Film Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_services_solar_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/services/switchable-film/">https://michgc.com/services/switchable-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Switchable Film Michigan | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_services_switchable_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/sustainable-design/">https://michgc.com/sustainable-design/</a></div><div style="color:#6a6258;font-size:.9rem;">Sustainable Design - Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_sustainable_design.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/us-old/">https://michgc.com/us-old/</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /us-old</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_us_old.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/warranty-information/">https://michgc.com/warranty-information/</a></div><div style="color:#6a6258;font-size:.9rem;">Warranty Information for Window Films | Michigan Glass Coatings</div></td><td>332</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_warranty_information.csv">open file</a></td></tr>
+<tr><td><div><a href="http://michgc.com/3m-residential-window-films-superior-homes/">http://michgc.com/3m-residential-window-films-superior-homes/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>25</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_residential_window_films_superior_homes.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/blog/page/19/">https://michgc.com/blog/page/19/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting News and Information for Detroit, Michigan</div></td><td>19</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_blog_page_19.csv">open file</a></td></tr>
+<tr><td><div><a href="http://michgc.com/contact-us/">http://michgc.com/contact-us/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>16</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_contact_us.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/southfield-3m-decorative-glass-film/">https://michgc.com/portfolio/southfield-3m-decorative-glass-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Conference Room Privacy in Southfield, MI With 3M Decorative Glass Film</div></td><td>13</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_southfield_3m_decorative_glass_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/custom-graphic-annarbor-michigan/">https://michgc.com/portfolio/custom-graphic-annarbor-michigan/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Graphic Installation in Ann Arbor for Privacy and Decor</div></td><td>11</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_custom_graphic_annarbor_michigan.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/html-sitemap/robots.txt">https://michgc.com/html-sitemap/robots.txt</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_html_sitemap_robots_txt.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/html-sitemap/sitemap.xml">https://michgc.com/html-sitemap/sitemap.xml</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_html_sitemap_sitemap_xml.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/ann-arbor-michigan-window-film-upgrade/">https://michgc.com/portfolio/ann-arbor-michigan-window-film-upgrade/</a></div><div style="color:#6a6258;font-size:.9rem;">Beautiful Church in Ann Arbor, Michigan Gets a Window Film Upgrade</div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_ann_arbor_michigan_window_film_upgrade.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/custom-decorative-film/">https://michgc.com/portfolio/custom-decorative-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Decorative Film for Trucking Client in Metro Detroit</div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_custom_decorative_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/decorative-glass-film/">https://michgc.com/portfolio/decorative-glass-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Lawrence Technological University Uses Decorative Glass Film</div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_decorative_glass_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/detroit-decorative-glass-film/">https://michgc.com/portfolio/detroit-decorative-glass-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Detroit Decorative Glass Film Project Adds Pop to this Downtown Hot Spot</div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_detroit_decorative_glass_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/us-old/robots.txt">https://michgc.com/us-old/robots.txt</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_us_old_robots_txt.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/us-old/sitemap.xml">https://michgc.com/us-old/sitemap.xml</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_us_old_sitemap_xml.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/html-sitemap/?C=D;O=A">https://michgc.com/html-sitemap/?C=D;O=A</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /html-sitemap</div></td><td>8</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_html_sitemap_C_D_O_A.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/html-sitemap/?C=M;O=A">https://michgc.com/html-sitemap/?C=M;O=A</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /html-sitemap</div></td><td>8</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_html_sitemap_C_M_O_A.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/html-sitemap/?C=S;O=A">https://michgc.com/html-sitemap/?C=S;O=A</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /html-sitemap</div></td><td>8</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_html_sitemap_C_S_O_A.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/">https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">Detroit Free Press Utilizes Decorative Glass Film for Privacy in Offices</div></td><td>8</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_decorative_glass_film_privacy_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/us-old/?C=D;O=A">https://michgc.com/us-old/?C=D;O=A</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /us-old</div></td><td>8</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_us_old_C_D_O_A.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/us-old/?C=M;O=A">https://michgc.com/us-old/?C=M;O=A</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /us-old</div></td><td>8</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_us_old_C_M_O_A.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/us-old/?C=S;O=A">https://michgc.com/us-old/?C=S;O=A</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /us-old</div></td><td>8</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_us_old_C_S_O_A.csv">open file</a></td></tr>
+<tr><td><div><a href="http://michgc.com/3m-commercial-window-films/">http://michgc.com/3m-commercial-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>7</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_commercial_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/html-sitemap/?C=N;O=A">https://michgc.com/html-sitemap/?C=N;O=A</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /html-sitemap</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_html_sitemap_C_N_O_A.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/">https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Graphic Pattern Dresses up Conference Room for Client in Detroit</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_custom_graphic_pattern_metro_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/detroit-custom-graphics/">https://michgc.com/portfolio/detroit-custom-graphics/</a></div><div style="color:#6a6258;font-size:.9rem;">Detroit Client Dresses Up Their Offices with Custom Graphics of Skyline</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_detroit_custom_graphics.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/frosted-window-film-privacy-troy-michigan/">https://michgc.com/portfolio/frosted-window-film-privacy-troy-michigan/</a></div><div style="color:#6a6258;font-size:.9rem;">Frosted Window Film Adds Needed Privacy to Troy, Michigan Bathroom</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_frosted_window_film_privacy_troy_michigan.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/security-window-film-protection-detroit/">https://michgc.com/portfolio/security-window-film-protection-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Window Film Adds Protection to Moosejaw in Downtown Detroit</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_security_window_film_protection_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/shinola-security-window-film/">https://michgc.com/portfolio/shinola-security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Shinola Store in Ann Arbor Gets Protected with Security Window Film</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_shinola_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/window-film-prevent-fading/">https://michgc.com/portfolio/window-film-prevent-fading/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Helps Prevent Fading of Floors and Furnishings in Detroit, MI</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_window_film_prevent_fading.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/us-old/?C=N;O=A">https://michgc.com/us-old/?C=N;O=A</a></div><div style="color:#6a6258;font-size:.9rem;">Index of /us-old</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_us_old_C_N_O_A.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio-tag/decorative-glass/">https://michgc.com/portfolio-tag/decorative-glass/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Glass Archives - Michigan Glass Coatings</div></td><td>6</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_tag_decorative_glass.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/portfolio/northstar-reach-camp-3m-security-films/">https://michgc.com/portfolio/northstar-reach-camp-3m-security-films/</a></div><div style="color:#6a6258;font-size:.9rem;">NorthStar Reach in Ann Arbor, MI Becomes Safer with 3M Security Films</div></td><td>6</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_portfolio_northstar_reach_camp_3m_security_films.csv">open file</a></td></tr>
+<tr><td><div><a href="http://michgc.com/3m-fasara-decorative-window-films/">http://michgc.com/3m-fasara-decorative-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>5</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_fasara_decorative_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="http://michgc.com/3m-thinsulate-home-window-film/">http://michgc.com/3m-thinsulate-home-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>5</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_thinsulate_home_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="http://michgc.com/3m-safety-security-window-films/">http://michgc.com/3m-safety-security-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>4</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_safety_security_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/2-ways-protect-grand-piano-window-films/">https://michgc.com/2-ways-protect-grand-piano-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Two Ways to Protect your Grand Piano With Window Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_2_ways_protect_grand_piano_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-commercial-window-film-detroit-mi/">https://michgc.com/3m-commercial-window-film-detroit-mi/</a></div><div style="color:#6a6258;font-size:.9rem;">What can 3M Commercial Window Film Do For Your Detroit, MI Building?</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_commercial_window_film_detroit_mi.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-fasara-decorative-glass-finishes/">https://michgc.com/3m-fasara-decorative-glass-finishes/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Fasara Decorative Glass Finishes Transform Ordinary Glass</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_fasara_decorative_glass_finishes.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-fasara-glass-finishes/">https://michgc.com/3m-fasara-glass-finishes/</a></div><div style="color:#6a6258;font-size:.9rem;">Elevating Your Office with 3M Fasara Glass Finishes</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_fasara_glass_finishes.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-home-security-window-film/">https://michgc.com/3m-home-security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Protect Your Loved Ones &amp; Property with 3M Home Security Window Film</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_home_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-home-window-film-options/">https://michgc.com/3m-home-window-film-options/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Home Window Film Options by Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_home_window_film_options.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-low-e-window-film-detroit/">https://michgc.com/3m-low-e-window-film-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Low E Window Film Save Money and Control Your Home's Climate</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_low_e_window_film_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-low-e-window-films-detroit/">https://michgc.com/3m-low-e-window-films-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">Control the Climate Inside Your Home with 3M Low-E Window Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_low_e_window_films_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-prestige-window-film/">https://michgc.com/3m-prestige-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Consider The 3M Prestige Window Film Line? | Michigan Glass</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_prestige_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-sun-control-window-films-can-keep-your-business-cool/">https://michgc.com/3m-sun-control-window-films-can-keep-your-business-cool/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Sun Control Window Films Can Keep Your Business Cool</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_sun_control_window_films_can_keep_your_business_cool.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-thinsulate-window-film-detroit/">https://michgc.com/3m-thinsulate-window-film-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">Be Comfortable in Detroit Area Homes with 3M Thinsulate Window Film</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_thinsulate_window_film_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-thinsulate-window-film-facility-executive/">https://michgc.com/3m-thinsulate-window-film-facility-executive/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Thinsulate Window Film Profiled by Facility Executive Magazine</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_thinsulate_window_film_facility_executive.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-tops-list-millennials-want-work/">https://michgc.com/3m-tops-list-millennials-want-work/</a></div><div style="color:#6a6258;font-size:.9rem;">Move Over Google! 3M Tops List of Where Millennials Want to Work</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_tops_list_millennials_want_work.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-window-film-2/">https://michgc.com/3m-window-film-2/</a></div><div style="color:#6a6258;font-size:.9rem;">The First is Still the Best, 3M Window Film by Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_window_film_2.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-window-film-remarkable/">https://michgc.com/3m-window-film-remarkable/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Window Film Makes Your Glass Do Some Remarkable Things</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_window_film_remarkable.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-window-film/">https://michgc.com/3m-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Everything You Need to Know About 3M Window Film</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-window-films-celebrates-50-years-of-innovative-products/">https://michgc.com/3m-window-films-celebrates-50-years-of-innovative-products/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Window Films Celebrates 50 Years of Innovative Products!</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_window_films_celebrates_50_years_of_innovative_products.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-window-films-remarkable/">https://michgc.com/3m-window-films-remarkable/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Window Films Are Remarkable! - Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_window_films_remarkable.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/3m-window-films/">https://michgc.com/3m-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Window Films in Detroit, Michigan - Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_3m_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/6-reasons-tint-homes-windows/">https://michgc.com/6-reasons-tint-homes-windows/</a></div><div style="color:#6a6258;font-size:.9rem;">6 Reasons To Tint Your Home's Windows - MI Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_6_reasons_tint_homes_windows.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/answers-to-five-common-window-film-questions-part-2/">https://michgc.com/answers-to-five-common-window-film-questions-part-2/</a></div><div style="color:#6a6258;font-size:.9rem;">Part 2: Answers To Five Common Window Film Questions</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_answers_to_five_common_window_film_questions_part_2.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/answers-to-five-common-window-film-questions/">https://michgc.com/answers-to-five-common-window-film-questions/</a></div><div style="color:#6a6258;font-size:.9rem;">Answers to five common window film questions</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_answers_to_five_common_window_film_questions.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/architectural-window-films-detroit-michigan/">https://michgc.com/architectural-window-films-detroit-michigan/</a></div><div style="color:#6a6258;font-size:.9rem;">Five Common Misconceptions About Architectural Window Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_architectural_window_films_detroit_michigan.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/auburn-hills-michigan-award/">https://michgc.com/auburn-hills-michigan-award/</a></div><div style="color:#6a6258;font-size:.9rem;">Michigan Glass Coatings Receives 2019 Best of Auburn Hills Award</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_auburn_hills_michigan_award.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/benefits-home-window-film-detroit-mi/">https://michgc.com/benefits-home-window-film-detroit-mi/</a></div><div style="color:#6a6258;font-size:.9rem;">Did You Know These Six Benefits of Home Window Film in Detroit?</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_benefits_home_window_film_detroit_mi.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/benefits-home-window-films/">https://michgc.com/benefits-home-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Seven Noteworthy Benefits of Utilizing Home Window Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_benefits_home_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/benefits-of-window-film/">https://michgc.com/benefits-of-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">The Un-awaring Benefits Of Window Film - Michigan Glass</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_benefits_of_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/benefits-window-tinting-home/">https://michgc.com/benefits-window-tinting-home/</a></div><div style="color:#6a6258;font-size:.9rem;">The Benefits of Window Tinting for Your Home - Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_benefits_window_tinting_home.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/bird-friendly-window-film-detroit/">https://michgc.com/bird-friendly-window-film-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">Bird-Friendly Window Film Detroit Campuses | MGC</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_bird_friendly_window_film_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/blog/page/17/">https://michgc.com/blog/page/17/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting News and Information for Detroit, Michigan</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_blog_page_17.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/blog/page/3/">https://michgc.com/blog/page/3/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting News and Information for Detroit, Michigan</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_blog_page_3.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/choosing-the-right-window-film-for-your-business-or-home/">https://michgc.com/choosing-the-right-window-film-for-your-business-or-home/</a></div><div style="color:#6a6258;font-size:.9rem;">Choosing The Best Window Film For Your Business Or Home</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_choosing_the_right_window_film_for_your_business_or_home.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/choosing-the-right-window-film-part-2/">https://michgc.com/choosing-the-right-window-film-part-2/</a></div><div style="color:#6a6258;font-size:.9rem;">Part 2 | Choosing Window Film | Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_choosing_the_right_window_film_part_2.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/cold-environment-productivity/">https://michgc.com/cold-environment-productivity/</a></div><div style="color:#6a6258;font-size:.9rem;">A Cold Environment Lowers Productivity | Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_cold_environment_productivity.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/combat-heat-glare-3m-window-films/">https://michgc.com/combat-heat-glare-3m-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">As Spring Rolls In, Prepare to Combat Heat and Glare with 3M Window Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_combat_heat_glare_3m_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/comfort-efficiency-3m-home-window-films/">https://michgc.com/comfort-efficiency-3m-home-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Improved Comfort &amp; Efficiency of Your Home with 3M Home Window Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_comfort_efficiency_3m_home_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/commercial-decorative-glass-film-detroit/">https://michgc.com/commercial-decorative-glass-film-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">7 Benefits of Commercial Decorative Glass Film for Detroit Area Space</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_commercial_decorative_glass_film_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/commercial-window-film-benefits/">https://michgc.com/commercial-window-film-benefits/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film Benefits | Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_commercial_window_film_benefits.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/commercial-window-film-can-enhance-your-workers-experience/">https://michgc.com/commercial-window-film-can-enhance-your-workers-experience/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film Can Enhance Workers' Experience</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_commercial_window_film_can_enhance_your_workers_experience.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/commercial-window-films-are-a-smart-investment/">https://michgc.com/commercial-window-films-are-a-smart-investment/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Films Are A Smart Investment</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_commercial_window_films_are_a_smart_investment.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/commercial-window-films-for-your-building-or-office-five-benefits/">https://michgc.com/commercial-window-films-for-your-building-or-office-five-benefits/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial window films for your Detroit, MI building or office: 5 benefits</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_commercial_window_films_for_your_building_or_office_five_benefits.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/company-branding/">https://michgc.com/company-branding/</a></div><div style="color:#6a6258;font-size:.9rem;">Add Company Branding By Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_company_branding.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/control-climate-3m-thinsulate/">https://michgc.com/control-climate-3m-thinsulate/</a></div><div style="color:#6a6258;font-size:.9rem;">Control the Climate with 3M Thinsulate Window Film</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_control_climate_3m_thinsulate.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/cost-effective-window-film/">https://michgc.com/cost-effective-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Cost-effective Window Film From Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_cost_effective_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/custom-decorative-window-film-adds-style-to-any-office/">https://michgc.com/custom-decorative-window-film-adds-style-to-any-office/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Decorative Window Film Adds Style to Any Office</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_custom_decorative_window_film_adds_style_to_any_office.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/custom-graphic-beaumont-hospital-detroit/">https://michgc.com/custom-graphic-beaumont-hospital-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Graphic Film Improves Privacy &amp; Decor at Beaumont Hospital</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_custom_graphic_beaumont_hospital_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/custom-marketing-tools/">https://michgc.com/custom-marketing-tools/</a></div><div style="color:#6a6258;font-size:.9rem;">Using Your Windows As Custom Marketing Tools | Michigan Glass</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_custom_marketing_tools.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/cut-home-energy-bills-detroit-mi/">https://michgc.com/cut-home-energy-bills-detroit-mi/</a></div><div style="color:#6a6258;font-size:.9rem;">Experts Agree, Window Film Helps Cut Home Energy Bills This Summer</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_cut_home_energy_bills_detroit_mi.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/daylight-affects-sleep/">https://michgc.com/daylight-affects-sleep/</a></div><div style="color:#6a6258;font-size:.9rem;">See How Exposure To Daylight Affects Sleep - Michigan Glass</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_daylight_affects_sleep.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/daylighting-daylight-redirecting-film/">https://michgc.com/daylighting-daylight-redirecting-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Daylighting Made Easy with 3M Daylight Redirecting Window Film</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_daylighting_daylight_redirecting_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/decorative-window-film-design/">https://michgc.com/decorative-window-film-design/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Window Film Design | Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_decorative_window_film_design.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/decorative-window-film-detroit-michigan/">https://michgc.com/decorative-window-film-detroit-michigan/</a></div><div style="color:#6a6258;font-size:.9rem;">Five Reasons Decorative Window Film is Preferred for Privacy &amp; Branding</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_decorative_window_film_detroit_michigan.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/decorative-window-film-royal-oak-mi/">https://michgc.com/decorative-window-film-royal-oak-mi/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Window Film Royal Oak, MI Shops | MGC</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_decorative_window_film_royal_oak_mi.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/decorative-window-films-for-business/">https://michgc.com/decorative-window-films-for-business/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Window Films For Business - Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_decorative_window_films_for_business.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/decorative-window-tint/">https://michgc.com/decorative-window-tint/</a></div><div style="color:#6a6258;font-size:.9rem;">Greet Spring With Decorative Window Tint - Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_decorative_window_tint.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/design-uses-home-window-film-detroit/">https://michgc.com/design-uses-home-window-film-detroit/</a></div><div style="color:#6a6258;font-size:.9rem;">Three Design Uses for Home Window Film from This Old House Magazine</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_design_uses_home_window_film_detroit.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/detroit-reducing-bird-window-collisions/">https://michgc.com/detroit-reducing-bird-window-collisions/</a></div><div style="color:#6a6258;font-size:.9rem;">Detroit Zoological Society Gives Tips on Reducing Bird Window Collisions</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_detroit_reducing_bird_window_collisions.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/di-noc-resurfacing-detroit-office-buildings/">https://michgc.com/di-noc-resurfacing-detroit-office-buildings/</a></div><div style="color:#6a6258;font-size:.9rem;">Di-Noc Architectural Resurfacing Detroit | Michigan Glass Coatings</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_di_noc_resurfacing_detroit_office_buildings.csv">open file</a></td></tr>
+<tr><td><div><a href="https://michgc.com/discreet-window-films/">https://michgc.com/discreet-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Discreet Window Films | Michigan Glass Coatings, Auburn Hills, MI</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/michgc.com-sitewide/inlinks/michgc_com_discreet_window_films.csv">open file</a></td></tr>
+      </tbody></table></div>
+    </section>
+  </div>
+  <script>
+const nodes = [
+  { id: "https://michgc.com/", label: "/", title: "https://michgc.com/\nUnique inlinks: 350\nStatus: 200", value: 350, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "http://michgc.com/", label: "/", title: "http://michgc.com/\nUnique inlinks: 332\nStatus: 301", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/about-us/", label: "/about-us/", title: "https://michgc.com/about-us/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/blog/", label: "/blog/", title: "https://michgc.com/blog/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/c-bond-systems-glass-solution/", label: "/c-bond-systems-glass-solution/", title: "https://michgc.com/c-bond-systems-glass-solution/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/commercial/", label: "/commercial/", title: "https://michgc.com/commercial/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/contact-us-old/", label: "/contact-us-old/", title: "https://michgc.com/contact-us-old/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/contact-us/", label: "/contact-us/", title: "https://michgc.com/contact-us/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/frequently-asked-questions/", label: "/frequently-asked-questions/", title: "https://michgc.com/frequently-asked-questions/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/html-sitemap/", label: "/html-sitemap/", title: "https://michgc.com/html-sitemap/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/image-gallery/", label: "/image-gallery/", title: "https://michgc.com/image-gallery/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/locations/", label: "/locations/", title: "https://michgc.com/locations/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/product-videos/", label: "/product-videos/", title: "https://michgc.com/product-videos/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/residential/", label: "/residential/", title: "https://michgc.com/residential/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/school-protection/", label: "/school-protection/", title: "https://michgc.com/school-protection/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/services/", label: "/services/", title: "https://michgc.com/services/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/services/bird-film/", label: "/services/bird-film/", title: "https://michgc.com/services/bird-film/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/services/custom-graphics/", label: "/services/custom-graphics/", title: "https://michgc.com/services/custom-graphics/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/services/decorative-window-film/", label: "/services/decorative-window-film/", title: "https://michgc.com/services/decorative-window-film/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/services/di-noc-resourfacing/", label: "/services/di-noc-resourfacing/", title: "https://michgc.com/services/di-noc-resourfacing/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/services/riot-glass/", label: "/services/riot-glass/", title: "https://michgc.com/services/riot-glass/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/services/security-window-film/", label: "/services/security-window-film/", title: "https://michgc.com/services/security-window-film/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/services/solar-film/", label: "/services/solar-film/", title: "https://michgc.com/services/solar-film/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/services/switchable-film/", label: "/services/switchable-film/", title: "https://michgc.com/services/switchable-film/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/sustainable-design/", label: "/sustainable-design/", title: "https://michgc.com/sustainable-design/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/us-old/", label: "/us-old/", title: "https://michgc.com/us-old/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/warranty-information/", label: "/warranty-information/", title: "https://michgc.com/warranty-information/\nUnique inlinks: 332\nStatus: 200", value: 332, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "http://michgc.com/3m-residential-window-films-superior-homes/", label: "/3m-residential-window-films-superior-homes/", title: "http://michgc.com/3m-residential-window-films-superior-homes/\nUnique inlinks: 25\nStatus: 301", value: 25, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/blog/page/19/", label: "/blog/page/19/", title: "https://michgc.com/blog/page/19/\nUnique inlinks: 19\nStatus: 200", value: 19, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "http://michgc.com/contact-us/", label: "/contact-us/", title: "http://michgc.com/contact-us/\nUnique inlinks: 16\nStatus: 301", value: 16, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/southfield-3m-decorative-glass-film/", label: "/portfolio/southfield-3m-decorative-glass-film/", title: "https://michgc.com/portfolio/southfield-3m-decorative-glass-film/\nUnique inlinks: 13\nStatus: 200", value: 13, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/custom-graphic-annarbor-michigan/", label: "/portfolio/custom-graphic-annarbor-michigan/", title: "https://michgc.com/portfolio/custom-graphic-annarbor-michigan/\nUnique inlinks: 11\nStatus: 200", value: 11, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/html-sitemap/robots.txt", label: "/html-sitemap/robots.txt", title: "https://michgc.com/html-sitemap/robots.txt\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/html-sitemap/sitemap.xml", label: "/html-sitemap/sitemap.xml", title: "https://michgc.com/html-sitemap/sitemap.xml\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/ann-arbor-michigan-window-film-upgrade/", label: "/portfolio/ann-arbor-michigan-window-film-upgrade/", title: "https://michgc.com/portfolio/ann-arbor-michigan-window-film-upgrade/\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/custom-decorative-film/", label: "/portfolio/custom-decorative-film/", title: "https://michgc.com/portfolio/custom-decorative-film/\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/decorative-glass-film/", label: "/portfolio/decorative-glass-film/", title: "https://michgc.com/portfolio/decorative-glass-film/\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/detroit-decorative-glass-film/", label: "/portfolio/detroit-decorative-glass-film/", title: "https://michgc.com/portfolio/detroit-decorative-glass-film/\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/us-old/robots.txt", label: "/us-old/robots.txt", title: "https://michgc.com/us-old/robots.txt\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/us-old/sitemap.xml", label: "/us-old/sitemap.xml", title: "https://michgc.com/us-old/sitemap.xml\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/html-sitemap/?C=D;O=A", label: "/html-sitemap/", title: "https://michgc.com/html-sitemap/?C=D;O=A\nUnique inlinks: 8\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/html-sitemap/?C=M;O=A", label: "/html-sitemap/", title: "https://michgc.com/html-sitemap/?C=M;O=A\nUnique inlinks: 8\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/html-sitemap/?C=S;O=A", label: "/html-sitemap/", title: "https://michgc.com/html-sitemap/?C=S;O=A\nUnique inlinks: 8\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/", label: "/portfolio/decorative-glass-film-privacy-detroit/", title: "https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/\nUnique inlinks: 8\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/us-old/?C=D;O=A", label: "/us-old/", title: "https://michgc.com/us-old/?C=D;O=A\nUnique inlinks: 8\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/us-old/?C=M;O=A", label: "/us-old/", title: "https://michgc.com/us-old/?C=M;O=A\nUnique inlinks: 8\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/us-old/?C=S;O=A", label: "/us-old/", title: "https://michgc.com/us-old/?C=S;O=A\nUnique inlinks: 8\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "http://michgc.com/3m-commercial-window-films/", label: "/3m-commercial-window-films/", title: "http://michgc.com/3m-commercial-window-films/\nUnique inlinks: 7\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/html-sitemap/?C=N;O=A", label: "/html-sitemap/", title: "https://michgc.com/html-sitemap/?C=N;O=A\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/", label: "/portfolio/custom-graphic-pattern-metro-detroit/", title: "https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/detroit-custom-graphics/", label: "/portfolio/detroit-custom-graphics/", title: "https://michgc.com/portfolio/detroit-custom-graphics/\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/frosted-window-film-privacy-troy-michigan/", label: "/portfolio/frosted-window-film-privacy-troy-michigan/", title: "https://michgc.com/portfolio/frosted-window-film-privacy-troy-michigan/\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/security-window-film-protection-detroit/", label: "/portfolio/security-window-film-protection-detroit/", title: "https://michgc.com/portfolio/security-window-film-protection-detroit/\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/shinola-security-window-film/", label: "/portfolio/shinola-security-window-film/", title: "https://michgc.com/portfolio/shinola-security-window-film/\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/window-film-prevent-fading/", label: "/portfolio/window-film-prevent-fading/", title: "https://michgc.com/portfolio/window-film-prevent-fading/\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/us-old/?C=N;O=A", label: "/us-old/", title: "https://michgc.com/us-old/?C=N;O=A\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio-tag/decorative-glass/", label: "/portfolio-tag/decorative-glass/", title: "https://michgc.com/portfolio-tag/decorative-glass/\nUnique inlinks: 6\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/portfolio/northstar-reach-camp-3m-security-films/", label: "/portfolio/northstar-reach-camp-3m-security-films/", title: "https://michgc.com/portfolio/northstar-reach-camp-3m-security-films/\nUnique inlinks: 6\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "http://michgc.com/3m-fasara-decorative-window-films/", label: "/3m-fasara-decorative-window-films/", title: "http://michgc.com/3m-fasara-decorative-window-films/\nUnique inlinks: 5\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "http://michgc.com/3m-thinsulate-home-window-film/", label: "/3m-thinsulate-home-window-film/", title: "http://michgc.com/3m-thinsulate-home-window-film/\nUnique inlinks: 5\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "http://michgc.com/3m-safety-security-window-films/", label: "/3m-safety-security-window-films/", title: "http://michgc.com/3m-safety-security-window-films/\nUnique inlinks: 4\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/2-ways-protect-grand-piano-window-films/", label: "/2-ways-protect-grand-piano-window-films/", title: "https://michgc.com/2-ways-protect-grand-piano-window-films/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-commercial-window-film-detroit-mi/", label: "/3m-commercial-window-film-detroit-mi/", title: "https://michgc.com/3m-commercial-window-film-detroit-mi/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-fasara-decorative-glass-finishes/", label: "/3m-fasara-decorative-glass-finishes/", title: "https://michgc.com/3m-fasara-decorative-glass-finishes/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-fasara-glass-finishes/", label: "/3m-fasara-glass-finishes/", title: "https://michgc.com/3m-fasara-glass-finishes/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-home-security-window-film/", label: "/3m-home-security-window-film/", title: "https://michgc.com/3m-home-security-window-film/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-home-window-film-options/", label: "/3m-home-window-film-options/", title: "https://michgc.com/3m-home-window-film-options/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-low-e-window-film-detroit/", label: "/3m-low-e-window-film-detroit/", title: "https://michgc.com/3m-low-e-window-film-detroit/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-low-e-window-films-detroit/", label: "/3m-low-e-window-films-detroit/", title: "https://michgc.com/3m-low-e-window-films-detroit/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-prestige-window-film/", label: "/3m-prestige-window-film/", title: "https://michgc.com/3m-prestige-window-film/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-sun-control-window-films-can-keep-your-business-cool/", label: "/3m-sun-control-window-films-can-keep-your-business-cool/", title: "https://michgc.com/3m-sun-control-window-films-can-keep-your-business-cool/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-thinsulate-window-film-detroit/", label: "/3m-thinsulate-window-film-detroit/", title: "https://michgc.com/3m-thinsulate-window-film-detroit/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-thinsulate-window-film-facility-executive/", label: "/3m-thinsulate-window-film-facility-executive/", title: "https://michgc.com/3m-thinsulate-window-film-facility-executive/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-tops-list-millennials-want-work/", label: "/3m-tops-list-millennials-want-work/", title: "https://michgc.com/3m-tops-list-millennials-want-work/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-window-film-2/", label: "/3m-window-film-2/", title: "https://michgc.com/3m-window-film-2/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-window-film-remarkable/", label: "/3m-window-film-remarkable/", title: "https://michgc.com/3m-window-film-remarkable/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-window-film/", label: "/3m-window-film/", title: "https://michgc.com/3m-window-film/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-window-films-celebrates-50-years-of-innovative-products/", label: "/3m-window-films-celebrates-50-years-of-innovative-products/", title: "https://michgc.com/3m-window-films-celebrates-50-years-of-innovative-products/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-window-films-remarkable/", label: "/3m-window-films-remarkable/", title: "https://michgc.com/3m-window-films-remarkable/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/3m-window-films/", label: "/3m-window-films/", title: "https://michgc.com/3m-window-films/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/6-reasons-tint-homes-windows/", label: "/6-reasons-tint-homes-windows/", title: "https://michgc.com/6-reasons-tint-homes-windows/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/answers-to-five-common-window-film-questions-part-2/", label: "/answers-to-five-common-window-film-questions-part-2/", title: "https://michgc.com/answers-to-five-common-window-film-questions-part-2/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/answers-to-five-common-window-film-questions/", label: "/answers-to-five-common-window-film-questions/", title: "https://michgc.com/answers-to-five-common-window-film-questions/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/architectural-window-films-detroit-michigan/", label: "/architectural-window-films-detroit-michigan/", title: "https://michgc.com/architectural-window-films-detroit-michigan/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/auburn-hills-michigan-award/", label: "/auburn-hills-michigan-award/", title: "https://michgc.com/auburn-hills-michigan-award/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/benefits-home-window-film-detroit-mi/", label: "/benefits-home-window-film-detroit-mi/", title: "https://michgc.com/benefits-home-window-film-detroit-mi/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/benefits-home-window-films/", label: "/benefits-home-window-films/", title: "https://michgc.com/benefits-home-window-films/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/benefits-of-window-film/", label: "/benefits-of-window-film/", title: "https://michgc.com/benefits-of-window-film/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/benefits-window-tinting-home/", label: "/benefits-window-tinting-home/", title: "https://michgc.com/benefits-window-tinting-home/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/bird-friendly-window-film-detroit/", label: "/bird-friendly-window-film-detroit/", title: "https://michgc.com/bird-friendly-window-film-detroit/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/blog/page/17/", label: "/blog/page/17/", title: "https://michgc.com/blog/page/17/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/blog/page/3/", label: "/blog/page/3/", title: "https://michgc.com/blog/page/3/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/choosing-the-right-window-film-for-your-business-or-home/", label: "/choosing-the-right-window-film-for-your-business-or-home/", title: "https://michgc.com/choosing-the-right-window-film-for-your-business-or-home/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/choosing-the-right-window-film-part-2/", label: "/choosing-the-right-window-film-part-2/", title: "https://michgc.com/choosing-the-right-window-film-part-2/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/cold-environment-productivity/", label: "/cold-environment-productivity/", title: "https://michgc.com/cold-environment-productivity/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/combat-heat-glare-3m-window-films/", label: "/combat-heat-glare-3m-window-films/", title: "https://michgc.com/combat-heat-glare-3m-window-films/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/comfort-efficiency-3m-home-window-films/", label: "/comfort-efficiency-3m-home-window-films/", title: "https://michgc.com/comfort-efficiency-3m-home-window-films/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/commercial-decorative-glass-film-detroit/", label: "/commercial-decorative-glass-film-detroit/", title: "https://michgc.com/commercial-decorative-glass-film-detroit/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/commercial-window-film-benefits/", label: "/commercial-window-film-benefits/", title: "https://michgc.com/commercial-window-film-benefits/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/commercial-window-film-can-enhance-your-workers-experience/", label: "/commercial-window-film-can-enhance-your-workers-experience/", title: "https://michgc.com/commercial-window-film-can-enhance-your-workers-experience/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/commercial-window-films-are-a-smart-investment/", label: "/commercial-window-films-are-a-smart-investment/", title: "https://michgc.com/commercial-window-films-are-a-smart-investment/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/commercial-window-films-for-your-building-or-office-five-benefits/", label: "/commercial-window-films-for-your-building-or-office-five-benefits/", title: "https://michgc.com/commercial-window-films-for-your-building-or-office-five-benefits/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/company-branding/", label: "/company-branding/", title: "https://michgc.com/company-branding/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/control-climate-3m-thinsulate/", label: "/control-climate-3m-thinsulate/", title: "https://michgc.com/control-climate-3m-thinsulate/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/cost-effective-window-film/", label: "/cost-effective-window-film/", title: "https://michgc.com/cost-effective-window-film/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/custom-decorative-window-film-adds-style-to-any-office/", label: "/custom-decorative-window-film-adds-style-to-any-office/", title: "https://michgc.com/custom-decorative-window-film-adds-style-to-any-office/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/custom-graphic-beaumont-hospital-detroit/", label: "/custom-graphic-beaumont-hospital-detroit/", title: "https://michgc.com/custom-graphic-beaumont-hospital-detroit/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/custom-marketing-tools/", label: "/custom-marketing-tools/", title: "https://michgc.com/custom-marketing-tools/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/cut-home-energy-bills-detroit-mi/", label: "/cut-home-energy-bills-detroit-mi/", title: "https://michgc.com/cut-home-energy-bills-detroit-mi/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/daylight-affects-sleep/", label: "/daylight-affects-sleep/", title: "https://michgc.com/daylight-affects-sleep/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/daylighting-daylight-redirecting-film/", label: "/daylighting-daylight-redirecting-film/", title: "https://michgc.com/daylighting-daylight-redirecting-film/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/decorative-window-film-design/", label: "/decorative-window-film-design/", title: "https://michgc.com/decorative-window-film-design/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/decorative-window-film-detroit-michigan/", label: "/decorative-window-film-detroit-michigan/", title: "https://michgc.com/decorative-window-film-detroit-michigan/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/decorative-window-film-royal-oak-mi/", label: "/decorative-window-film-royal-oak-mi/", title: "https://michgc.com/decorative-window-film-royal-oak-mi/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/decorative-window-films-for-business/", label: "/decorative-window-films-for-business/", title: "https://michgc.com/decorative-window-films-for-business/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/decorative-window-tint/", label: "/decorative-window-tint/", title: "https://michgc.com/decorative-window-tint/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/design-uses-home-window-film-detroit/", label: "/design-uses-home-window-film-detroit/", title: "https://michgc.com/design-uses-home-window-film-detroit/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/detroit-reducing-bird-window-collisions/", label: "/detroit-reducing-bird-window-collisions/", title: "https://michgc.com/detroit-reducing-bird-window-collisions/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/di-noc-resurfacing-detroit-office-buildings/", label: "/di-noc-resurfacing-detroit-office-buildings/", title: "https://michgc.com/di-noc-resurfacing-detroit-office-buildings/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://michgc.com/discreet-window-films/", label: "/discreet-window-films/", title: "https://michgc.com/discreet-window-films/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+];
+const edges = [
+  { from: "https://michgc.com/image-gallery/", to: "https://michgc.com/image-gallery/", value: 14 },
+  { from: "https://michgc.com/6-reasons-tint-homes-windows/", to: "https://michgc.com/6-reasons-tint-homes-windows/", value: 13 },
+  { from: "https://michgc.com/services/di-noc-resourfacing/", to: "https://michgc.com/services/di-noc-resourfacing/", value: 12 },
+  { from: "https://michgc.com/services/solar-film/", to: "https://michgc.com/services/solar-film/", value: 11 },
+  { from: "https://michgc.com/", to: "https://michgc.com/", value: 11 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/commercial/", value: 9 },
+  { from: "https://michgc.com/commercial-decorative-glass-film-detroit/", to: "https://michgc.com/commercial-decorative-glass-film-detroit/", value: 9 },
+  { from: "https://michgc.com/2-ways-protect-grand-piano-window-films/", to: "https://michgc.com/2-ways-protect-grand-piano-window-films/", value: 9 },
+  { from: "https://michgc.com/services/security-window-film/", to: "https://michgc.com/services/security-window-film/", value: 9 },
+  { from: "https://michgc.com/services/decorative-window-film/", to: "https://michgc.com/contact-us/", value: 8 },
+  { from: "https://michgc.com/services/riot-glass/", to: "https://michgc.com/services/riot-glass/", value: 8 },
+  { from: "https://michgc.com/locations/", to: "https://michgc.com/locations/", value: 8 },
+  { from: "https://michgc.com/services/bird-film/", to: "https://michgc.com/services/bird-film/", value: 8 },
+  { from: "https://michgc.com/residential/", to: "https://michgc.com/contact-us/", value: 7 },
+  { from: "https://michgc.com/services/decorative-window-film/", to: "https://michgc.com/services/decorative-window-film/", value: 7 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/services/", value: 7 },
+  { from: "https://michgc.com/services/decorative-window-film/", to: "https://michgc.com/locations/", value: 6 },
+  { from: "https://michgc.com/services/solar-film/", to: "https://michgc.com/contact-us/", value: 6 },
+  { from: "https://michgc.com/warranty-information/", to: "https://michgc.com/warranty-information/", value: 6 },
+  { from: "https://michgc.com/", to: "https://michgc.com/contact-us/", value: 6 },
+  { from: "https://michgc.com/services/custom-graphics/", to: "https://michgc.com/services/custom-graphics/", value: 6 },
+  { from: "https://michgc.com/blog/", to: "https://michgc.com/blog/", value: 6 },
+  { from: "https://michgc.com/contact-us/", to: "https://michgc.com/contact-us/", value: 6 },
+  { from: "https://michgc.com/product-videos/", to: "https://michgc.com/product-videos/", value: 6 },
+  { from: "https://michgc.com/school-protection/", to: "https://michgc.com/school-protection/", value: 6 },
+  { from: "https://michgc.com/residential/", to: "https://michgc.com/residential/", value: 6 },
+  { from: "https://michgc.com/c-bond-systems-glass-solution/", to: "https://michgc.com/c-bond-systems-glass-solution/", value: 6 },
+  { from: "https://michgc.com/services/switchable-film/", to: "https://michgc.com/services/switchable-film/", value: 6 },
+  { from: "https://michgc.com/sustainable-design/", to: "https://michgc.com/sustainable-design/", value: 6 },
+  { from: "https://michgc.com/about-us/", to: "https://michgc.com/about-us/", value: 6 },
+  { from: "https://michgc.com/3m-window-film-remarkable/", to: "https://michgc.com/3m-window-film-remarkable/", value: 5 },
+  { from: "https://michgc.com/commercial-window-film-benefits/", to: "https://michgc.com/commercial-window-film-benefits/", value: 5 },
+  { from: "https://michgc.com/3m-commercial-window-film-detroit-mi/", to: "https://michgc.com/3m-commercial-window-film-detroit-mi/", value: 5 },
+  { from: "https://michgc.com/frequently-asked-questions/", to: "https://michgc.com/frequently-asked-questions/", value: 5 },
+  { from: "https://michgc.com/cut-home-energy-bills-detroit-mi/", to: "https://michgc.com/cut-home-energy-bills-detroit-mi/", value: 5 },
+  { from: "https://michgc.com/3m-thinsulate-window-film-facility-executive/", to: "https://michgc.com/3m-thinsulate-window-film-facility-executive/", value: 5 },
+  { from: "https://michgc.com/3m-window-film-2/", to: "https://michgc.com/3m-window-film-2/", value: 5 },
+  { from: "https://michgc.com/answers-to-five-common-window-film-questions/", to: "https://michgc.com/answers-to-five-common-window-film-questions/", value: 5 },
+  { from: "https://michgc.com/services/security-window-film/", to: "https://michgc.com/contact-us/", value: 5 },
+  { from: "https://michgc.com/decorative-window-films-for-business/", to: "https://michgc.com/decorative-window-films-for-business/", value: 5 },
+  { from: "https://michgc.com/3m-thinsulate-window-film-detroit/", to: "https://michgc.com/3m-thinsulate-window-film-detroit/", value: 5 },
+  { from: "https://michgc.com/decorative-window-film-detroit-michigan/", to: "https://michgc.com/decorative-window-film-detroit-michigan/", value: 5 },
+  { from: "https://michgc.com/3m-window-films-celebrates-50-years-of-innovative-products/", to: "https://michgc.com/3m-window-films-celebrates-50-years-of-innovative-products/", value: 5 },
+  { from: "https://michgc.com/benefits-window-tinting-home/", to: "https://michgc.com/benefits-window-tinting-home/", value: 5 },
+  { from: "https://michgc.com/3m-tops-list-millennials-want-work/", to: "https://michgc.com/3m-tops-list-millennials-want-work/", value: 5 },
+  { from: "https://michgc.com/benefits-home-window-film-detroit-mi/", to: "https://michgc.com/benefits-home-window-film-detroit-mi/", value: 5 },
+  { from: "https://michgc.com/portfolio/shinola-security-window-film/", to: "https://michgc.com/portfolio/shinola-security-window-film/", value: 5 },
+  { from: "https://michgc.com/decorative-window-film-design/", to: "https://michgc.com/decorative-window-film-design/", value: 5 },
+  { from: "https://michgc.com/portfolio/southfield-3m-decorative-glass-film/", to: "https://michgc.com/portfolio/southfield-3m-decorative-glass-film/", value: 5 },
+  { from: "https://michgc.com/company-branding/", to: "https://michgc.com/company-branding/", value: 5 },
+  { from: "https://michgc.com/choosing-the-right-window-film-for-your-business-or-home/", to: "https://michgc.com/choosing-the-right-window-film-for-your-business-or-home/", value: 5 },
+  { from: "https://michgc.com/cost-effective-window-film/", to: "https://michgc.com/cost-effective-window-film/", value: 5 },
+  { from: "https://michgc.com/3m-fasara-glass-finishes/", to: "https://michgc.com/3m-fasara-glass-finishes/", value: 5 },
+  { from: "https://michgc.com/3m-home-window-film-options/", to: "https://michgc.com/3m-home-window-film-options/", value: 5 },
+  { from: "https://michgc.com/portfolio/northstar-reach-camp-3m-security-films/", to: "https://michgc.com/portfolio/northstar-reach-camp-3m-security-films/", value: 5 },
+  { from: "https://michgc.com/custom-marketing-tools/", to: "https://michgc.com/custom-marketing-tools/", value: 5 },
+  { from: "https://michgc.com/3m-home-security-window-film/", to: "https://michgc.com/3m-home-security-window-film/", value: 5 },
+  { from: "https://michgc.com/portfolio/detroit-custom-graphics/", to: "https://michgc.com/portfolio/detroit-custom-graphics/", value: 5 },
+  { from: "https://michgc.com/3m-window-films-remarkable/", to: "https://michgc.com/3m-window-films-remarkable/", value: 5 },
+  { from: "https://michgc.com/decorative-window-film-royal-oak-mi/", to: "https://michgc.com/decorative-window-film-royal-oak-mi/", value: 5 },
+  { from: "https://michgc.com/combat-heat-glare-3m-window-films/", to: "https://michgc.com/combat-heat-glare-3m-window-films/", value: 5 },
+  { from: "https://michgc.com/architectural-window-films-detroit-michigan/", to: "https://michgc.com/architectural-window-films-detroit-michigan/", value: 5 },
+  { from: "https://michgc.com/3m-low-e-window-films-detroit/", to: "https://michgc.com/3m-low-e-window-films-detroit/", value: 5 },
+  { from: "https://michgc.com/daylight-affects-sleep/", to: "https://michgc.com/daylight-affects-sleep/", value: 5 },
+  { from: "https://michgc.com/benefits-home-window-films/", to: "https://michgc.com/benefits-home-window-films/", value: 5 },
+  { from: "https://michgc.com/custom-graphic-beaumont-hospital-detroit/", to: "https://michgc.com/custom-graphic-beaumont-hospital-detroit/", value: 5 },
+  { from: "https://michgc.com/3m-low-e-window-film-detroit/", to: "https://michgc.com/3m-low-e-window-film-detroit/", value: 5 },
+  { from: "https://michgc.com/portfolio/security-window-film-protection-detroit/", to: "https://michgc.com/portfolio/security-window-film-protection-detroit/", value: 5 },
+  { from: "https://michgc.com/commercial-window-films-are-a-smart-investment/", to: "https://michgc.com/commercial-window-films-are-a-smart-investment/", value: 5 },
+  { from: "https://michgc.com/auburn-hills-michigan-award/", to: "https://michgc.com/auburn-hills-michigan-award/", value: 5 },
+  { from: "https://michgc.com/portfolio/decorative-glass-film/", to: "https://michgc.com/portfolio/decorative-glass-film/", value: 5 },
+  { from: "https://michgc.com/portfolio/custom-decorative-film/", to: "https://michgc.com/portfolio/custom-decorative-film/", value: 5 },
+  { from: "https://michgc.com/di-noc-resurfacing-detroit-office-buildings/", to: "https://michgc.com/di-noc-resurfacing-detroit-office-buildings/", value: 5 },
+  { from: "https://michgc.com/3m-window-film/", to: "https://michgc.com/3m-window-film/", value: 5 },
+  { from: "https://michgc.com/detroit-reducing-bird-window-collisions/", to: "https://michgc.com/detroit-reducing-bird-window-collisions/", value: 5 },
+  { from: "https://michgc.com/discreet-window-films/", to: "https://michgc.com/discreet-window-films/", value: 5 },
+  { from: "https://michgc.com/contact-us-old/", to: "https://michgc.com/contact-us-old/", value: 5 },
+  { from: "https://michgc.com/3m-prestige-window-film/", to: "https://michgc.com/3m-prestige-window-film/", value: 5 },
+  { from: "https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/", to: "https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/", value: 5 },
+  { from: "https://michgc.com/benefits-of-window-film/", to: "https://michgc.com/benefits-of-window-film/", value: 5 },
+  { from: "https://michgc.com/bird-friendly-window-film-detroit/", to: "https://michgc.com/bird-friendly-window-film-detroit/", value: 5 },
+  { from: "https://michgc.com/3m-sun-control-window-films-can-keep-your-business-cool/", to: "https://michgc.com/3m-sun-control-window-films-can-keep-your-business-cool/", value: 5 },
+  { from: "https://michgc.com/commercial-window-films-for-your-building-or-office-five-benefits/", to: "https://michgc.com/commercial-window-films-for-your-building-or-office-five-benefits/", value: 5 },
+  { from: "https://michgc.com/portfolio/frosted-window-film-privacy-troy-michigan/", to: "https://michgc.com/portfolio/frosted-window-film-privacy-troy-michigan/", value: 5 },
+  { from: "https://michgc.com/portfolio/detroit-decorative-glass-film/", to: "https://michgc.com/portfolio/detroit-decorative-glass-film/", value: 5 },
+  { from: "https://michgc.com/services/riot-glass/", to: "https://michgc.com/contact-us/", value: 5 },
+  { from: "https://michgc.com/answers-to-five-common-window-film-questions-part-2/", to: "https://michgc.com/answers-to-five-common-window-film-questions-part-2/", value: 5 },
+  { from: "https://michgc.com/portfolio/custom-graphic-annarbor-michigan/", to: "https://michgc.com/portfolio/custom-graphic-annarbor-michigan/", value: 5 },
+  { from: "https://michgc.com/design-uses-home-window-film-detroit/", to: "https://michgc.com/design-uses-home-window-film-detroit/", value: 5 },
+  { from: "https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/", to: "https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/", value: 5 },
+  { from: "https://michgc.com/choosing-the-right-window-film-part-2/", to: "https://michgc.com/choosing-the-right-window-film-part-2/", value: 5 },
+  { from: "https://michgc.com/comfort-efficiency-3m-home-window-films/", to: "https://michgc.com/comfort-efficiency-3m-home-window-films/", value: 5 },
+  { from: "https://michgc.com/3m-fasara-decorative-glass-finishes/", to: "https://michgc.com/3m-fasara-decorative-glass-finishes/", value: 5 },
+  { from: "https://michgc.com/portfolio/window-film-prevent-fading/", to: "https://michgc.com/portfolio/window-film-prevent-fading/", value: 5 },
+  { from: "https://michgc.com/cold-environment-productivity/", to: "https://michgc.com/cold-environment-productivity/", value: 5 },
+  { from: "https://michgc.com/daylighting-daylight-redirecting-film/", to: "https://michgc.com/daylighting-daylight-redirecting-film/", value: 5 },
+  { from: "https://michgc.com/about-us/", to: "https://michgc.com/contact-us/", value: 5 },
+  { from: "https://michgc.com/custom-decorative-window-film-adds-style-to-any-office/", to: "https://michgc.com/custom-decorative-window-film-adds-style-to-any-office/", value: 5 },
+  { from: "https://michgc.com/decorative-window-tint/", to: "https://michgc.com/decorative-window-tint/", value: 5 },
+  { from: "https://michgc.com/services/custom-graphics/", to: "https://michgc.com/contact-us/", value: 5 },
+  { from: "https://michgc.com/commercial-window-film-can-enhance-your-workers-experience/", to: "https://michgc.com/commercial-window-film-can-enhance-your-workers-experience/", value: 5 },
+  { from: "https://michgc.com/control-climate-3m-thinsulate/", to: "https://michgc.com/control-climate-3m-thinsulate/", value: 5 },
+  { from: "https://michgc.com/portfolio/ann-arbor-michigan-window-film-upgrade/", to: "https://michgc.com/portfolio/ann-arbor-michigan-window-film-upgrade/", value: 5 },
+  { from: "https://michgc.com/services/bird-film/", to: "https://michgc.com/locations/", value: 5 },
+  { from: "https://michgc.com/portfolio/detroit-custom-graphics/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/di-noc-resurfacing-detroit-office-buildings/", to: "https://michgc.com/services/di-noc-resourfacing/", value: 4 },
+  { from: "https://michgc.com/bird-friendly-window-film-detroit/", to: "https://michgc.com/services/bird-film/", value: 4 },
+  { from: "https://michgc.com/portfolio/decorative-glass-film/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/portfolio/detroit-decorative-glass-film/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/portfolio/ann-arbor-michigan-window-film-upgrade/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/portfolio/security-window-film-protection-detroit/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/services/solar-film/", to: "https://michgc.com/residential/", value: 4 },
+  { from: "https://michgc.com/locations/", to: "https://michgc.com/contact-us/", value: 4 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/services/decorative-window-film/", value: 4 },
+  { from: "https://michgc.com/portfolio/northstar-reach-camp-3m-security-films/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/services/custom-graphics/", value: 4 },
+  { from: "https://michgc.com/portfolio/custom-graphic-annarbor-michigan/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/contact-us/", value: 4 },
+  { from: "https://michgc.com/services/switchable-film/", to: "https://michgc.com/contact-us/", value: 4 },
+  { from: "https://michgc.com/blog/page/3/", to: "https://michgc.com/blog/page/3/", value: 4 },
+  { from: "https://michgc.com/3m-window-films/", to: "https://michgc.com/3m-window-films/", value: 4 },
+  { from: "https://michgc.com/portfolio/custom-decorative-film/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/portfolio/frosted-window-film-privacy-troy-michigan/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/services/security-window-film/", value: 4 },
+  { from: "https://michgc.com/services/di-noc-resourfacing/", to: "https://michgc.com/contact-us/", value: 4 },
+  { from: "https://michgc.com/portfolio/southfield-3m-decorative-glass-film/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/", to: "https://michgc.com/commercial/", value: 4 },
+  { from: "https://michgc.com/portfolio/shinola-security-window-film/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/blog/page/17/", to: "https://michgc.com/blog/page/17/", value: 4 },
+  { from: "https://michgc.com/portfolio/window-film-prevent-fading/", to: "https://michgc.com/image-gallery/", value: 4 },
+  { from: "https://michgc.com/blog/page/19/", to: "https://michgc.com/blog/page/19/", value: 4 },
+  { from: "https://michgc.com/portfolio-tag/decorative-glass/", to: "https://michgc.com/portfolio-tag/decorative-glass/", value: 4 },
+  { from: "https://michgc.com/services/bird-film/", to: "https://michgc.com/contact-us/", value: 4 },
+  { from: "https://michgc.com/services/solar-film/", to: "https://michgc.com/locations/", value: 4 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/services/bird-film/", value: 4 },
+  { from: "https://michgc.com/design-uses-home-window-film-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/blog/page/3/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/di-noc-resourfacing/", to: "https://michgc.com/locations/", value: 3 },
+  { from: "https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-prestige-window-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/about-us/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/answers-to-five-common-window-film-questions/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/bird-friendly-window-film-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/portfolio/custom-decorative-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/riot-glass/", to: "https://michgc.com/locations/", value: 3 },
+  { from: "https://michgc.com/portfolio/window-film-prevent-fading/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/services/switchable-film/", value: 3 },
+  { from: "https://michgc.com/", to: "https://michgc.com/services/switchable-film/", value: 3 },
+  { from: "https://michgc.com/", to: "https://michgc.com/locations/", value: 3 },
+  { from: "https://michgc.com/", to: "https://michgc.com/services/bird-film/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-royal-oak-mi/", to: "https://michgc.com/services/decorative-window-film/", value: 3 },
+  { from: "https://michgc.com/contact-us/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/commercial-window-film-can-enhance-your-workers-experience/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/3m-fasara-glass-finishes/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/cost-effective-window-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/custom-marketing-tools/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/daylighting-daylight-redirecting-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/sustainable-design/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/control-climate-3m-thinsulate/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/commercial-window-film-can-enhance-your-workers-experience/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-thinsulate-window-film-facility-executive/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/solar-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/3m-window-films-celebrates-50-years-of-innovative-products/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/bird-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-sun-control-window-films-can-keep-your-business-cool/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/custom-graphics/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/warranty-information/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/custom-graphic-beaumont-hospital-detroit/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/daylight-affects-sleep/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/switchable-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-fasara-decorative-glass-finishes/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-thinsulate-window-film-facility-executive/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/commercial-window-film-benefits/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-detroit-michigan/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-design/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/auburn-hills-michigan-award/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/benefits-of-window-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/architectural-window-films-detroit-michigan/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/services/decorative-window-film/", value: 3 },
+  { from: "https://michgc.com/locations/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-royal-oak-mi/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/residential/", to: "https://michgc.com/services/security-window-film/", value: 3 },
+  { from: "https://michgc.com/portfolio-tag/decorative-glass/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/di-noc-resurfacing-detroit-office-buildings/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/contact-us-old/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/decorative-window-films-for-business/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/architectural-window-films-detroit-michigan/", to: "https://michgc.com/contact-us/", value: 3 },
+  { from: "https://michgc.com/bird-friendly-window-film-detroit/", to: "https://michgc.com/contact-us/", value: 3 },
+  { from: "https://michgc.com/portfolio/shinola-security-window-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/design-uses-home-window-film-detroit/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/comfort-efficiency-3m-home-window-films/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/contact-us-old/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/commercial-decorative-glass-film-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-window-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/2-ways-protect-grand-piano-window-films/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/blog/page/19/", to: "https://michgc.com/blog/", value: 3 },
+  { from: "https://michgc.com/contact-us/", to: "https://michgc.com/services/", value: 3 },
+  { from: "https://michgc.com/c-bond-systems-glass-solution/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/3m-window-film-2/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/combat-heat-glare-3m-window-films/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/daylighting-daylight-redirecting-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/comfort-efficiency-3m-home-window-films/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/cold-environment-productivity/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/company-branding/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/portfolio/security-window-film-protection-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-low-e-window-films-detroit/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/services/custom-graphics/", value: 3 },
+  { from: "https://michgc.com/sustainable-design/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/benefits-window-tinting-home/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/residential/", to: "https://michgc.com/locations/", value: 3 },
+  { from: "https://michgc.com/commercial-window-film-benefits/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/answers-to-five-common-window-film-questions-part-2/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/decorative-window-tint/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/custom-graphic-beaumont-hospital-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/2-ways-protect-grand-piano-window-films/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/product-videos/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/security-window-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/cold-environment-productivity/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/blog/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/portfolio/ann-arbor-michigan-window-film-upgrade/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/product-videos/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/about-us/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-low-e-window-films-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/portfolio/detroit-decorative-glass-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/answers-to-five-common-window-film-questions-part-2/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-commercial-window-film-detroit-mi/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/school-protection/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/decorative-window-film/", to: "https://michgc.com/services/custom-graphics/", value: 3 },
+  { from: "https://michgc.com/3m-sun-control-window-films-can-keep-your-business-cool/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-detroit-michigan/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/di-noc-resurfacing-detroit-office-buildings/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/", to: "https://michgc.com/services/custom-graphics/", value: 3 },
+  { from: "https://michgc.com/", to: "https://michgc.com/services/solar-film/", value: 3 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/locations/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/services/di-noc-resourfacing/", value: 3 },
+  { from: "https://michgc.com/decorative-window-films-for-business/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-window-film-remarkable/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/c-bond-systems-glass-solution/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/discreet-window-films/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/blog/page/17/", to: "https://michgc.com/blog/", value: 3 },
+  { from: "https://michgc.com/3m-window-film-2/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/portfolio/southfield-3m-decorative-glass-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/control-climate-3m-thinsulate/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/residential/", to: "https://michgc.com/services/solar-film/", value: 3 },
+  { from: "https://michgc.com/3m-commercial-window-film-detroit-mi/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-window-films-remarkable/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/discreet-window-films/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/blog/page/17/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/choosing-the-right-window-film-part-2/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-royal-oak-mi/", to: "https://michgc.com/commercial/", value: 3 },
+  { from: "https://michgc.com/services/custom-graphics/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/detroit-reducing-bird-window-collisions/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/blog/page/19/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/3m-home-security-window-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/", to: "https://michgc.com/services/decorative-window-film/", value: 3 },
+  { from: "https://michgc.com/3m-prestige-window-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/benefits-window-tinting-home/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-royal-oak-mi/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/portfolio/decorative-glass-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-window-films/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/services/di-noc-resourfacing/", value: 3 },
+  { from: "https://michgc.com/commercial-window-films-are-a-smart-investment/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/school-protection/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/answers-to-five-common-window-film-questions/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-fasara-glass-finishes/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-royal-oak-mi/", to: "https://michgc.com/services/custom-graphics/", value: 3 },
+  { from: "https://michgc.com/di-noc-resurfacing-detroit-office-buildings/", to: "https://michgc.com/contact-us/", value: 3 },
+  { from: "https://michgc.com/services/security-window-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/company-branding/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/blog/page/19/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/custom-decorative-window-film-adds-style-to-any-office/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/security-window-film/", to: "https://michgc.com/residential/", value: 3 },
+  { from: "https://michgc.com/services/riot-glass/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/switchable-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/frequently-asked-questions/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/custom-marketing-tools/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/cut-home-energy-bills-detroit-mi/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/frequently-asked-questions/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/solar-film/", to: "https://michgc.com/commercial/", value: 3 },
+  { from: "https://michgc.com/choosing-the-right-window-film-part-2/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-tops-list-millennials-want-work/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/decorative-window-film/", to: "https://michgc.com/services/switchable-film/", value: 3 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/warranty-information/", value: 3 },
+  { from: "https://michgc.com/3m-window-films-remarkable/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/cut-home-energy-bills-detroit-mi/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/auburn-hills-michigan-award/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-fasara-decorative-glass-finishes/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/services/switchable-film/", value: 3 },
+  { from: "https://michgc.com/", to: "https://michgc.com/services/di-noc-resourfacing/", value: 3 },
+  { from: "https://michgc.com/residential/", to: "https://michgc.com/services/decorative-window-film/", value: 3 },
+  { from: "https://michgc.com/commercial-window-films-are-a-smart-investment/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/services/solar-film/", value: 3 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/services/solar-film/", value: 3 },
+  { from: "https://michgc.com/portfolio/detroit-custom-graphics/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/security-window-film/", to: "https://michgc.com/services/riot-glass/", value: 3 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/locations/", value: 3 },
+  { from: "https://michgc.com/choosing-the-right-window-film-for-your-business-or-home/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/commercial-window-films-for-your-building-or-office-five-benefits/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/warranty-information/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/services/security-window-film/", value: 3 },
+  { from: "https://michgc.com/benefits-of-window-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/bird-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-design/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/combat-heat-glare-3m-window-films/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/", to: "https://michgc.com/services/bird-film/", value: 3 },
+  { from: "https://michgc.com/benefits-home-window-film-detroit-mi/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/daylight-affects-sleep/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/blog/page/17/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/detroit-reducing-bird-window-collisions/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/portfolio/custom-graphic-annarbor-michigan/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/6-reasons-tint-homes-windows/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/contact-us/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/bird-friendly-window-film-detroit/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/portfolio-tag/decorative-glass/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/commercial-window-films-for-your-building-or-office-five-benefits/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/decorative-window-tint/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/commercial-decorative-glass-film-detroit/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/blog/page/3/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/benefits-home-window-films/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-window-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-thinsulate-window-film-detroit/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/residential/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/3m-window-film-remarkable/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/3m-home-window-film-options/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/3m-low-e-window-film-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/decorative-window-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/di-noc-resourfacing/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/3m-window-films-celebrates-50-years-of-innovative-products/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/6-reasons-tint-homes-windows/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-low-e-window-film-detroit/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/di-noc-resourfacing/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/3m-thinsulate-window-film-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/", to: "https://michgc.com/services/security-window-film/", value: 3 },
+  { from: "https://michgc.com/3m-window-films/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/image-gallery/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/decorative-window-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/custom-decorative-window-film-adds-style-to-any-office/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/choosing-the-right-window-film-for-your-business-or-home/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/riot-glass/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/benefits-home-window-film-detroit-mi/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/solar-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/services/security-window-film/", to: "https://michgc.com/locations/", value: 3 },
+  { from: "https://michgc.com/blog/page/3/", to: "https://michgc.com/blog/", value: 3 },
+  { from: "https://michgc.com/3m-tops-list-millennials-want-work/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/portfolio/northstar-reach-camp-3m-security-films/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-home-security-window-film/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/architectural-window-films-detroit-michigan/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/commercial/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/blog/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/services/custom-graphics/", to: "https://michgc.com/blog/", value: 3 },
+  { from: "https://michgc.com/residential/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/cost-effective-window-film/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/portfolio/frosted-window-film-privacy-troy-michigan/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-home-window-film-options/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/decorative-window-film-royal-oak-mi/", to: "https://michgc.com/contact-us/", value: 3 },
+  { from: "https://michgc.com/benefits-home-window-films/", to: "https://michgc.com/image-gallery/", value: 3 },
+  { from: "https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/", to: "https://michgc.com/", value: 3 },
+  { from: "https://michgc.com/3m-prestige-window-film/", to: "https://michgc.com/services/decorative-window-film/", value: 2 },
+  { from: "https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/", to: "https://michgc.com/services/switchable-film/", value: 2 },
+  { from: "https://michgc.com/detroit-reducing-bird-window-collisions/", to: "https://michgc.com/services/custom-graphics/", value: 2 },
+  { from: "https://michgc.com/portfolio-tag/decorative-glass/", to: "https://michgc.com/residential/", value: 2 },
+  { from: "https://michgc.com/portfolio/southfield-3m-decorative-glass-film/", to: "https://michgc.com/services/security-window-film/", value: 2 },
+  { from: "https://michgc.com/portfolio/custom-graphic-annarbor-michigan/", to: "https://michgc.com/about-us/", value: 2 },
+  { from: "https://michgc.com/company-branding/", to: "https://michgc.com/services/solar-film/", value: 2 },
+  { from: "https://michgc.com/cut-home-energy-bills-detroit-mi/", to: "https://michgc.com/services/decorative-window-film/", value: 2 },
+  { from: "https://michgc.com/cost-effective-window-film/", to: "https://michgc.com/about-us/", value: 2 },
+  { from: "https://michgc.com/image-gallery/", to: "https://michgc.com/sustainable-design/", value: 2 },
+  { from: "https://michgc.com/portfolio/northstar-reach-camp-3m-security-films/", to: "https://michgc.com/contact-us/", value: 2 },
+  { from: "https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/", to: "https://michgc.com/residential/", value: 2 },
+  { from: "https://michgc.com/commercial-window-films-are-a-smart-investment/", to: "https://michgc.com/services/security-window-film/", value: 2 },
+  { from: "https://michgc.com/3m-low-e-window-films-detroit/", to: "https://michgc.com/blog/", value: 2 },
+  { from: "https://michgc.com/portfolio/detroit-decorative-glass-film/", to: "https://michgc.com/services/switchable-film/", value: 2 },
+  { from: "https://michgc.com/portfolio/shinola-security-window-film/", to: "https://michgc.com/services/", value: 2 },
+  { from: "https://michgc.com/warranty-information/", to: "https://michgc.com/blog/", value: 2 },
+  { from: "https://michgc.com/portfolio/window-film-prevent-fading/", to: "https://michgc.com/c-bond-systems-glass-solution/", value: 2 },
+  { from: "https://michgc.com/portfolio/detroit-custom-graphics/", to: "https://michgc.com/c-bond-systems-glass-solution/", value: 2 },
+  { from: "https://michgc.com/sustainable-design/", to: "https://michgc.com/services/security-window-film/", value: 2 },
+  { from: "https://michgc.com/answers-to-five-common-window-film-questions-part-2/", to: "https://michgc.com/blog/", value: 2 },
+  { from: "https://michgc.com/portfolio/custom-graphic-pattern-metro-detroit/", to: "https://michgc.com/services/switchable-film/", value: 2 },
+  { from: "https://michgc.com/warranty-information/", to: "https://michgc.com/services/custom-graphics/", value: 2 },
+  { from: "https://michgc.com/decorative-window-film-detroit-michigan/", to: "https://michgc.com/services/riot-glass/", value: 2 },
+  { from: "https://michgc.com/services/riot-glass/", to: "https://michgc.com/services/solar-film/", value: 2 },
+  { from: "https://michgc.com/portfolio/security-window-film-protection-detroit/", to: "https://michgc.com/about-us/", value: 2 },
+  { from: "https://michgc.com/portfolio/decorative-glass-film/", to: "https://michgc.com/services/di-noc-resourfacing/", value: 2 },
+  { from: "https://michgc.com/3m-fasara-glass-finishes/", to: "https://michgc.com/blog/", value: 2 },
+  { from: "https://michgc.com/blog/page/17/", to: "https://michgc.com/services/security-window-film/", value: 2 },
+  { from: "https://michgc.com/locations/", to: "https://michgc.com/blog/", value: 2 },
+  { from: "https://michgc.com/design-uses-home-window-film-detroit/", to: "https://michgc.com/contact-us/", value: 2 },
+  { from: "https://michgc.com/daylight-affects-sleep/", to: "https://michgc.com/residential/", value: 2 },
+  { from: "https://michgc.com/portfolio/southfield-3m-decorative-glass-film/", to: "https://michgc.com/contact-us/", value: 2 },
+  { from: "https://michgc.com/about-us/", to: "https://michgc.com/residential/", value: 2 },
+  { from: "https://michgc.com/3m-fasara-glass-finishes/", to: "https://michgc.com/sustainable-design/", value: 2 },
+  { from: "https://michgc.com/daylighting-daylight-redirecting-film/", to: "https://michgc.com/warranty-information/", value: 2 },
+  { from: "https://michgc.com/portfolio/frosted-window-film-privacy-troy-michigan/", to: "https://michgc.com/services/bird-film/", value: 2 },
+  { from: "https://michgc.com/portfolio/security-window-film-protection-detroit/", to: "https://michgc.com/services/custom-graphics/", value: 2 },
+  { from: "https://michgc.com/decorative-window-film-design/", to: "https://michgc.com/services/decorative-window-film/", value: 2 },
+  { from: "https://michgc.com/3m-window-film-remarkable/", to: "https://michgc.com/services/custom-graphics/", value: 2 },
+  { from: "https://michgc.com/portfolio/custom-graphic-annarbor-michigan/", to: "https://michgc.com/warranty-information/", value: 2 },
+  { from: "https://michgc.com/image-gallery/", to: "https://michgc.com/services/", value: 2 },
+  { from: "https://michgc.com/3m-window-film/", to: "https://michgc.com/product-videos/", value: 2 },
+  { from: "https://michgc.com/3m-tops-list-millennials-want-work/", to: "https://michgc.com/services/switchable-film/", value: 2 },
+  { from: "https://michgc.com/choosing-the-right-window-film-part-2/", to: "https://michgc.com/services/decorative-window-film/", value: 2 },
+  { from: "https://michgc.com/3m-window-films-remarkable/", to: "https://michgc.com/services/bird-film/", value: 2 },
+  { from: "https://michgc.com/blog/", to: "https://michgc.com/services/solar-film/", value: 2 },
+  { from: "https://michgc.com/portfolio/southfield-3m-decorative-glass-film/", to: "https://michgc.com/services/riot-glass/", value: 2 },
+  { from: "https://michgc.com/3m-sun-control-window-films-can-keep-your-business-cool/", to: "https://michgc.com/commercial/", value: 2 },
+  { from: "https://michgc.com/decorative-window-tint/", to: "https://michgc.com/services/bird-film/", value: 2 },
+  { from: "https://michgc.com/3m-home-security-window-film/", to: "https://michgc.com/services/", value: 2 },
+  { from: "https://michgc.com/comfort-efficiency-3m-home-window-films/", to: "https://michgc.com/school-protection/", value: 2 },
+  { from: "https://michgc.com/portfolio/decorative-glass-film-privacy-detroit/", to: "https://michgc.com/warranty-information/", value: 2 },
+  { from: "https://michgc.com/custom-marketing-tools/", to: "https://michgc.com/services/decorative-window-film/", value: 2 },
+  { from: "https://michgc.com/benefits-home-window-films/", to: "https://michgc.com/school-protection/", value: 2 },
+  { from: "https://michgc.com/3m-fasara-decorative-glass-finishes/", to: "https://michgc.com/services/switchable-film/", value: 2 },
+  { from: "https://michgc.com/portfolio/shinola-security-window-film/", to: "https://michgc.com/services/security-window-film/", value: 2 },
+];
+const network = new vis.Network(
+  document.getElementById("network"),
+  { nodes, edges },
+  {
+    nodes: {
+      shape: "dot",
+      scaling: { min: 8, max: 38 },
+      font: { face: "Georgia", size: 15, color: "#1f1b17" },
+      borderWidth: 1
+    },
+    edges: {
+      smooth: true,
+      color: { color: "#9e8f7e", highlight: "#245d66" },
+      scaling: { min: 1, max: 9 }
+    },
+    physics: {
+      stabilization: true,
+      barnesHut: {
+        gravitationalConstant: -6200,
+        springLength: 135,
+        springConstant: 0.028
+      }
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 100,
+      navigationButtons: true,
+      keyboard: true
+    }
+  }
+);
+
+document.getElementById("fitBtn").addEventListener("click", () => network.fit());
+
+const searchBox = document.getElementById("searchBox");
+const rows = Array.from(document.querySelectorAll("#nodeTable tbody tr"));
+searchBox.addEventListener("input", () => {
+  const term = searchBox.value.trim().toLowerCase();
+  rows.forEach((row) => {
+    row.style.display = row.textContent.toLowerCase().includes(term) ? "" : "none";
+  });
+});
+  </script>
+</body>
+</html>

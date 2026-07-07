@@ -1,0 +1,9 @@
+source_url,target_url,anchor_text,alt_text,nofollow,path_type
+"https://michgc.com/us-old/","https://michgc.com/us-old/?C=D;O=A","Description","","false","3"
+"https://michgc.com/us-old/?C=D;O=D","https://michgc.com/us-old/?C=D;O=A","Description","","false","3"
+"https://michgc.com/us-old/?C=M;O=A","https://michgc.com/us-old/?C=D;O=A","Description","","false","3"
+"https://michgc.com/us-old/?C=M;O=D","https://michgc.com/us-old/?C=D;O=A","Description","","false","3"
+"https://michgc.com/us-old/?C=N;O=A","https://michgc.com/us-old/?C=D;O=A","Description","","false","3"
+"https://michgc.com/us-old/?C=N;O=D","https://michgc.com/us-old/?C=D;O=A","Description","","false","3"
+"https://michgc.com/us-old/?C=S;O=A","https://michgc.com/us-old/?C=D;O=A","Description","","false","3"
+"https://michgc.com/us-old/?C=S;O=D","https://michgc.com/us-old/?C=D;O=A","Description","","false","3"

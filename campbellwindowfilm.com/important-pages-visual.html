@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Visual</title>
+  <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #f3efe6;
+      color: #1f1b17;
+    }
+    .wrap {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero, .panel {
+      background: #fffdf8;
+      border: 1px solid #d9cfbf;
+      border-radius: 22px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+    }
+    .hero {
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+    .panel {
+      overflow: hidden;
+    }
+    h1, h2 {
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0;
+      line-height: 1.5;
+      color: #6a6258;
+    }
+    .network {
+      height: 760px;
+      border-top: 1px solid #d9cfbf;
+      background: linear-gradient(180deg, #fff, #f6efe5);
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .meta-card {
+      border: 1px solid #d9cfbf;
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
+    }
+    .meta-card strong {
+      display: block;
+      font-size: 1.6rem;
+      color: #a64b2a;
+      margin-bottom: 4px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    input {
+      flex: 1 1 280px;
+      border: 1px solid #d9cfbf;
+      border-radius: 999px;
+      padding: 11px 15px;
+      font: inherit;
+    }
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 15px;
+      background: #245d66;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+    .legend {
+      margin-top: 12px;
+      font-size: .92rem;
+      color: #6a6258;
+    }
+    .table-wrap {
+      max-height: 420px;
+      overflow: auto;
+      margin-top: 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 9px 8px;
+      border-bottom: 1px solid #ece4d8;
+      vertical-align: top;
+    }
+    th {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6a6258;
+    }
+    a { color: #a64b2a; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Broken And Important Pages Visual</h1>
+      <p>campbellwindowfilm.com graph generated from the Screaming Frog crawl. This file is meant for presenting page relationships and exploring where authority and broken links concentrate.</p>
+      <div class="meta">
+        <div class="meta-card"><strong>59</strong><span>Pages Shown</span></div>
+        <div class="meta-card"><strong>260</strong><span>Connections Shown</span></div>
+      </div>
+      <div class="controls">
+        <input id="searchBox" type="search" placeholder="Search URL or title in the table">
+        <button id="fitBtn">Refit Graph</button>
+      </div>
+      <div class="legend">Red nodes are error URLs or non-200 targets. Blue nodes are stable pages.</div>
+    </section>
+    <section class="panel">
+      <div id="network" class="network"></div>
+    </section>
+    <section class="hero" style="margin-top:18px;">
+      <h2>Pages In This Graph</h2>
+      <div class="table-wrap"><table id="nodeTable"><thead><tr><th>URL</th><th>Unique Inlinks</th><th>Status</th><th>Inlinks File</th></tr></thead><tbody>
+<tr><td><div><a href="https://campbellwindowfilm.com/">https://campbellwindowfilm.com/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting &amp; Security Film | Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/about-us/">https://campbellwindowfilm.com/about-us/</a></div><div style="color:#6a6258;font-size:.9rem;">About Us - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_about_us.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/blogs/">https://campbellwindowfilm.com/blogs/</a></div><div style="color:#6a6258;font-size:.9rem;">Blogs - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_blogs.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/contact-us/">https://campbellwindowfilm.com/contact-us/</a></div><div style="color:#6a6258;font-size:.9rem;">Contact Us - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_contact_us.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/">https://campbellwindowfilm.com/locations-served/</a></div><div style="color:#6a6258;font-size:.9rem;">Locations Served - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/anaheim/">https://campbellwindowfilm.com/locations-served/anaheim/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Installation Services in Anaheim, CA</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_anaheim.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/beverly-hills/">https://campbellwindowfilm.com/locations-served/beverly-hills/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Installation Services in Beverly Hills, CA</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_beverly_hills.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/huntington-beach/">https://campbellwindowfilm.com/locations-served/huntington-beach/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Installation Services in Huntington Beach, CA</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_huntington_beach.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/long-beach/">https://campbellwindowfilm.com/locations-served/long-beach/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Installation Services in Long Beach, CA</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_long_beach.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/los-angeles/">https://campbellwindowfilm.com/locations-served/los-angeles/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Installation Services in Los Angeles, CA</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_los_angeles.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-bernardino/">https://campbellwindowfilm.com/locations-served/san-bernardino/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Installation Services in San Bernardino, CA</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_bernardino.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-diego/">https://campbellwindowfilm.com/locations-served/san-diego/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Installation Services in San Diego, CA</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_diego.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-diego/decorative-window-film/">https://campbellwindowfilm.com/locations-served/san-diego/decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">San Diego Decorative Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_diego_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-diego/security-screens-doors-windows/">https://campbellwindowfilm.com/locations-served/san-diego/security-screens-doors-windows/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Screens for Doors and Windows in San Diego, CA - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_diego_security_screens_doors_windows.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-diego/security-window-film/">https://campbellwindowfilm.com/locations-served/san-diego/security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">San Diego Security Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_diego_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-diego/window-tinting/">https://campbellwindowfilm.com/locations-served/san-diego/window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">San Diego Window Tinting - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_diego_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-francisco/">https://campbellwindowfilm.com/locations-served/san-francisco/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Installation Services in San Francisco, CA</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_francisco.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-francisco/decorative-window-film/">https://campbellwindowfilm.com/locations-served/san-francisco/decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">San Francisco Decorative Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_francisco_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-francisco/security-screens-doors-windows/">https://campbellwindowfilm.com/locations-served/san-francisco/security-screens-doors-windows/</a></div><div style="color:#6a6258;font-size:.9rem;">San Francisco Security Screen Installation - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_francisco_security_screens_doors_windows.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-francisco/security-window-film/">https://campbellwindowfilm.com/locations-served/san-francisco/security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">San Francisco Security Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_francisco_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/san-francisco/window-tinting/">https://campbellwindowfilm.com/locations-served/san-francisco/window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">San Francisco Window Tinting - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_san_francisco_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/santa-monica/">https://campbellwindowfilm.com/locations-served/santa-monica/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film Installation Services in Santa Monica, CA</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_santa_monica.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/santa-monica/decorative-window-film/">https://campbellwindowfilm.com/locations-served/santa-monica/decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Santa Monica Decorative Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_santa_monica_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/santa-monica/security-screens-doors-windows/">https://campbellwindowfilm.com/locations-served/santa-monica/security-screens-doors-windows/</a></div><div style="color:#6a6258;font-size:.9rem;">Santa Monica- Screen Doors - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_santa_monica_security_screens_doors_windows.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/locations-served/santa-monica/window-tinting/">https://campbellwindowfilm.com/locations-served/santa-monica/window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Santa Monica Window Tinting - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_locations_served_santa_monica_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/privacy-policy/">https://campbellwindowfilm.com/privacy-policy/</a></div><div style="color:#6a6258;font-size:.9rem;">Privacy Policy - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_privacy_policy.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/">https://campbellwindowfilm.com/products/</a></div><div style="color:#6a6258;font-size:.9rem;">Products - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/bird-safe-window-films/">https://campbellwindowfilm.com/products/bird-safe-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Bird Safe Window Films | Bird Collision Prevention - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_bird_safe_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/decorative-window-films/">https://campbellwindowfilm.com/products/decorative-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Window Film Installation | Campbell Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_decorative_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/decorative-window-films/architectural-resurfacing/">https://campbellwindowfilm.com/products/decorative-window-films/architectural-resurfacing/</a></div><div style="color:#6a6258;font-size:.9rem;">Architectural Resurfacing - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_decorative_window_films_architectural_resurfacing.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/decorative-window-films/custom-graphics/">https://campbellwindowfilm.com/products/decorative-window-films/custom-graphics/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Graphics - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_decorative_window_films_custom_graphics.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/decorative-window-films/switchable-film/">https://campbellwindowfilm.com/products/decorative-window-films/switchable-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Switchable Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_decorative_window_films_switchable_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/security-glass/">https://campbellwindowfilm.com/products/security-glass/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Glass Installation for Commercial and Residential</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_security_glass.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/security-screens/">https://campbellwindowfilm.com/products/security-screens/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Screens - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_security_screens.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/security-screens/security-screens-for-doors/">https://campbellwindowfilm.com/products/security-screens/security-screens-for-doors/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Screen for Doors | Forced-Entry Resistance | Campbell Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_security_screens_security_screens_for_doors.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/security-screens/security-screens-for-windows/">https://campbellwindowfilm.com/products/security-screens/security-screens-for-windows/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Screen for Windows | Forced-Entry Resistance | Campbell Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_security_screens_security_screens_for_windows.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/security-window-film/">https://campbellwindowfilm.com/products/security-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_security_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/products/solar-control/">https://campbellwindowfilm.com/products/solar-control/</a></div><div style="color:#6a6258;font-size:.9rem;">Solar Control Window Film in CA | Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_products_solar_control.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/safety-glass-vs-tempered-glass/">https://campbellwindowfilm.com/safety-glass-vs-tempered-glass/</a></div><div style="color:#6a6258;font-size:.9rem;">Safety Glass VS Tempered Glass: A Complete Guide - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_safety_glass_vs_tempered_glass.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/burglar-proof-windows-and-doors/">https://campbellwindowfilm.com/services/burglar-proof-windows-and-doors/</a></div><div style="color:#6a6258;font-size:.9rem;">Burglar Proof Windows and Doors - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_burglar_proof_windows_and_doors.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/colored-window-film/">https://campbellwindowfilm.com/services/colored-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Colored Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_colored_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/commercial-building-window-tinting/">https://campbellwindowfilm.com/services/commercial-building-window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Transform Your Space with Expert Commercial Window Tinting Services - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_commercial_building_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/commercial-security-film/">https://campbellwindowfilm.com/services/commercial-security-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Security Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_commercial_security_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/commercial-window-security/">https://campbellwindowfilm.com/services/commercial-window-security/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Building Security Solutions - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_commercial_window_security.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/custom-decorative-window-film/">https://campbellwindowfilm.com/services/custom-decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Decorative Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_custom_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/daytime-privacy-film/">https://campbellwindowfilm.com/services/daytime-privacy-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Daytime Privacy Film Installation | Campbell Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_daytime_privacy_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/dichroic-window-film/">https://campbellwindowfilm.com/services/dichroic-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Dichroic Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_dichroic_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/facade-re-imaging-renovation/">https://campbellwindowfilm.com/services/facade-re-imaging-renovation/</a></div><div style="color:#6a6258;font-size:.9rem;">Facade Re-imaging Renovation - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_facade_re_imaging_renovation.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/fading-protection-film/">https://campbellwindowfilm.com/services/fading-protection-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Fading Protection Film Installation | UV Protection Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_fading_protection_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/frosted-window-film/">https://campbellwindowfilm.com/services/frosted-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Frosted Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_frosted_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/mirror-window-film/">https://campbellwindowfilm.com/services/mirror-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Mirror Window Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_mirror_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/residential-window-security-film/">https://campbellwindowfilm.com/services/residential-window-security-film/</a></div><div style="color:#6a6258;font-size:.9rem;">California Home / Residential Window Security Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_residential_window_security_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/residential-window-tinting/">https://campbellwindowfilm.com/services/residential-window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">California Home / Residential Window Tinting Services - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_residential_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/skylight-window-tinting-film/">https://campbellwindowfilm.com/services/skylight-window-tinting-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Skylight Window Tinting Film - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_skylight_window_tinting_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/services/window-insulation-film/">https://campbellwindowfilm.com/services/window-insulation-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Insulating Window FilmFor Better Heating &amp; Cooling - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_services_window_insulation_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/sitemap/">https://campbellwindowfilm.com/sitemap/</a></div><div style="color:#6a6258;font-size:.9rem;">Sitemap - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_sitemap.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/terms-conditions-of-use/">https://campbellwindowfilm.com/terms-conditions-of-use/</a></div><div style="color:#6a6258;font-size:.9rem;">Terms &amp; Conditions of Use - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_terms_conditions_of_use.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/the-pros-and-cons-of-tinted-house-windows/">https://campbellwindowfilm.com/the-pros-and-cons-of-tinted-house-windows/</a></div><div style="color:#6a6258;font-size:.9rem;">The Pros and Cons of Tinted House Windows - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_the_pros_and_cons_of_tinted_house_windows.csv">open file</a></td></tr>
+<tr><td><div><a href="https://campbellwindowfilm.com/window-anti-glare-film/">https://campbellwindowfilm.com/window-anti-glare-film/</a></div><div style="color:#6a6258;font-size:.9rem;">How Anti-Glare Window Film Improves Office Comfort and Productivity - Campbell Window Film</div></td><td>264</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/campbellwindowfilm.com-sitewide/inlinks/campbellwindowfilm_com_window_anti_glare_film.csv">open file</a></td></tr>
+      </tbody></table></div>
+    </section>
+  </div>
+  <script>
+const nodes = [
+  { id: "https://campbellwindowfilm.com/", label: "/", title: "https://campbellwindowfilm.com/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/about-us/", label: "/about-us/", title: "https://campbellwindowfilm.com/about-us/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/blogs/", label: "/blogs/", title: "https://campbellwindowfilm.com/blogs/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/contact-us/", label: "/contact-us/", title: "https://campbellwindowfilm.com/contact-us/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/", label: "/locations-served/", title: "https://campbellwindowfilm.com/locations-served/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/anaheim/", label: "/locations-served/anaheim/", title: "https://campbellwindowfilm.com/locations-served/anaheim/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/beverly-hills/", label: "/locations-served/beverly-hills/", title: "https://campbellwindowfilm.com/locations-served/beverly-hills/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/huntington-beach/", label: "/locations-served/huntington-beach/", title: "https://campbellwindowfilm.com/locations-served/huntington-beach/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/long-beach/", label: "/locations-served/long-beach/", title: "https://campbellwindowfilm.com/locations-served/long-beach/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/los-angeles/", label: "/locations-served/los-angeles/", title: "https://campbellwindowfilm.com/locations-served/los-angeles/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-bernardino/", label: "/locations-served/san-bernardino/", title: "https://campbellwindowfilm.com/locations-served/san-bernardino/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-diego/", label: "/locations-served/san-diego/", title: "https://campbellwindowfilm.com/locations-served/san-diego/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-diego/decorative-window-film/", label: "/locations-served/san-diego/decorative-window-film/", title: "https://campbellwindowfilm.com/locations-served/san-diego/decorative-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-diego/security-screens-doors-windows/", label: "/locations-served/san-diego/security-screens-doors-windows/", title: "https://campbellwindowfilm.com/locations-served/san-diego/security-screens-doors-windows/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-diego/security-window-film/", label: "/locations-served/san-diego/security-window-film/", title: "https://campbellwindowfilm.com/locations-served/san-diego/security-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-diego/window-tinting/", label: "/locations-served/san-diego/window-tinting/", title: "https://campbellwindowfilm.com/locations-served/san-diego/window-tinting/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-francisco/", label: "/locations-served/san-francisco/", title: "https://campbellwindowfilm.com/locations-served/san-francisco/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-francisco/decorative-window-film/", label: "/locations-served/san-francisco/decorative-window-film/", title: "https://campbellwindowfilm.com/locations-served/san-francisco/decorative-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-francisco/security-screens-doors-windows/", label: "/locations-served/san-francisco/security-screens-doors-windows/", title: "https://campbellwindowfilm.com/locations-served/san-francisco/security-screens-doors-windows/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-francisco/security-window-film/", label: "/locations-served/san-francisco/security-window-film/", title: "https://campbellwindowfilm.com/locations-served/san-francisco/security-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/san-francisco/window-tinting/", label: "/locations-served/san-francisco/window-tinting/", title: "https://campbellwindowfilm.com/locations-served/san-francisco/window-tinting/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/santa-monica/", label: "/locations-served/santa-monica/", title: "https://campbellwindowfilm.com/locations-served/santa-monica/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/santa-monica/decorative-window-film/", label: "/locations-served/santa-monica/decorative-window-film/", title: "https://campbellwindowfilm.com/locations-served/santa-monica/decorative-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/santa-monica/security-screens-doors-windows/", label: "/locations-served/santa-monica/security-screens-doors-windows/", title: "https://campbellwindowfilm.com/locations-served/santa-monica/security-screens-doors-windows/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/locations-served/santa-monica/window-tinting/", label: "/locations-served/santa-monica/window-tinting/", title: "https://campbellwindowfilm.com/locations-served/santa-monica/window-tinting/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/privacy-policy/", label: "/privacy-policy/", title: "https://campbellwindowfilm.com/privacy-policy/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/", label: "/products/", title: "https://campbellwindowfilm.com/products/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/bird-safe-window-films/", label: "/products/bird-safe-window-films/", title: "https://campbellwindowfilm.com/products/bird-safe-window-films/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/decorative-window-films/", label: "/products/decorative-window-films/", title: "https://campbellwindowfilm.com/products/decorative-window-films/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/decorative-window-films/architectural-resurfacing/", label: "/products/decorative-window-films/architectural-resurfacing/", title: "https://campbellwindowfilm.com/products/decorative-window-films/architectural-resurfacing/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/decorative-window-films/custom-graphics/", label: "/products/decorative-window-films/custom-graphics/", title: "https://campbellwindowfilm.com/products/decorative-window-films/custom-graphics/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/decorative-window-films/switchable-film/", label: "/products/decorative-window-films/switchable-film/", title: "https://campbellwindowfilm.com/products/decorative-window-films/switchable-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/security-glass/", label: "/products/security-glass/", title: "https://campbellwindowfilm.com/products/security-glass/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/security-screens/", label: "/products/security-screens/", title: "https://campbellwindowfilm.com/products/security-screens/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-doors/", label: "/products/security-screens/security-screens-for-doors/", title: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-doors/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-windows/", label: "/products/security-screens/security-screens-for-windows/", title: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-windows/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/security-window-film/", label: "/products/security-window-film/", title: "https://campbellwindowfilm.com/products/security-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/products/solar-control/", label: "/products/solar-control/", title: "https://campbellwindowfilm.com/products/solar-control/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/safety-glass-vs-tempered-glass/", label: "/safety-glass-vs-tempered-glass/", title: "https://campbellwindowfilm.com/safety-glass-vs-tempered-glass/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/burglar-proof-windows-and-doors/", label: "/services/burglar-proof-windows-and-doors/", title: "https://campbellwindowfilm.com/services/burglar-proof-windows-and-doors/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/colored-window-film/", label: "/services/colored-window-film/", title: "https://campbellwindowfilm.com/services/colored-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/commercial-building-window-tinting/", label: "/services/commercial-building-window-tinting/", title: "https://campbellwindowfilm.com/services/commercial-building-window-tinting/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/commercial-security-film/", label: "/services/commercial-security-film/", title: "https://campbellwindowfilm.com/services/commercial-security-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/commercial-window-security/", label: "/services/commercial-window-security/", title: "https://campbellwindowfilm.com/services/commercial-window-security/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/custom-decorative-window-film/", label: "/services/custom-decorative-window-film/", title: "https://campbellwindowfilm.com/services/custom-decorative-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/daytime-privacy-film/", label: "/services/daytime-privacy-film/", title: "https://campbellwindowfilm.com/services/daytime-privacy-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/dichroic-window-film/", label: "/services/dichroic-window-film/", title: "https://campbellwindowfilm.com/services/dichroic-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/facade-re-imaging-renovation/", label: "/services/facade-re-imaging-renovation/", title: "https://campbellwindowfilm.com/services/facade-re-imaging-renovation/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/fading-protection-film/", label: "/services/fading-protection-film/", title: "https://campbellwindowfilm.com/services/fading-protection-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/frosted-window-film/", label: "/services/frosted-window-film/", title: "https://campbellwindowfilm.com/services/frosted-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/mirror-window-film/", label: "/services/mirror-window-film/", title: "https://campbellwindowfilm.com/services/mirror-window-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/residential-window-security-film/", label: "/services/residential-window-security-film/", title: "https://campbellwindowfilm.com/services/residential-window-security-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/residential-window-tinting/", label: "/services/residential-window-tinting/", title: "https://campbellwindowfilm.com/services/residential-window-tinting/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/skylight-window-tinting-film/", label: "/services/skylight-window-tinting-film/", title: "https://campbellwindowfilm.com/services/skylight-window-tinting-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/services/window-insulation-film/", label: "/services/window-insulation-film/", title: "https://campbellwindowfilm.com/services/window-insulation-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/sitemap/", label: "/sitemap/", title: "https://campbellwindowfilm.com/sitemap/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/terms-conditions-of-use/", label: "/terms-conditions-of-use/", title: "https://campbellwindowfilm.com/terms-conditions-of-use/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/the-pros-and-cons-of-tinted-house-windows/", label: "/the-pros-and-cons-of-tinted-house-windows/", title: "https://campbellwindowfilm.com/the-pros-and-cons-of-tinted-house-windows/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://campbellwindowfilm.com/window-anti-glare-film/", label: "/window-anti-glare-film/", title: "https://campbellwindowfilm.com/window-anti-glare-film/\nUnique inlinks: 264\nStatus: 200", value: 264, color: { background: "#f4e6d7", border: "#245d66" } },
+];
+const edges = [
+  { from: "https://campbellwindowfilm.com/services/commercial-building-window-tinting/", to: "https://campbellwindowfilm.com/services/commercial-building-window-tinting/", value: 27 },
+  { from: "https://campbellwindowfilm.com/services/frosted-window-film/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 23 },
+  { from: "https://campbellwindowfilm.com/services/dichroic-window-film/", to: "https://campbellwindowfilm.com/services/dichroic-window-film/", value: 21 },
+  { from: "https://campbellwindowfilm.com/services/colored-window-film/", to: "https://campbellwindowfilm.com/services/colored-window-film/", value: 20 },
+  { from: "https://campbellwindowfilm.com/services/custom-decorative-window-film/", to: "https://campbellwindowfilm.com/services/custom-decorative-window-film/", value: 20 },
+  { from: "https://campbellwindowfilm.com/products/decorative-window-films/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 20 },
+  { from: "https://campbellwindowfilm.com/services/mirror-window-film/", to: "https://campbellwindowfilm.com/services/mirror-window-film/", value: 19 },
+  { from: "https://campbellwindowfilm.com/services/facade-re-imaging-renovation/", to: "https://campbellwindowfilm.com/services/facade-re-imaging-renovation/", value: 19 },
+  { from: "https://campbellwindowfilm.com/services/residential-window-tinting/", to: "https://campbellwindowfilm.com/services/residential-window-tinting/", value: 18 },
+  { from: "https://campbellwindowfilm.com/services/skylight-window-tinting-film/", to: "https://campbellwindowfilm.com/services/skylight-window-tinting-film/", value: 18 },
+  { from: "https://campbellwindowfilm.com/locations-served/santa-monica/", to: "https://campbellwindowfilm.com/locations-served/santa-monica/", value: 17 },
+  { from: "https://campbellwindowfilm.com/locations-served/", to: "https://campbellwindowfilm.com/locations-served/", value: 17 },
+  { from: "https://campbellwindowfilm.com/", to: "https://campbellwindowfilm.com/", value: 17 },
+  { from: "https://campbellwindowfilm.com/services/burglar-proof-windows-and-doors/", to: "https://campbellwindowfilm.com/services/burglar-proof-windows-and-doors/", value: 17 },
+  { from: "https://campbellwindowfilm.com/services/residential-window-security-film/", to: "https://campbellwindowfilm.com/services/residential-window-security-film/", value: 16 },
+  { from: "https://campbellwindowfilm.com/products/bird-safe-window-films/", to: "https://campbellwindowfilm.com/products/bird-safe-window-films/", value: 16 },
+  { from: "https://campbellwindowfilm.com/services/commercial-window-security/", to: "https://campbellwindowfilm.com/services/commercial-window-security/", value: 16 },
+  { from: "https://campbellwindowfilm.com/products/decorative-window-films/switchable-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/switchable-film/", value: 16 },
+  { from: "https://campbellwindowfilm.com/locations-served/anaheim/", to: "https://campbellwindowfilm.com/locations-served/anaheim/", value: 15 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/", to: "https://campbellwindowfilm.com/locations-served/san-diego/", value: 15 },
+  { from: "https://campbellwindowfilm.com/products/decorative-window-films/custom-graphics/", to: "https://campbellwindowfilm.com/products/decorative-window-films/custom-graphics/", value: 15 },
+  { from: "https://campbellwindowfilm.com/locations-served/los-angeles/", to: "https://campbellwindowfilm.com/locations-served/los-angeles/", value: 15 },
+  { from: "https://campbellwindowfilm.com/locations-served/huntington-beach/", to: "https://campbellwindowfilm.com/locations-served/huntington-beach/", value: 15 },
+  { from: "https://campbellwindowfilm.com/services/daytime-privacy-film/", to: "https://campbellwindowfilm.com/services/daytime-privacy-film/", value: 15 },
+  { from: "https://campbellwindowfilm.com/contact-us/", to: "https://campbellwindowfilm.com/contact-us/", value: 15 },
+  { from: "https://campbellwindowfilm.com/blogs/", to: "https://campbellwindowfilm.com/blogs/", value: 15 },
+  { from: "https://campbellwindowfilm.com/locations-served/long-beach/", to: "https://campbellwindowfilm.com/locations-served/long-beach/", value: 15 },
+  { from: "https://campbellwindowfilm.com/products/security-window-film/", to: "https://campbellwindowfilm.com/products/security-window-film/", value: 15 },
+  { from: "https://campbellwindowfilm.com/about-us/", to: "https://campbellwindowfilm.com/about-us/", value: 15 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-bernardino/", to: "https://campbellwindowfilm.com/locations-served/san-bernardino/", value: 15 },
+  { from: "https://campbellwindowfilm.com/services/fading-protection-film/", to: "https://campbellwindowfilm.com/services/fading-protection-film/", value: 15 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-francisco/", to: "https://campbellwindowfilm.com/locations-served/san-francisco/", value: 15 },
+  { from: "https://campbellwindowfilm.com/products/solar-control/", to: "https://campbellwindowfilm.com/products/solar-control/", value: 15 },
+  { from: "https://campbellwindowfilm.com/services/window-insulation-film/", to: "https://campbellwindowfilm.com/services/window-insulation-film/", value: 15 },
+  { from: "https://campbellwindowfilm.com/locations-served/beverly-hills/", to: "https://campbellwindowfilm.com/locations-served/beverly-hills/", value: 15 },
+  { from: "https://campbellwindowfilm.com/window-anti-glare-film/", to: "https://campbellwindowfilm.com/window-anti-glare-film/", value: 14 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/window-tinting/", to: "https://campbellwindowfilm.com/locations-served/san-diego/window-tinting/", value: 14 },
+  { from: "https://campbellwindowfilm.com/the-pros-and-cons-of-tinted-house-windows/", to: "https://campbellwindowfilm.com/the-pros-and-cons-of-tinted-house-windows/", value: 14 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-francisco/window-tinting/", to: "https://campbellwindowfilm.com/locations-served/san-francisco/window-tinting/", value: 14 },
+  { from: "https://campbellwindowfilm.com/safety-glass-vs-tempered-glass/", to: "https://campbellwindowfilm.com/safety-glass-vs-tempered-glass/", value: 14 },
+  { from: "https://campbellwindowfilm.com/locations-served/santa-monica/window-tinting/", to: "https://campbellwindowfilm.com/locations-served/santa-monica/window-tinting/", value: 14 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/security-screens-doors-windows/", to: "https://campbellwindowfilm.com/locations-served/san-diego/security-screens-doors-windows/", value: 13 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/security-window-film/", to: "https://campbellwindowfilm.com/locations-served/san-diego/security-window-film/", value: 13 },
+  { from: "https://campbellwindowfilm.com/products/security-screens/", to: "https://campbellwindowfilm.com/products/security-screens/", value: 13 },
+  { from: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-doors/", to: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-doors/", value: 13 },
+  { from: "https://campbellwindowfilm.com/locations-served/santa-monica/decorative-window-film/", to: "https://campbellwindowfilm.com/locations-served/santa-monica/decorative-window-film/", value: 13 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/decorative-window-film/", to: "https://campbellwindowfilm.com/locations-served/san-diego/decorative-window-film/", value: 13 },
+  { from: "https://campbellwindowfilm.com/products/", to: "https://campbellwindowfilm.com/products/", value: 13 },
+  { from: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-windows/", to: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-windows/", value: 13 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-francisco/security-screens-doors-windows/", to: "https://campbellwindowfilm.com/locations-served/san-francisco/security-screens-doors-windows/", value: 13 },
+  { from: "https://campbellwindowfilm.com/services/commercial-security-film/", to: "https://campbellwindowfilm.com/services/commercial-security-film/", value: 13 },
+  { from: "https://campbellwindowfilm.com/sitemap/", to: "https://campbellwindowfilm.com/sitemap/", value: 13 },
+  { from: "https://campbellwindowfilm.com/products/decorative-window-films/architectural-resurfacing/", to: "https://campbellwindowfilm.com/products/decorative-window-films/architectural-resurfacing/", value: 13 },
+  { from: "https://campbellwindowfilm.com/locations-served/santa-monica/security-screens-doors-windows/", to: "https://campbellwindowfilm.com/locations-served/santa-monica/security-screens-doors-windows/", value: 13 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-francisco/decorative-window-film/", to: "https://campbellwindowfilm.com/locations-served/san-francisco/decorative-window-film/", value: 13 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-francisco/security-window-film/", to: "https://campbellwindowfilm.com/locations-served/san-francisco/security-window-film/", value: 13 },
+  { from: "https://campbellwindowfilm.com/products/security-glass/", to: "https://campbellwindowfilm.com/products/security-glass/", value: 13 },
+  { from: "https://campbellwindowfilm.com/privacy-policy/", to: "https://campbellwindowfilm.com/privacy-policy/", value: 12 },
+  { from: "https://campbellwindowfilm.com/terms-conditions-of-use/", to: "https://campbellwindowfilm.com/terms-conditions-of-use/", value: 12 },
+  { from: "https://campbellwindowfilm.com/services/skylight-window-tinting-film/", to: "https://campbellwindowfilm.com/contact-us/", value: 11 },
+  { from: "https://campbellwindowfilm.com/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 10 },
+  { from: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-doors/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/security-window-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/sitemap/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 9 },
+  { from: "https://campbellwindowfilm.com/products/bird-safe-window-films/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/services/daytime-privacy-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/window-tinting/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/services/fading-protection-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-francisco/window-tinting/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 9 },
+  { from: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-windows/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/security-screens-doors-windows/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/products/decorative-window-films/custom-graphics/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/products/decorative-window-films/switchable-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/sitemap/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 9 },
+  { from: "https://campbellwindowfilm.com/products/security-window-film/", to: "https://campbellwindowfilm.com/contact-us/", value: 9 },
+  { from: "https://campbellwindowfilm.com/locations-served/santa-monica/window-tinting/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 9 },
+  { from: "https://campbellwindowfilm.com/services/colored-window-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/products/security-screens/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/custom-decorative-window-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/skylight-window-tinting-film/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/products/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/custom-decorative-window-film/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/safety-glass-vs-tempered-glass/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/facade-re-imaging-renovation/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/skylight-window-tinting-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/contact-us/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/residential-window-tinting/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/los-angeles/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/santa-monica/decorative-window-film/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/santa-monica/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/privacy-policy/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/the-pros-and-cons-of-tinted-house-windows/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-francisco/security-screens-doors-windows/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-francisco/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/commercial-security-film/", to: "https://campbellwindowfilm.com/contact-us/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/colored-window-film/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/santa-monica/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/blogs/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/residential-window-security-film/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-francisco/security-window-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/products/security-window-film/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/products/security-screens/security-screens-for-doors/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/safety-glass-vs-tempered-glass/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/products/security-glass/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/terms-conditions-of-use/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/products/security-window-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/products/decorative-window-films/architectural-resurfacing/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-bernardino/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/mirror-window-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/san-diego/window-tinting/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/locations-served/long-beach/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+  { from: "https://campbellwindowfilm.com/window-anti-glare-film/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/burglar-proof-windows-and-doors/", to: "https://campbellwindowfilm.com/products/decorative-window-films/", value: 8 },
+  { from: "https://campbellwindowfilm.com/services/dichroic-window-film/", to: "https://campbellwindowfilm.com/services/frosted-window-film/", value: 8 },
+];
+const network = new vis.Network(
+  document.getElementById("network"),
+  { nodes, edges },
+  {
+    nodes: {
+      shape: "dot",
+      scaling: { min: 8, max: 38 },
+      font: { face: "Georgia", size: 15, color: "#1f1b17" },
+      borderWidth: 1
+    },
+    edges: {
+      smooth: true,
+      color: { color: "#9e8f7e", highlight: "#245d66" },
+      scaling: { min: 1, max: 9 }
+    },
+    physics: {
+      stabilization: true,
+      barnesHut: {
+        gravitationalConstant: -6200,
+        springLength: 135,
+        springConstant: 0.028
+      }
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 100,
+      navigationButtons: true,
+      keyboard: true
+    }
+  }
+);
+
+document.getElementById("fitBtn").addEventListener("click", () => network.fit());
+
+const searchBox = document.getElementById("searchBox");
+const rows = Array.from(document.querySelectorAll("#nodeTable tbody tr"));
+searchBox.addEventListener("input", () => {
+  const term = searchBox.value.trim().toLowerCase();
+  rows.forEach((row) => {
+    row.style.display = row.textContent.toLowerCase().includes(term) ? "" : "none";
+  });
+});
+  </script>
+</body>
+</html>

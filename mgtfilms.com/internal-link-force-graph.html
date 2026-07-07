@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Visual</title>
+  <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #f3efe6;
+      color: #1f1b17;
+    }
+    .wrap {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero, .panel {
+      background: #fffdf8;
+      border: 1px solid #d9cfbf;
+      border-radius: 22px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+    }
+    .hero {
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+    .panel {
+      overflow: hidden;
+    }
+    h1, h2 {
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0;
+      line-height: 1.5;
+      color: #6a6258;
+    }
+    .network {
+      height: 760px;
+      border-top: 1px solid #d9cfbf;
+      background: linear-gradient(180deg, #fff, #f6efe5);
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .meta-card {
+      border: 1px solid #d9cfbf;
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
+    }
+    .meta-card strong {
+      display: block;
+      font-size: 1.6rem;
+      color: #a64b2a;
+      margin-bottom: 4px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    input {
+      flex: 1 1 280px;
+      border: 1px solid #d9cfbf;
+      border-radius: 999px;
+      padding: 11px 15px;
+      font: inherit;
+    }
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 15px;
+      background: #245d66;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+    .legend {
+      margin-top: 12px;
+      font-size: .92rem;
+      color: #6a6258;
+    }
+    .table-wrap {
+      max-height: 420px;
+      overflow: auto;
+      margin-top: 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 9px 8px;
+      border-bottom: 1px solid #ece4d8;
+      vertical-align: top;
+    }
+    th {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6a6258;
+    }
+    a { color: #a64b2a; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Interactive Internal Link Force Graph</h1>
+      <p>mgtfilms.com graph generated from the Screaming Frog crawl. This file is meant for presenting page relationships and exploring where authority and broken links concentrate.</p>
+      <div class="meta">
+        <div class="meta-card"><strong>120</strong><span>Pages Shown</span></div>
+        <div class="meta-card"><strong>420</strong><span>Connections Shown</span></div>
+      </div>
+      <div class="controls">
+        <input id="searchBox" type="search" placeholder="Search URL or title in the table">
+        <button id="fitBtn">Refit Graph</button>
+      </div>
+      <div class="legend">Node size reflects exported unique inlinks. Denser clusters usually indicate navigational or topical hubs.</div>
+    </section>
+    <section class="panel">
+      <div id="network" class="network"></div>
+    </section>
+    <section class="hero" style="margin-top:18px;">
+      <h2>Pages In This Graph</h2>
+      <div class="table-wrap"><table id="nodeTable"><thead><tr><th>URL</th><th>Unique Inlinks</th><th>Status</th><th>Inlinks File</th></tr></thead><tbody>
+<tr><td><div><a href="https://mgtfilms.com/">https://mgtfilms.com/</a></div><div style="color:#6a6258;font-size:.9rem;">America's #1 Window Tint and Tinting Installation</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/">https://mgtfilms.com/blog/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Blogs | MGT Window Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/commercial-window-tinting/">https://mgtfilms.com/commercial-window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Film &amp; Tinting | MGT Glass Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_commercial_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/contact-mgt-films/">https://mgtfilms.com/contact-mgt-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Contact MGT Films - Find Your Local Business Today</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_contact_mgt_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/">https://mgtfilms.com/locations/</a></div><div style="color:#6a6258;font-size:.9rem;">Locations - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/baton-rouge/">https://mgtfilms.com/locations/baton-rouge/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in Baton Rouge, LA</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_baton_rouge.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/central-il/">https://mgtfilms.com/locations/central-il/</a></div><div style="color:#6a6258;font-size:.9rem;">Professional Window Film Installation in Central IL</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_central_il.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/chicago/">https://mgtfilms.com/locations/chicago/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in Chicago | MGT Glass Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_chicago.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/jackson-ms/">https://mgtfilms.com/locations/jackson-ms/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in Jackson, MS</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_jackson_ms.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/madison/">https://mgtfilms.com/locations/madison/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in Madison, WI</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_madison.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/milwaukee/">https://mgtfilms.com/locations/milwaukee/</a></div><div style="color:#6a6258;font-size:.9rem;">Location - Milwaukee - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_milwaukee.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/locations/new-orleans/">https://mgtfilms.com/locations/new-orleans/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial &amp; Residential Window Tinting in New Orleans</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_locations_new_orleans.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/our-services/3m-resources/">https://mgtfilms.com/our-services/3m-resources/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Resources For Commercial and Residential Films - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_our_services_3m_resources.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/privacy-policy/">https://mgtfilms.com/privacy-policy/</a></div><div style="color:#6a6258;font-size:.9rem;">Privacy Policy - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_privacy_policy.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/residential-window-films/">https://mgtfilms.com/residential-window-films/</a></div><div style="color:#6a6258;font-size:.9rem;">Residential Window Tinting for Homes | MGT Glass Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_residential_window_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/architectural-resurfacing/">https://mgtfilms.com/services/architectural-resurfacing/</a></div><div style="color:#6a6258;font-size:.9rem;">Architectural Resurfacing Film Installation For Commercial Interior</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_architectural_resurfacing.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/custom-graphics/">https://mgtfilms.com/services/custom-graphics/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Graphics Installation for Commercial Interiors</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_custom_graphics.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/decorative-window-film/">https://mgtfilms.com/services/decorative-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative Window Film for Interior Glass | MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_decorative_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/feather-friendly/">https://mgtfilms.com/services/feather-friendly/</a></div><div style="color:#6a6258;font-size:.9rem;">Bird Safety Window Film Installation | Feather-Friendly</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_feather_friendly.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/security-film/">https://mgtfilms.com/services/security-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Service - Security Film - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_security_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/security-glass/">https://mgtfilms.com/services/security-glass/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Glass Installation for High-Risk Entry Points</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_security_glass.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/solar-control-film/">https://mgtfilms.com/services/solar-control-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Solar Control Window Film Installation | MGT Glass Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_solar_control_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/switchable-film/">https://mgtfilms.com/services/switchable-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Switchable Film Installation | Smart Glass Privacy Solutions</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_switchable_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/terms-and-conditions/">https://mgtfilms.com/terms-and-conditions/</a></div><div style="color:#6a6258;font-size:.9rem;">Terms and Conditions - MGT Films</div></td><td>286</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_terms_and_conditions.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/window-tinting/">https://mgtfilms.com/blog/category/window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Blogs | MGT Films</div></td><td>53</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/3m-solar-window-film/">https://mgtfilms.com/3m-solar-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Window Solar Films and Installation</div></td><td>52</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_3m_solar_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/decorative-and-custom-graphics/">https://mgtfilms.com/services/decorative-and-custom-graphics/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>52</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_decorative_and_custom_graphics.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/safety-and-security/">https://mgtfilms.com/services/safety-and-security/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>51</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_safety_and_security.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/home-window-film/">https://mgtfilms.com/blog/category/home-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Home Window Tinting Blogs | MGT Films</div></td><td>48</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_home_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/commercial-window-tinting/">https://mgtfilms.com/blog/category/commercial-window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Tinting Blogs | MGT Films</div></td><td>46</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_commercial_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/di-noc/">https://mgtfilms.com/di-noc/</a></div><div style="color:#6a6258;font-size:.9rem;">3m Di-Noc Films - MGT Films</div></td><td>26</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_di_noc.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/privacy-window-film/">https://mgtfilms.com/privacy-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Privacy Window Film Installation | Window Tinting</div></td><td>21</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_privacy_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/uv-protection-window-film/">https://mgtfilms.com/uv-protection-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">UV Protection Window Film Installation</div></td><td>21</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_uv_protection_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tint-services-chicago-illinois/">https://mgtfilms.com/window-tint-services-chicago-illinois/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Chicago, Illinois for Homes and Commercial</div></td><td>20</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tint_services_chicago_illinois.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/anti-graffiti-window-film/">https://mgtfilms.com/anti-graffiti-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Anti-Graffiti Films Near Your | Window Tinting</div></td><td>19</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_anti_graffiti_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/uncategorized/">https://mgtfilms.com/blog/category/uncategorized/</a></div><div style="color:#6a6258;font-size:.9rem;">Uncategorized Archives - MGT Films</div></td><td>19</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_uncategorized.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/one-way-window-film/">https://mgtfilms.com/one-way-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">One Way Window Film Chicago | MGT Glass Solutions</div></td><td>18</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_one_way_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/window-treatments-mgt-films/">https://mgtfilms.com/services/window-treatments-mgt-films/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>13</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_window_treatments_mgt_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/frosted-window-film/">https://mgtfilms.com/frosted-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Frosted Window Film Chicago</div></td><td>11</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_frosted_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/heat-control-window-film/">https://mgtfilms.com/heat-control-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Heat Control Window Film</div></td><td>11</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_heat_control_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/anti-glare-window-film-chicago/">https://mgtfilms.com/anti-glare-window-film-chicago/</a></div><div style="color:#6a6258;font-size:.9rem;">3M Anti-Glare Window Films and Installation</div></td><td>10</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_anti_glare_window_film_chicago.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-insulation-film-chicago/">https://mgtfilms.com/window-insulation-film-chicago/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Insulation Film Chicago</div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_insulation_film_chicago.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tinting-for-contractors/">https://mgtfilms.com/window-tinting-for-contractors/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tint for Contractors | Find a 3M Dealer</div></td><td>9</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tinting_for_contractors.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/security-film/">https://mgtfilms.com/blog/category/security-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Security Film Archives - MGT Films</div></td><td>8</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_security_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/commercial-window-tinting-mgtfilms/">https://mgtfilms.com/services/commercial-window-tinting-mgtfilms/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>8</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_commercial_window_tinting_mgtfilms.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/our-services/decorative-and-custom-graphics/">https://mgtfilms.com/our-services/decorative-and-custom-graphics/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>7</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_our_services_decorative_and_custom_graphics.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/blinds/">https://mgtfilms.com/services/blinds/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>7</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_blinds.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/sun-control-products/sun-control-prestige-exterior-series-residential/">https://mgtfilms.com/sun-control-products/sun-control-prestige-exterior-series-residential/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>7</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_sun_control_products_sun_control_prestige_exterior_series_residential.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tint-services-bloomington-illinois/">https://mgtfilms.com/window-tint-services-bloomington-illinois/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Bloomington, IL | MGT Glass Solutions</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tint_services_bloomington_illinois.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-treatments-mgt-films">https://mgtfilms.com/window-treatments-mgt-films</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>7</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_treatments_mgt_films.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-treatments/">https://mgtfilms.com/window-treatments/</a></div><div style="color:#6a6258;font-size:.9rem;">Custom Window Treatments Chicago, IL | MGT Films</div></td><td>7</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_treatments.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/jackson-mississippi-window-film/">https://mgtfilms.com/jackson-mississippi-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>6</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_jackson_mississippi_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/low-e-emissivity-films-chicago-il/">https://mgtfilms.com/low-e-emissivity-films-chicago-il/</a></div><div style="color:#6a6258;font-size:.9rem;">Low-E (Low-Emissivity) Films Chicago, IL</div></td><td>6</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_low_e_emissivity_films_chicago_il.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/our-services/safety-and-security/">https://mgtfilms.com/our-services/safety-and-security/</a></div><div style="color:#6a6258;font-size:.9rem;">Safety and Security Window Film for Homes &amp; Businesses</div></td><td>6</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_our_services_safety_and_security.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/our-services/sun-control/">https://mgtfilms.com/our-services/sun-control/</a></div><div style="color:#6a6258;font-size:.9rem;">Sun Control Window Films | MGT Glass Solutions</div></td><td>6</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_our_services_sun_control.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/milwaukee-wisconsin/">https://mgtfilms.com/services/milwaukee-wisconsin/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>6</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_milwaukee_wisconsin.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/residential-window-films-mgtfilms/">https://mgtfilms.com/services/residential-window-films-mgtfilms/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>6</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_residential_window_films_mgtfilms.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tint-services-rosemont-illinois/">https://mgtfilms.com/window-tint-services-rosemont-illinois/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Rosemont, Illinois</div></td><td>6</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tint_services_rosemont_illinois.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/decorative-custom-graphics/">https://mgtfilms.com/blog/category/decorative-custom-graphics/</a></div><div style="color:#6a6258;font-size:.9rem;">Decorative/ Custom Graphics Archives - MGT Films</div></td><td>5</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_decorative_custom_graphics.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/feather-friendly-bird-deterrent-technology/">https://mgtfilms.com/blog/feather-friendly-bird-deterrent-technology/</a></div><div style="color:#6a6258;font-size:.9rem;">Feather Friendly Saves Birds From Colliding With Windows</div></td><td>5</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_feather_friendly_bird_deterrent_technology.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/safe-tips-for-cleaning-tinted-windows/">https://mgtfilms.com/blog/safe-tips-for-cleaning-tinted-windows/</a></div><div style="color:#6a6258;font-size:.9rem;">Safe Tips for Cleaning Tinted Windows</div></td><td>5</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_safe_tips_for_cleaning_tinted_windows.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/ceramic-window-tinting-chicago-il/">https://mgtfilms.com/ceramic-window-tinting-chicago-il/</a></div><div style="color:#6a6258;font-size:.9rem;">Ceramic Window Tinting Chicago, IL</div></td><td>5</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_ceramic_window_tinting_chicago_il.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/home-security-film/">https://mgtfilms.com/home-security-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Residential Security Film | Home Window Film</div></td><td>5</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_home_security_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/switchable-window-film/">https://mgtfilms.com/switchable-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Switchable Smart Window Film Installation</div></td><td>5</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_switchable_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tint-services-baton-rouge-louisiana/">https://mgtfilms.com/window-tint-services-baton-rouge-louisiana/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>5</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tint_services_baton_rouge_louisiana.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tint-services-naperville-illinois/">https://mgtfilms.com/window-tint-services-naperville-illinois/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Film and Window Tint Services in Naperville, Illinois</div></td><td>5</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tint_services_naperville_illinois.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tinting-decatur-il/">https://mgtfilms.com/window-tinting-decatur-il/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Decatur, Illinois</div></td><td>5</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tinting_decatur_il.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/5-places-to-install-security-film-maximum-protection/">https://mgtfilms.com/blog/5-places-to-install-security-film-maximum-protection/</a></div><div style="color:#6a6258;font-size:.9rem;">5 Places to Install Security Film for Maximum Protection | MGT Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_5_places_to_install_security_film_maximum_protection.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/bloomington-window-film-installation/">https://mgtfilms.com/blog/bloomington-window-film-installation/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Bloomington IL | Comfort All Year | MGT Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_bloomington_window_film_installation.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/resurfacing/">https://mgtfilms.com/blog/category/resurfacing/</a></div><div style="color:#6a6258;font-size:.9rem;">Resurfacing Archives - MGT Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_resurfacing.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/decorative-glass-film-privacy/">https://mgtfilms.com/blog/decorative-glass-film-privacy/</a></div><div style="color:#6a6258;font-size:.9rem;">Client Wants Decorative Glass Films for Privacy at Business</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_decorative_glass_film_privacy.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/di-noc-films-everything-you-need-to-know/">https://mgtfilms.com/blog/di-noc-films-everything-you-need-to-know/</a></div><div style="color:#6a6258;font-size:.9rem;">Di-Noc Films Guide to Architectural Finishes | MGT Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_di_noc_films_everything_you_need_to_know.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/how-much-does-window-film-installation-cost/">https://mgtfilms.com/blog/how-much-does-window-film-installation-cost/</a></div><div style="color:#6a6258;font-size:.9rem;">How Much Does Window Film Installation Cost? | MGT Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_how_much_does_window_film_installation_cost.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/integrating-switchable-privacy-film-to-your-home/">https://mgtfilms.com/blog/integrating-switchable-privacy-film-to-your-home/</a></div><div style="color:#6a6258;font-size:.9rem;">Integrating Switchable Privacy Film into Your Home | MGT Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_integrating_switchable_privacy_film_to_your_home.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/protecting-storefronts-anti-graffiti-film-jackson/">https://mgtfilms.com/blog/protecting-storefronts-anti-graffiti-film-jackson/</a></div><div style="color:#6a6258;font-size:.9rem;">Protecting Storefronts with Anti-Graffiti Film | MGT Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_protecting_storefronts_anti_graffiti_film_jackson.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/sun-control-window-film-and-how-does-it-work/">https://mgtfilms.com/blog/sun-control-window-film-and-how-does-it-work/</a></div><div style="color:#6a6258;font-size:.9rem;">Sun Control Window Film Guide: How It Works | MGT Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_sun_control_window_film_and_how_does_it_work.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/top-heat-control-films-for-hot-climates/">https://mgtfilms.com/blog/top-heat-control-films-for-hot-climates/</a></div><div style="color:#6a6258;font-size:.9rem;">Top Heat Control Films for Hot Climates | MGT Films</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_top_heat_control_films_for_hot_climates.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/clear-uv-window-film/">https://mgtfilms.com/clear-uv-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Clear UV Window Film | MGT Window Solutions</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_clear_uv_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/contact/">https://mgtfilms.com/contact/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>4</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_contact.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/services/roller-shades/">https://mgtfilms.com/services/roller-shades/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>4</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_services_roller_shades.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/skylight-window-film-installation/">https://mgtfilms.com/skylight-window-film-installation/</a></div><div style="color:#6a6258;font-size:.9rem;">Skylight Window Film Installation</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_skylight_window_film_installation.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/sun-control-products/sun-control-night-vision-res/">https://mgtfilms.com/sun-control-products/sun-control-night-vision-res/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>4</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_sun_control_products_sun_control_night_vision_res.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tint-services-aurora-illinois/">https://mgtfilms.com/window-tint-services-aurora-illinois/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>4</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tint_services_aurora_illinois.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tint-services-columbia-missouri/">https://mgtfilms.com/window-tint-services-columbia-missouri/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Columbia, Missouri | Homes &amp; Commercial</div></td><td>4</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tint_services_columbia_missouri.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/window-tint-services-peoria-illinois/">https://mgtfilms.com/window-tint-services-peoria-illinois/</a></div><div style="color:#6a6258;font-size:.9rem;"></div></td><td>4</td><td>301</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_window_tint_services_peoria_illinois.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/3m-prestige-vs-other-window-films-pros-cons/">https://mgtfilms.com/blog/3m-prestige-vs-other-window-films-pros-cons/</a></div><div style="color:#6a6258;font-size:.9rem;">Comparing 3M Prestige and Other Window Films | MGT</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_3m_prestige_vs_other_window_films_pros_cons.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/affordable-commercial-window-tinting-chicago/">https://mgtfilms.com/blog/affordable-commercial-window-tinting-chicago/</a></div><div style="color:#6a6258;font-size:.9rem;">Affordable Commercial Window Tinting in Chicago | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_affordable_commercial_window_tinting_chicago.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/anti-graffiti-window-film-springfield-il/">https://mgtfilms.com/blog/anti-graffiti-window-film-springfield-il/</a></div><div style="color:#6a6258;font-size:.9rem;">Anti-Graffiti Window Film Springfield IL | MGT Glass Solutions</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_anti_graffiti_window_film_springfield_il.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/architectural-resurfacing-chicago/">https://mgtfilms.com/blog/architectural-resurfacing-chicago/</a></div><div style="color:#6a6258;font-size:.9rem;">Architectural Resurfacing for Chicago Office Buildings | MGT</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_architectural_resurfacing_chicago.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/">https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/</a></div><div style="color:#6a6258;font-size:.9rem;">Architectural Resurfacing for Milwaukee Offices | MGT</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_architectural_resurfacing_milwaukee_offices.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/benefits-of-home-window-tinting/">https://mgtfilms.com/blog/benefits-of-home-window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Benefits of Window Tinting For Your Home | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_benefits_of_home_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/">https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/</a></div><div style="color:#6a6258;font-size:.9rem;">Bird Deterrent Window Film for Chicago Corporate Campuses</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_bird_deterrent_window_film_chicago_campuses.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/bird-deterrent-window-film-chicago/">https://mgtfilms.com/blog/bird-deterrent-window-film-chicago/</a></div><div style="color:#6a6258;font-size:.9rem;">Bird Deterrent Window Film Chicago | MGT Glass Solutions</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_bird_deterrent_window_film_chicago.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/blinds-shades-or-film-best-light-control-solution/">https://mgtfilms.com/blog/blinds-shades-or-film-best-light-control-solution/</a></div><div style="color:#6a6258;font-size:.9rem;">Blinds, Shades, or Film? Best Light Control Solution | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_blinds_shades_or_film_best_light_control_solution.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/boost-energy-ratings-milwaukee/">https://mgtfilms.com/blog/boost-energy-ratings-milwaukee/</a></div><div style="color:#6a6258;font-size:.9rem;">Boost Energy Ratings in Milwaukee with Window Tinting | MGT</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_boost_energy_ratings_milwaukee.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/can-low-e-film-be-applied-to-existing-windows/">https://mgtfilms.com/blog/can-low-e-film-be-applied-to-existing-windows/</a></div><div style="color:#6a6258;font-size:.9rem;">Can You Apply Low-E Film to Existing Windows?</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_can_low_e_film_be_applied_to_existing_windows.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/can-you-see-through-windows-films-at-night/">https://mgtfilms.com/blog/can-you-see-through-windows-films-at-night/</a></div><div style="color:#6a6258;font-size:.9rem;">Can You See Through Windows Films at Night | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_can_you_see_through_windows_films_at_night.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/commercial-window-tinting/page/2/">https://mgtfilms.com/blog/category/commercial-window-tinting/page/2/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_commercial_window_tinting_page_2.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/commercial-window-tinting/page/3/">https://mgtfilms.com/blog/category/commercial-window-tinting/page/3/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_commercial_window_tinting_page_3.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/commercial-window-tinting/page/4/">https://mgtfilms.com/blog/category/commercial-window-tinting/page/4/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_commercial_window_tinting_page_4.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/feather-friendly/">https://mgtfilms.com/blog/category/feather-friendly/</a></div><div style="color:#6a6258;font-size:.9rem;">Feather Friendly Archives - MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_feather_friendly.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/home-window-film/page/2/">https://mgtfilms.com/blog/category/home-window-film/page/2/</a></div><div style="color:#6a6258;font-size:.9rem;">Home Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_home_window_film_page_2.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/home-window-film/page/3/">https://mgtfilms.com/blog/category/home-window-film/page/3/</a></div><div style="color:#6a6258;font-size:.9rem;">Home Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_home_window_film_page_3.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/home-window-film/page/4/">https://mgtfilms.com/blog/category/home-window-film/page/4/</a></div><div style="color:#6a6258;font-size:.9rem;">Home Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_home_window_film_page_4.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/home-window-film/page/5/">https://mgtfilms.com/blog/category/home-window-film/page/5/</a></div><div style="color:#6a6258;font-size:.9rem;">Home Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_home_window_film_page_5.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/home-window-film/page/6/">https://mgtfilms.com/blog/category/home-window-film/page/6/</a></div><div style="color:#6a6258;font-size:.9rem;">Home Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_home_window_film_page_6.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/solar-control-window-film/">https://mgtfilms.com/blog/category/solar-control-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Solar Control Window Film Archives - MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_solar_control_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/switchable-window-film/">https://mgtfilms.com/blog/category/switchable-window-film/</a></div><div style="color:#6a6258;font-size:.9rem;">Switchable Window Film Archives - MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_switchable_window_film.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/window-tinting/page/2/">https://mgtfilms.com/blog/category/window-tinting/page/2/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_window_tinting_page_2.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/window-tinting/page/3/">https://mgtfilms.com/blog/category/window-tinting/page/3/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_window_tinting_page_3.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/window-tinting/page/4/">https://mgtfilms.com/blog/category/window-tinting/page/4/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_window_tinting_page_4.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/category/window-tinting/page/5/">https://mgtfilms.com/blog/category/window-tinting/page/5/</a></div><div style="color:#6a6258;font-size:.9rem;">Window Tinting Blogs | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_category_window_tinting_page_5.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/ceramic-vs-traditional-window-tinting/">https://mgtfilms.com/blog/ceramic-vs-traditional-window-tinting/</a></div><div style="color:#6a6258;font-size:.9rem;">Ceramic vs. Traditional Window Tinting | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_ceramic_vs_traditional_window_tinting.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/chicago-residential-window-tinting-reviews/">https://mgtfilms.com/blog/chicago-residential-window-tinting-reviews/</a></div><div style="color:#6a6258;font-size:.9rem;">Residential Window Tinting Chicago Reviews | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_chicago_residential_window_tinting_reviews.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/chicago-security-window-film-comparison/">https://mgtfilms.com/blog/chicago-security-window-film-comparison/</a></div><div style="color:#6a6258;font-size:.9rem;">Chicago Security Film Companies Compared | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_chicago_security_window_film_comparison.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/clear-solar-film-for-museums-galleries-retail/">https://mgtfilms.com/blog/clear-solar-film-for-museums-galleries-retail/</a></div><div style="color:#6a6258;font-size:.9rem;">How Clear Solar Film Works for Museums &amp; Retail | MGT Film</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_clear_solar_film_for_museums_galleries_retail.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/">https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/</a></div><div style="color:#6a6258;font-size:.9rem;">Affordable Commercial Window Tinting Jackson, MS | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_commercial_building_window_tinting_jackson.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/commercial-residential-window-tinting-rosemont/">https://mgtfilms.com/blog/commercial-residential-window-tinting-rosemont/</a></div><div style="color:#6a6258;font-size:.9rem;">Professional Window Tinting Rosemont IL | MGT Films</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_commercial_residential_window_tinting_rosemont.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/commercial-window-tinting-in-milwaukee/">https://mgtfilms.com/blog/commercial-window-tinting-in-milwaukee/</a></div><div style="color:#6a6258;font-size:.9rem;">Milwaukee Commercial Window Tinting | MGT Glass Solutions</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_commercial_window_tinting_in_milwaukee.csv">open file</a></td></tr>
+<tr><td><div><a href="https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/">https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/</a></div><div style="color:#6a6258;font-size:.9rem;">Commercial Window Tinting New Orleans for Retail &amp; Restaurants</div></td><td>3</td><td>200</td><td><a href="file:/C:/Users/nefre/OneDrive/Desktop/ai_projects/skills/screaming-frog/output/mgtfilms.com-sitewide/inlinks/mgtfilms_com_blog_commercial_window_tinting_new_orleans_retail_restaurants.csv">open file</a></td></tr>
+      </tbody></table></div>
+    </section>
+  </div>
+  <script>
+const nodes = [
+  { id: "https://mgtfilms.com/", label: "/", title: "https://mgtfilms.com/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/", label: "/blog/", title: "https://mgtfilms.com/blog/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/commercial-window-tinting/", label: "/commercial-window-tinting/", title: "https://mgtfilms.com/commercial-window-tinting/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/contact-mgt-films/", label: "/contact-mgt-films/", title: "https://mgtfilms.com/contact-mgt-films/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/", label: "/locations/", title: "https://mgtfilms.com/locations/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/baton-rouge/", label: "/locations/baton-rouge/", title: "https://mgtfilms.com/locations/baton-rouge/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/central-il/", label: "/locations/central-il/", title: "https://mgtfilms.com/locations/central-il/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/chicago/", label: "/locations/chicago/", title: "https://mgtfilms.com/locations/chicago/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/jackson-ms/", label: "/locations/jackson-ms/", title: "https://mgtfilms.com/locations/jackson-ms/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/madison/", label: "/locations/madison/", title: "https://mgtfilms.com/locations/madison/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/milwaukee/", label: "/locations/milwaukee/", title: "https://mgtfilms.com/locations/milwaukee/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/locations/new-orleans/", label: "/locations/new-orleans/", title: "https://mgtfilms.com/locations/new-orleans/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/our-services/3m-resources/", label: "/our-services/3m-resources/", title: "https://mgtfilms.com/our-services/3m-resources/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/privacy-policy/", label: "/privacy-policy/", title: "https://mgtfilms.com/privacy-policy/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/residential-window-films/", label: "/residential-window-films/", title: "https://mgtfilms.com/residential-window-films/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/architectural-resurfacing/", label: "/services/architectural-resurfacing/", title: "https://mgtfilms.com/services/architectural-resurfacing/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/custom-graphics/", label: "/services/custom-graphics/", title: "https://mgtfilms.com/services/custom-graphics/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/decorative-window-film/", label: "/services/decorative-window-film/", title: "https://mgtfilms.com/services/decorative-window-film/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/feather-friendly/", label: "/services/feather-friendly/", title: "https://mgtfilms.com/services/feather-friendly/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/security-film/", label: "/services/security-film/", title: "https://mgtfilms.com/services/security-film/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/security-glass/", label: "/services/security-glass/", title: "https://mgtfilms.com/services/security-glass/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/solar-control-film/", label: "/services/solar-control-film/", title: "https://mgtfilms.com/services/solar-control-film/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/switchable-film/", label: "/services/switchable-film/", title: "https://mgtfilms.com/services/switchable-film/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/terms-and-conditions/", label: "/terms-and-conditions/", title: "https://mgtfilms.com/terms-and-conditions/\nUnique inlinks: 286\nStatus: 200", value: 286, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/window-tinting/", label: "/blog/category/window-tinting/", title: "https://mgtfilms.com/blog/category/window-tinting/\nUnique inlinks: 53\nStatus: 200", value: 53, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/3m-solar-window-film/", label: "/3m-solar-window-film/", title: "https://mgtfilms.com/3m-solar-window-film/\nUnique inlinks: 52\nStatus: 200", value: 52, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/decorative-and-custom-graphics/", label: "/services/decorative-and-custom-graphics/", title: "https://mgtfilms.com/services/decorative-and-custom-graphics/\nUnique inlinks: 52\nStatus: 301", value: 52, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/safety-and-security/", label: "/services/safety-and-security/", title: "https://mgtfilms.com/services/safety-and-security/\nUnique inlinks: 51\nStatus: 301", value: 51, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/home-window-film/", label: "/blog/category/home-window-film/", title: "https://mgtfilms.com/blog/category/home-window-film/\nUnique inlinks: 48\nStatus: 200", value: 48, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/commercial-window-tinting/", label: "/blog/category/commercial-window-tinting/", title: "https://mgtfilms.com/blog/category/commercial-window-tinting/\nUnique inlinks: 46\nStatus: 200", value: 46, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/di-noc/", label: "/di-noc/", title: "https://mgtfilms.com/di-noc/\nUnique inlinks: 26\nStatus: 200", value: 26, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/privacy-window-film/", label: "/privacy-window-film/", title: "https://mgtfilms.com/privacy-window-film/\nUnique inlinks: 21\nStatus: 200", value: 21, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/uv-protection-window-film/", label: "/uv-protection-window-film/", title: "https://mgtfilms.com/uv-protection-window-film/\nUnique inlinks: 21\nStatus: 200", value: 21, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tint-services-chicago-illinois/", label: "/window-tint-services-chicago-illinois/", title: "https://mgtfilms.com/window-tint-services-chicago-illinois/\nUnique inlinks: 20\nStatus: 200", value: 20, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/anti-graffiti-window-film/", label: "/anti-graffiti-window-film/", title: "https://mgtfilms.com/anti-graffiti-window-film/\nUnique inlinks: 19\nStatus: 200", value: 19, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/uncategorized/", label: "/blog/category/uncategorized/", title: "https://mgtfilms.com/blog/category/uncategorized/\nUnique inlinks: 19\nStatus: 200", value: 19, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/one-way-window-film/", label: "/one-way-window-film/", title: "https://mgtfilms.com/one-way-window-film/\nUnique inlinks: 18\nStatus: 200", value: 18, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/window-treatments-mgt-films/", label: "/services/window-treatments-mgt-films/", title: "https://mgtfilms.com/services/window-treatments-mgt-films/\nUnique inlinks: 13\nStatus: 301", value: 13, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/frosted-window-film/", label: "/frosted-window-film/", title: "https://mgtfilms.com/frosted-window-film/\nUnique inlinks: 11\nStatus: 200", value: 11, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/heat-control-window-film/", label: "/heat-control-window-film/", title: "https://mgtfilms.com/heat-control-window-film/\nUnique inlinks: 11\nStatus: 200", value: 11, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/anti-glare-window-film-chicago/", label: "/anti-glare-window-film-chicago/", title: "https://mgtfilms.com/anti-glare-window-film-chicago/\nUnique inlinks: 10\nStatus: 200", value: 10, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-insulation-film-chicago/", label: "/window-insulation-film-chicago/", title: "https://mgtfilms.com/window-insulation-film-chicago/\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tinting-for-contractors/", label: "/window-tinting-for-contractors/", title: "https://mgtfilms.com/window-tinting-for-contractors/\nUnique inlinks: 9\nStatus: 200", value: 9, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/security-film/", label: "/blog/category/security-film/", title: "https://mgtfilms.com/blog/category/security-film/\nUnique inlinks: 8\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/commercial-window-tinting-mgtfilms/", label: "/services/commercial-window-tinting-mgtfilms/", title: "https://mgtfilms.com/services/commercial-window-tinting-mgtfilms/\nUnique inlinks: 8\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/our-services/decorative-and-custom-graphics/", label: "/our-services/decorative-and-custom-graphics/", title: "https://mgtfilms.com/our-services/decorative-and-custom-graphics/\nUnique inlinks: 7\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/blinds/", label: "/services/blinds/", title: "https://mgtfilms.com/services/blinds/\nUnique inlinks: 7\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/sun-control-products/sun-control-prestige-exterior-series-residential/", label: "/sun-control-products/sun-control-prestige-exterior-series-residential/", title: "https://mgtfilms.com/sun-control-products/sun-control-prestige-exterior-series-residential/\nUnique inlinks: 7\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tint-services-bloomington-illinois/", label: "/window-tint-services-bloomington-illinois/", title: "https://mgtfilms.com/window-tint-services-bloomington-illinois/\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-treatments-mgt-films", label: "/window-treatments-mgt-films", title: "https://mgtfilms.com/window-treatments-mgt-films\nUnique inlinks: 7\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-treatments/", label: "/window-treatments/", title: "https://mgtfilms.com/window-treatments/\nUnique inlinks: 7\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/jackson-mississippi-window-film/", label: "/jackson-mississippi-window-film/", title: "https://mgtfilms.com/jackson-mississippi-window-film/\nUnique inlinks: 6\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/low-e-emissivity-films-chicago-il/", label: "/low-e-emissivity-films-chicago-il/", title: "https://mgtfilms.com/low-e-emissivity-films-chicago-il/\nUnique inlinks: 6\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/our-services/safety-and-security/", label: "/our-services/safety-and-security/", title: "https://mgtfilms.com/our-services/safety-and-security/\nUnique inlinks: 6\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/our-services/sun-control/", label: "/our-services/sun-control/", title: "https://mgtfilms.com/our-services/sun-control/\nUnique inlinks: 6\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/milwaukee-wisconsin/", label: "/services/milwaukee-wisconsin/", title: "https://mgtfilms.com/services/milwaukee-wisconsin/\nUnique inlinks: 6\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/residential-window-films-mgtfilms/", label: "/services/residential-window-films-mgtfilms/", title: "https://mgtfilms.com/services/residential-window-films-mgtfilms/\nUnique inlinks: 6\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tint-services-rosemont-illinois/", label: "/window-tint-services-rosemont-illinois/", title: "https://mgtfilms.com/window-tint-services-rosemont-illinois/\nUnique inlinks: 6\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/decorative-custom-graphics/", label: "/blog/category/decorative-custom-graphics/", title: "https://mgtfilms.com/blog/category/decorative-custom-graphics/\nUnique inlinks: 5\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/feather-friendly-bird-deterrent-technology/", label: "/blog/feather-friendly-bird-deterrent-technology/", title: "https://mgtfilms.com/blog/feather-friendly-bird-deterrent-technology/\nUnique inlinks: 5\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/safe-tips-for-cleaning-tinted-windows/", label: "/blog/safe-tips-for-cleaning-tinted-windows/", title: "https://mgtfilms.com/blog/safe-tips-for-cleaning-tinted-windows/\nUnique inlinks: 5\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/ceramic-window-tinting-chicago-il/", label: "/ceramic-window-tinting-chicago-il/", title: "https://mgtfilms.com/ceramic-window-tinting-chicago-il/\nUnique inlinks: 5\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/home-security-film/", label: "/home-security-film/", title: "https://mgtfilms.com/home-security-film/\nUnique inlinks: 5\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/switchable-window-film/", label: "/switchable-window-film/", title: "https://mgtfilms.com/switchable-window-film/\nUnique inlinks: 5\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tint-services-baton-rouge-louisiana/", label: "/window-tint-services-baton-rouge-louisiana/", title: "https://mgtfilms.com/window-tint-services-baton-rouge-louisiana/\nUnique inlinks: 5\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tint-services-naperville-illinois/", label: "/window-tint-services-naperville-illinois/", title: "https://mgtfilms.com/window-tint-services-naperville-illinois/\nUnique inlinks: 5\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tinting-decatur-il/", label: "/window-tinting-decatur-il/", title: "https://mgtfilms.com/window-tinting-decatur-il/\nUnique inlinks: 5\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/5-places-to-install-security-film-maximum-protection/", label: "/blog/5-places-to-install-security-film-maximum-protection/", title: "https://mgtfilms.com/blog/5-places-to-install-security-film-maximum-protection/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/bloomington-window-film-installation/", label: "/blog/bloomington-window-film-installation/", title: "https://mgtfilms.com/blog/bloomington-window-film-installation/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/resurfacing/", label: "/blog/category/resurfacing/", title: "https://mgtfilms.com/blog/category/resurfacing/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/decorative-glass-film-privacy/", label: "/blog/decorative-glass-film-privacy/", title: "https://mgtfilms.com/blog/decorative-glass-film-privacy/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/di-noc-films-everything-you-need-to-know/", label: "/blog/di-noc-films-everything-you-need-to-know/", title: "https://mgtfilms.com/blog/di-noc-films-everything-you-need-to-know/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/how-much-does-window-film-installation-cost/", label: "/blog/how-much-does-window-film-installation-cost/", title: "https://mgtfilms.com/blog/how-much-does-window-film-installation-cost/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/integrating-switchable-privacy-film-to-your-home/", label: "/blog/integrating-switchable-privacy-film-to-your-home/", title: "https://mgtfilms.com/blog/integrating-switchable-privacy-film-to-your-home/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/protecting-storefronts-anti-graffiti-film-jackson/", label: "/blog/protecting-storefronts-anti-graffiti-film-jackson/", title: "https://mgtfilms.com/blog/protecting-storefronts-anti-graffiti-film-jackson/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/sun-control-window-film-and-how-does-it-work/", label: "/blog/sun-control-window-film-and-how-does-it-work/", title: "https://mgtfilms.com/blog/sun-control-window-film-and-how-does-it-work/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/top-heat-control-films-for-hot-climates/", label: "/blog/top-heat-control-films-for-hot-climates/", title: "https://mgtfilms.com/blog/top-heat-control-films-for-hot-climates/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/clear-uv-window-film/", label: "/clear-uv-window-film/", title: "https://mgtfilms.com/clear-uv-window-film/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/contact/", label: "/contact/", title: "https://mgtfilms.com/contact/\nUnique inlinks: 4\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/services/roller-shades/", label: "/services/roller-shades/", title: "https://mgtfilms.com/services/roller-shades/\nUnique inlinks: 4\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/skylight-window-film-installation/", label: "/skylight-window-film-installation/", title: "https://mgtfilms.com/skylight-window-film-installation/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/sun-control-products/sun-control-night-vision-res/", label: "/sun-control-products/sun-control-night-vision-res/", title: "https://mgtfilms.com/sun-control-products/sun-control-night-vision-res/\nUnique inlinks: 4\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tint-services-aurora-illinois/", label: "/window-tint-services-aurora-illinois/", title: "https://mgtfilms.com/window-tint-services-aurora-illinois/\nUnique inlinks: 4\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tint-services-columbia-missouri/", label: "/window-tint-services-columbia-missouri/", title: "https://mgtfilms.com/window-tint-services-columbia-missouri/\nUnique inlinks: 4\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/window-tint-services-peoria-illinois/", label: "/window-tint-services-peoria-illinois/", title: "https://mgtfilms.com/window-tint-services-peoria-illinois/\nUnique inlinks: 4\nStatus: 301", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/3m-prestige-vs-other-window-films-pros-cons/", label: "/blog/3m-prestige-vs-other-window-films-pros-cons/", title: "https://mgtfilms.com/blog/3m-prestige-vs-other-window-films-pros-cons/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/affordable-commercial-window-tinting-chicago/", label: "/blog/affordable-commercial-window-tinting-chicago/", title: "https://mgtfilms.com/blog/affordable-commercial-window-tinting-chicago/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/anti-graffiti-window-film-springfield-il/", label: "/blog/anti-graffiti-window-film-springfield-il/", title: "https://mgtfilms.com/blog/anti-graffiti-window-film-springfield-il/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/architectural-resurfacing-chicago/", label: "/blog/architectural-resurfacing-chicago/", title: "https://mgtfilms.com/blog/architectural-resurfacing-chicago/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/", label: "/blog/architectural-resurfacing-milwaukee-offices/", title: "https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/benefits-of-home-window-tinting/", label: "/blog/benefits-of-home-window-tinting/", title: "https://mgtfilms.com/blog/benefits-of-home-window-tinting/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/", label: "/blog/bird-deterrent-window-film-chicago-campuses/", title: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago/", label: "/blog/bird-deterrent-window-film-chicago/", title: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/blinds-shades-or-film-best-light-control-solution/", label: "/blog/blinds-shades-or-film-best-light-control-solution/", title: "https://mgtfilms.com/blog/blinds-shades-or-film-best-light-control-solution/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/boost-energy-ratings-milwaukee/", label: "/blog/boost-energy-ratings-milwaukee/", title: "https://mgtfilms.com/blog/boost-energy-ratings-milwaukee/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/can-low-e-film-be-applied-to-existing-windows/", label: "/blog/can-low-e-film-be-applied-to-existing-windows/", title: "https://mgtfilms.com/blog/can-low-e-film-be-applied-to-existing-windows/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/can-you-see-through-windows-films-at-night/", label: "/blog/can-you-see-through-windows-films-at-night/", title: "https://mgtfilms.com/blog/can-you-see-through-windows-films-at-night/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/2/", label: "/blog/category/commercial-window-tinting/page/2/", title: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/2/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/3/", label: "/blog/category/commercial-window-tinting/page/3/", title: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/3/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/4/", label: "/blog/category/commercial-window-tinting/page/4/", title: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/4/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/feather-friendly/", label: "/blog/category/feather-friendly/", title: "https://mgtfilms.com/blog/category/feather-friendly/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/home-window-film/page/2/", label: "/blog/category/home-window-film/page/2/", title: "https://mgtfilms.com/blog/category/home-window-film/page/2/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/home-window-film/page/3/", label: "/blog/category/home-window-film/page/3/", title: "https://mgtfilms.com/blog/category/home-window-film/page/3/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/home-window-film/page/4/", label: "/blog/category/home-window-film/page/4/", title: "https://mgtfilms.com/blog/category/home-window-film/page/4/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/home-window-film/page/5/", label: "/blog/category/home-window-film/page/5/", title: "https://mgtfilms.com/blog/category/home-window-film/page/5/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/home-window-film/page/6/", label: "/blog/category/home-window-film/page/6/", title: "https://mgtfilms.com/blog/category/home-window-film/page/6/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/solar-control-window-film/", label: "/blog/category/solar-control-window-film/", title: "https://mgtfilms.com/blog/category/solar-control-window-film/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/switchable-window-film/", label: "/blog/category/switchable-window-film/", title: "https://mgtfilms.com/blog/category/switchable-window-film/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/window-tinting/page/2/", label: "/blog/category/window-tinting/page/2/", title: "https://mgtfilms.com/blog/category/window-tinting/page/2/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/window-tinting/page/3/", label: "/blog/category/window-tinting/page/3/", title: "https://mgtfilms.com/blog/category/window-tinting/page/3/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/window-tinting/page/4/", label: "/blog/category/window-tinting/page/4/", title: "https://mgtfilms.com/blog/category/window-tinting/page/4/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/category/window-tinting/page/5/", label: "/blog/category/window-tinting/page/5/", title: "https://mgtfilms.com/blog/category/window-tinting/page/5/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/ceramic-vs-traditional-window-tinting/", label: "/blog/ceramic-vs-traditional-window-tinting/", title: "https://mgtfilms.com/blog/ceramic-vs-traditional-window-tinting/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/chicago-residential-window-tinting-reviews/", label: "/blog/chicago-residential-window-tinting-reviews/", title: "https://mgtfilms.com/blog/chicago-residential-window-tinting-reviews/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/chicago-security-window-film-comparison/", label: "/blog/chicago-security-window-film-comparison/", title: "https://mgtfilms.com/blog/chicago-security-window-film-comparison/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/clear-solar-film-for-museums-galleries-retail/", label: "/blog/clear-solar-film-for-museums-galleries-retail/", title: "https://mgtfilms.com/blog/clear-solar-film-for-museums-galleries-retail/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/", label: "/blog/commercial-building-window-tinting-jackson/", title: "https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/commercial-residential-window-tinting-rosemont/", label: "/blog/commercial-residential-window-tinting-rosemont/", title: "https://mgtfilms.com/blog/commercial-residential-window-tinting-rosemont/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/commercial-window-tinting-in-milwaukee/", label: "/blog/commercial-window-tinting-in-milwaukee/", title: "https://mgtfilms.com/blog/commercial-window-tinting-in-milwaukee/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+  { id: "https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/", label: "/blog/commercial-window-tinting-new-orleans-retail-restaurants/", title: "https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/\nUnique inlinks: 3\nStatus: 200", value: 8, color: { background: "#f4e6d7", border: "#245d66" } },
+];
+const edges = [
+  { from: "https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/", to: "https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/", value: 47 },
+  { from: "https://mgtfilms.com/blog/di-noc-films-everything-you-need-to-know/", to: "https://mgtfilms.com/blog/di-noc-films-everything-you-need-to-know/", value: 40 },
+  { from: "https://mgtfilms.com/blog/blinds-shades-or-film-best-light-control-solution/", to: "https://mgtfilms.com/blog/blinds-shades-or-film-best-light-control-solution/", value: 39 },
+  { from: "https://mgtfilms.com/blog/commercial-residential-window-tinting-rosemont/", to: "https://mgtfilms.com/blog/commercial-residential-window-tinting-rosemont/", value: 39 },
+  { from: "https://mgtfilms.com/blog/3m-prestige-vs-other-window-films-pros-cons/", to: "https://mgtfilms.com/blog/3m-prestige-vs-other-window-films-pros-cons/", value: 38 },
+  { from: "https://mgtfilms.com/blog/top-heat-control-films-for-hot-climates/", to: "https://mgtfilms.com/blog/top-heat-control-films-for-hot-climates/", value: 37 },
+  { from: "https://mgtfilms.com/blog/can-low-e-film-be-applied-to-existing-windows/", to: "https://mgtfilms.com/blog/can-low-e-film-be-applied-to-existing-windows/", value: 37 },
+  { from: "https://mgtfilms.com/blog/clear-solar-film-for-museums-galleries-retail/", to: "https://mgtfilms.com/blog/clear-solar-film-for-museums-galleries-retail/", value: 37 },
+  { from: "https://mgtfilms.com/blog/boost-energy-ratings-milwaukee/", to: "https://mgtfilms.com/blog/boost-energy-ratings-milwaukee/", value: 36 },
+  { from: "https://mgtfilms.com/blog/chicago-residential-window-tinting-reviews/", to: "https://mgtfilms.com/blog/chicago-residential-window-tinting-reviews/", value: 35 },
+  { from: "https://mgtfilms.com/blog/protecting-storefronts-anti-graffiti-film-jackson/", to: "https://mgtfilms.com/blog/protecting-storefronts-anti-graffiti-film-jackson/", value: 32 },
+  { from: "https://mgtfilms.com/blog/chicago-security-window-film-comparison/", to: "https://mgtfilms.com/blog/chicago-security-window-film-comparison/", value: 32 },
+  { from: "https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/", to: "https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/", value: 31 },
+  { from: "https://mgtfilms.com/blog/commercial-window-tinting-in-milwaukee/", to: "https://mgtfilms.com/blog/commercial-window-tinting-in-milwaukee/", value: 28 },
+  { from: "https://mgtfilms.com/blog/ceramic-vs-traditional-window-tinting/", to: "https://mgtfilms.com/blog/ceramic-vs-traditional-window-tinting/", value: 28 },
+  { from: "https://mgtfilms.com/blog/sun-control-window-film-and-how-does-it-work/", to: "https://mgtfilms.com/blog/sun-control-window-film-and-how-does-it-work/", value: 27 },
+  { from: "https://mgtfilms.com/blog/affordable-commercial-window-tinting-chicago/", to: "https://mgtfilms.com/blog/affordable-commercial-window-tinting-chicago/", value: 27 },
+  { from: "https://mgtfilms.com/blog/safe-tips-for-cleaning-tinted-windows/", to: "https://mgtfilms.com/blog/safe-tips-for-cleaning-tinted-windows/", value: 26 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago/", to: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago/", value: 25 },
+  { from: "https://mgtfilms.com/blog/how-much-does-window-film-installation-cost/", to: "https://mgtfilms.com/blog/how-much-does-window-film-installation-cost/", value: 24 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/", to: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/", value: 24 },
+  { from: "https://mgtfilms.com/blog/5-places-to-install-security-film-maximum-protection/", to: "https://mgtfilms.com/blog/5-places-to-install-security-film-maximum-protection/", value: 23 },
+  { from: "https://mgtfilms.com/blog/can-you-see-through-windows-films-at-night/", to: "https://mgtfilms.com/blog/can-you-see-through-windows-films-at-night/", value: 23 },
+  { from: "https://mgtfilms.com/blog/benefits-of-home-window-tinting/", to: "https://mgtfilms.com/blog/benefits-of-home-window-tinting/", value: 22 },
+  { from: "https://mgtfilms.com/blog/integrating-switchable-privacy-film-to-your-home/", to: "https://mgtfilms.com/blog/integrating-switchable-privacy-film-to-your-home/", value: 22 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-chicago/", to: "https://mgtfilms.com/blog/architectural-resurfacing-chicago/", value: 22 },
+  { from: "https://mgtfilms.com/blog/decorative-glass-film-privacy/", to: "https://mgtfilms.com/blog/decorative-glass-film-privacy/", value: 21 },
+  { from: "https://mgtfilms.com/blog/bloomington-window-film-installation/", to: "https://mgtfilms.com/blog/bloomington-window-film-installation/", value: 20 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/", to: "https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/", value: 18 },
+  { from: "https://mgtfilms.com/blog/anti-graffiti-window-film-springfield-il/", to: "https://mgtfilms.com/blog/anti-graffiti-window-film-springfield-il/", value: 18 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/", value: 17 },
+  { from: "https://mgtfilms.com/contact-mgt-films/", to: "https://mgtfilms.com/contact-mgt-films/", value: 16 },
+  { from: "https://mgtfilms.com/blog/feather-friendly-bird-deterrent-technology/", to: "https://mgtfilms.com/blog/feather-friendly-bird-deterrent-technology/", value: 16 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/locations/", value: 14 },
+  { from: "https://mgtfilms.com/services/feather-friendly/", to: "https://mgtfilms.com/services/feather-friendly/", value: 14 },
+  { from: "https://mgtfilms.com/services/solar-control-film/", to: "https://mgtfilms.com/services/solar-control-film/", value: 14 },
+  { from: "https://mgtfilms.com/services/security-film/", to: "https://mgtfilms.com/services/security-film/", value: 14 },
+  { from: "https://mgtfilms.com/services/decorative-window-film/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 13 },
+  { from: "https://mgtfilms.com/our-services/3m-resources/", to: "https://mgtfilms.com/our-services/3m-resources/", value: 13 },
+  { from: "https://mgtfilms.com/services/architectural-resurfacing/", to: "https://mgtfilms.com/services/architectural-resurfacing/", value: 13 },
+  { from: "https://mgtfilms.com/services/custom-graphics/", to: "https://mgtfilms.com/services/custom-graphics/", value: 13 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/locations/baton-rouge/", value: 13 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/locations/new-orleans/", value: 13 },
+  { from: "https://mgtfilms.com/services/switchable-film/", to: "https://mgtfilms.com/services/switchable-film/", value: 13 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/locations/milwaukee/", value: 13 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/locations/central-il/", value: 13 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/locations/jackson-ms/", value: 13 },
+  { from: "https://mgtfilms.com/commercial-window-tinting/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 13 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/locations/chicago/", value: 13 },
+  { from: "https://mgtfilms.com/services/security-glass/", to: "https://mgtfilms.com/services/security-glass/", value: 13 },
+  { from: "https://mgtfilms.com/blog/", to: "https://mgtfilms.com/blog/", value: 13 },
+  { from: "https://mgtfilms.com/residential-window-films/", to: "https://mgtfilms.com/residential-window-films/", value: 13 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/locations/madison/", value: 13 },
+  { from: "https://mgtfilms.com/services/security-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 11 },
+  { from: "https://mgtfilms.com/terms-and-conditions/", to: "https://mgtfilms.com/terms-and-conditions/", value: 11 },
+  { from: "https://mgtfilms.com/privacy-policy/", to: "https://mgtfilms.com/privacy-policy/", value: 11 },
+  { from: "https://mgtfilms.com/anti-glare-window-film-chicago/", to: "https://mgtfilms.com/anti-glare-window-film-chicago/", value: 10 },
+  { from: "https://mgtfilms.com/privacy-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/2/", to: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/2/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/decorative-custom-graphics/", to: "https://mgtfilms.com/blog/category/decorative-custom-graphics/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/5/", to: "https://mgtfilms.com/blog/category/home-window-film/page/5/", value: 10 },
+  { from: "https://mgtfilms.com/window-insulation-film-chicago/", to: "https://mgtfilms.com/window-insulation-film-chicago/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/4/", to: "https://mgtfilms.com/blog/category/home-window-film/page/4/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/6/", to: "https://mgtfilms.com/blog/category/home-window-film/page/6/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/2/", to: "https://mgtfilms.com/blog/category/home-window-film/page/2/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/3/", to: "https://mgtfilms.com/blog/category/home-window-film/page/3/", value: 10 },
+  { from: "https://mgtfilms.com/heat-control-window-film/", to: "https://mgtfilms.com/heat-control-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/home-security-film/", to: "https://mgtfilms.com/home-security-film/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/3/", to: "https://mgtfilms.com/blog/category/window-tinting/page/3/", value: 10 },
+  { from: "https://mgtfilms.com/ceramic-window-tinting-chicago-il/", to: "https://mgtfilms.com/ceramic-window-tinting-chicago-il/", value: 10 },
+  { from: "https://mgtfilms.com/services/decorative-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 10 },
+  { from: "https://mgtfilms.com/frosted-window-film/", to: "https://mgtfilms.com/frosted-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/anti-graffiti-window-film/", to: "https://mgtfilms.com/anti-graffiti-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/solar-control-window-film/", to: "https://mgtfilms.com/blog/category/solar-control-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/resurfacing/", to: "https://mgtfilms.com/blog/category/resurfacing/", value: 10 },
+  { from: "https://mgtfilms.com/our-services/sun-control/", to: "https://mgtfilms.com/our-services/sun-control/", value: 10 },
+  { from: "https://mgtfilms.com/uv-protection-window-film/", to: "https://mgtfilms.com/uv-protection-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/", to: "https://mgtfilms.com/blog/category/home-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/", to: "https://mgtfilms.com/blog/category/commercial-window-tinting/", value: 10 },
+  { from: "https://mgtfilms.com/window-tinting-for-contractors/", to: "https://mgtfilms.com/window-tinting-for-contractors/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/4/", to: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/4/", value: 10 },
+  { from: "https://mgtfilms.com/window-tint-services-rosemont-illinois/", to: "https://mgtfilms.com/window-tint-services-rosemont-illinois/", value: 10 },
+  { from: "https://mgtfilms.com/low-e-emissivity-films-chicago-il/", to: "https://mgtfilms.com/low-e-emissivity-films-chicago-il/", value: 10 },
+  { from: "https://mgtfilms.com/privacy-window-film/", to: "https://mgtfilms.com/privacy-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/5/", to: "https://mgtfilms.com/blog/category/window-tinting/page/5/", value: 10 },
+  { from: "https://mgtfilms.com/window-tint-services-chicago-illinois/", to: "https://mgtfilms.com/window-tint-services-chicago-illinois/", value: 10 },
+  { from: "https://mgtfilms.com/3m-solar-window-film/", to: "https://mgtfilms.com/3m-solar-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/window-tint-services-columbia-missouri/", to: "https://mgtfilms.com/window-tint-services-columbia-missouri/", value: 10 },
+  { from: "https://mgtfilms.com/switchable-window-film/", to: "https://mgtfilms.com/switchable-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/one-way-window-film/", to: "https://mgtfilms.com/one-way-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/2/", to: "https://mgtfilms.com/blog/category/window-tinting/page/2/", value: 10 },
+  { from: "https://mgtfilms.com/window-tinting-decatur-il/", to: "https://mgtfilms.com/window-tinting-decatur-il/", value: 10 },
+  { from: "https://mgtfilms.com/clear-uv-window-film/", to: "https://mgtfilms.com/clear-uv-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/feather-friendly/", to: "https://mgtfilms.com/blog/category/feather-friendly/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/uncategorized/", to: "https://mgtfilms.com/blog/category/uncategorized/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/switchable-window-film/", to: "https://mgtfilms.com/blog/category/switchable-window-film/", value: 10 },
+  { from: "https://mgtfilms.com/window-tint-services-chicago-illinois/", to: "https://mgtfilms.com/contact-mgt-films/", value: 10 },
+  { from: "https://mgtfilms.com/skylight-window-film-installation/", to: "https://mgtfilms.com/skylight-window-film-installation/", value: 10 },
+  { from: "https://mgtfilms.com/window-tint-services-bloomington-illinois/", to: "https://mgtfilms.com/window-tint-services-bloomington-illinois/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/4/", to: "https://mgtfilms.com/blog/category/window-tinting/page/4/", value: 10 },
+  { from: "https://mgtfilms.com/di-noc/", to: "https://mgtfilms.com/di-noc/", value: 10 },
+  { from: "https://mgtfilms.com/window-treatments/", to: "https://mgtfilms.com/window-treatments/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/3/", to: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/3/", value: 10 },
+  { from: "https://mgtfilms.com/window-tint-services-naperville-illinois/", to: "https://mgtfilms.com/window-tint-services-naperville-illinois/", value: 10 },
+  { from: "https://mgtfilms.com/our-services/safety-and-security/", to: "https://mgtfilms.com/our-services/safety-and-security/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/", to: "https://mgtfilms.com/blog/category/window-tinting/", value: 10 },
+  { from: "https://mgtfilms.com/blog/category/security-film/", to: "https://mgtfilms.com/blog/category/security-film/", value: 10 },
+  { from: "https://mgtfilms.com/terms-and-conditions/", to: "https://mgtfilms.com/", value: 9 },
+  { from: "https://mgtfilms.com/services/security-glass/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/blog/commercial-residential-window-tinting-rosemont/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/commercial-window-tinting/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/blog/commercial-window-tinting-in-milwaukee/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/architectural-resurfacing/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/switchable-film/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/custom-graphics/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/anti-graffiti-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/window-tint-services-columbia-missouri/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/window-tint-services-bloomington-illinois/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/blog/chicago-residential-window-tinting-reviews/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/solar-control-film/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/custom-graphics/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/architectural-resurfacing/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/switchable-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/security-glass/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/window-tinting-for-contractors/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/feather-friendly/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/window-tint-services-naperville-illinois/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/solar-control-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/services/feather-friendly/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/blog/bloomington-window-film-installation/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/security-film/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/residential-window-films/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/blog/benefits-of-home-window-tinting/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/services/decorative-window-film/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/low-e-emissivity-films-chicago-il/", to: "https://mgtfilms.com/contact-mgt-films/", value: 8 },
+  { from: "https://mgtfilms.com/privacy-policy/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/blog/safe-tips-for-cleaning-tinted-windows/", to: "https://mgtfilms.com/", value: 8 },
+  { from: "https://mgtfilms.com/blog/blinds-shades-or-film-best-light-control-solution/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/3/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/3/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/switchable-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/boost-energy-ratings-milwaukee/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/skylight-window-film-installation/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/one-way-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/window-tinting-for-contractors/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/window-tint-services-chicago-illinois/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/heat-control-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/anti-graffiti-window-film-springfield-il/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/sun-control-window-film-and-how-does-it-work/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/heat-control-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/di-noc-films-everything-you-need-to-know/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/security-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/clear-uv-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/uv-protection-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/our-services/safety-and-security/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/3m-prestige-vs-other-window-films-pros-cons/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/window-tinting-decatur-il/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/3m-prestige-vs-other-window-films-pros-cons/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/window-tint-services-rosemont-illinois/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/benefits-of-home-window-tinting/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/can-low-e-film-be-applied-to-existing-windows/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/home-security-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/window-insulation-film-chicago/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/decorative-custom-graphics/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/residential-window-films/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/can-you-see-through-windows-films-at-night/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/decorative-glass-film-privacy/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/commercial-window-tinting-in-milwaukee/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/ceramic-window-tinting-chicago-il/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/window-tint-services-rosemont-illinois/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/feather-friendly/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/resurfacing/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/our-services/safety-and-security/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/our-services/sun-control/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/switchable-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/5-places-to-install-security-film-maximum-protection/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/window-tinting-decatur-il/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/privacy-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/protecting-storefronts-anti-graffiti-film-jackson/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/privacy-policy/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/anti-graffiti-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/4/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/protecting-storefronts-anti-graffiti-film-jackson/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/our-services/sun-control/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/affordable-commercial-window-tinting-chicago/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/ceramic-vs-traditional-window-tinting/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/frosted-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/commercial-residential-window-tinting-rosemont/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/commercial-window-tinting/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/our-services/3m-resources/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-chicago/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/3m-solar-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/window-tint-services-naperville-illinois/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/ceramic-vs-traditional-window-tinting/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/chicago-security-window-film-comparison/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/2/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/skylight-window-film-installation/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/contact-mgt-films/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/6/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/4/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/blinds-shades-or-film-best-light-control-solution/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/low-e-emissivity-films-chicago-il/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/switchable-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/sun-control-window-film-and-how-does-it-work/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/anti-glare-window-film-chicago/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/how-much-does-window-film-installation-cost/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/integrating-switchable-privacy-film-to-your-home/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/di-noc/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/integrating-switchable-privacy-film-to-your-home/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/affordable-commercial-window-tinting-chicago/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/anti-glare-window-film-chicago/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/di-noc/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/2/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/window-insulation-film-chicago/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/chicago-residential-window-tinting-reviews/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/3m-solar-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/bloomington-window-film-installation/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/3/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-chicago/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/window-tint-services-bloomington-illinois/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/uncategorized/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/anti-graffiti-window-film-springfield-il/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/top-heat-control-films-for-hot-climates/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/uv-protection-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/clear-solar-film-for-museums-galleries-retail/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/5-places-to-install-security-film-maximum-protection/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/2/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/can-low-e-film-be-applied-to-existing-windows/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/chicago-security-window-film-comparison/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/home-security-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/window-treatments/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/window-tint-services-columbia-missouri/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/solar-control-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/window-treatments/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/feather-friendly-bird-deterrent-technology/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/5/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/clear-solar-film-for-museums-galleries-retail/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/frosted-window-film/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/ceramic-window-tinting-chicago-il/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/di-noc-films-everything-you-need-to-know/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/5/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/can-you-see-through-windows-films-at-night/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/clear-uv-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/one-way-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 7 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/4/", to: "https://mgtfilms.com/", value: 7 },
+  { from: "https://mgtfilms.com/blog/safe-tips-for-cleaning-tinted-windows/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/2/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/terms-and-conditions/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/4/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/3/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/feather-friendly/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/decorative-glass-film-privacy/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/feather-friendly-bird-deterrent-technology/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/our-services/3m-resources/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/5/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/4/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/solar-control-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/boost-energy-ratings-milwaukee/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/3/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/top-heat-control-films-for-hot-climates/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/2/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/security-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/5/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/4/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/decorative-custom-graphics/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/6/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/uncategorized/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/how-much-does-window-film-installation-cost/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/3/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/resurfacing/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/2/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/blog/category/switchable-window-film/", to: "https://mgtfilms.com/contact-mgt-films/", value: 6 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/locations/chicago/", value: 5 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/locations/new-orleans/", value: 5 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/", to: "https://mgtfilms.com/locations/chicago/", value: 5 },
+  { from: "https://mgtfilms.com/window-tinting-decatur-il/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 5 },
+  { from: "https://mgtfilms.com/window-tint-services-chicago-illinois/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/window-tint-services-columbia-missouri/", to: "https://mgtfilms.com/services/feather-friendly/", value: 5 },
+  { from: "https://mgtfilms.com/window-tint-services-bloomington-illinois/", to: "https://mgtfilms.com/services/feather-friendly/", value: 5 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/locations/baton-rouge/", value: 5 },
+  { from: "https://mgtfilms.com/window-tinting-decatur-il/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/blog/chicago-residential-window-tinting-reviews/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/window-tint-services-rosemont-illinois/", to: "https://mgtfilms.com/services/feather-friendly/", value: 5 },
+  { from: "https://mgtfilms.com/window-tint-services-chicago-illinois/", to: "https://mgtfilms.com/services/feather-friendly/", value: 5 },
+  { from: "https://mgtfilms.com/window-tint-services-naperville-illinois/", to: "https://mgtfilms.com/services/feather-friendly/", value: 5 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/locations/central-il/", value: 5 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/locations/jackson-ms/", value: 5 },
+  { from: "https://mgtfilms.com/window-tint-services-columbia-missouri/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/window-tint-services-chicago-illinois/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/locations/madison/", value: 5 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/locations/", value: 5 },
+  { from: "https://mgtfilms.com/window-tinting-decatur-il/", to: "https://mgtfilms.com/services/feather-friendly/", value: 5 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/locations/", to: "https://mgtfilms.com/locations/milwaukee/", value: 5 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 5 },
+  { from: "https://mgtfilms.com/window-tint-services-columbia-missouri/", to: "https://mgtfilms.com/residential-window-films/", value: 5 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/page/3/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/clear-uv-window-film/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/services/feather-friendly/", value: 4 },
+  { from: "https://mgtfilms.com/blog/sun-control-window-film-and-how-does-it-work/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 4 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/services/switchable-film/", value: 4 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/services/solar-control-film/", value: 4 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/decorative-custom-graphics/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/anti-graffiti-window-film-springfield-il/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 4 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/services/security-film/", value: 4 },
+  { from: "https://mgtfilms.com/one-way-window-film/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-chicago/", to: "https://mgtfilms.com/services/architectural-resurfacing/", value: 4 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/locations/chicago/", value: 4 },
+  { from: "https://mgtfilms.com/services/custom-graphics/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/ceramic-vs-traditional-window-tinting/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/services/architectural-resurfacing/", value: 4 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/services/solar-control-film/", value: 4 },
+  { from: "https://mgtfilms.com/residential-window-films/", to: "https://mgtfilms.com/services/architectural-resurfacing/", value: 4 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/commercial-window-tinting/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/services/switchable-film/", value: 4 },
+  { from: "https://mgtfilms.com/di-noc/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/boost-energy-ratings-milwaukee/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/blog/commercial-building-window-tinting-jackson/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/di-noc-films-everything-you-need-to-know/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/switchable-window-film/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/", to: "https://mgtfilms.com/services/architectural-resurfacing/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/6/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/locations/madison/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/5/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/commercial-residential-window-tinting-rosemont/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/home-security-film/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/terms-and-conditions/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/locations/milwaukee/", to: "https://mgtfilms.com/services/switchable-film/", value: 4 },
+  { from: "https://mgtfilms.com/locations/chicago/", to: "https://mgtfilms.com/services/switchable-film/", value: 4 },
+  { from: "https://mgtfilms.com/locations/jackson-ms/", to: "https://mgtfilms.com/services/feather-friendly/", value: 4 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/window-tint-services-chicago-illinois/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/bloomington-window-film-installation/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/window-tint-services-columbia-missouri/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/privacy-policy/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/commercial-window-tinting-new-orleans-retail-restaurants/", to: "https://mgtfilms.com/services/security-glass/", value: 4 },
+  { from: "https://mgtfilms.com/blog/decorative-glass-film-privacy/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/commercial-window-tinting/", to: "https://mgtfilms.com/services/security-film/", value: 4 },
+  { from: "https://mgtfilms.com/blog/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/locations/baton-rouge/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/anti-glare-window-film-chicago/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/top-heat-control-films-for-hot-climates/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/3/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/window-tint-services-rosemont-illinois/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/commercial-window-tinting/", to: "https://mgtfilms.com/services/switchable-film/", value: 4 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/services/security-film/", value: 4 },
+  { from: "https://mgtfilms.com/locations/central-il/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/switchable-window-film/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/window-tinting/page/3/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/protecting-storefronts-anti-graffiti-film-jackson/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/security-film/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 4 },
+  { from: "https://mgtfilms.com/contact-mgt-films/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/bird-deterrent-window-film-chicago-campuses/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/residential-window-films/", to: "https://mgtfilms.com/services/switchable-film/", value: 4 },
+  { from: "https://mgtfilms.com/locations/new-orleans/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/home-window-film/page/5/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/residential-window-films/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/blog/affordable-commercial-window-tinting-chicago/", to: "https://mgtfilms.com/commercial-window-tinting/", value: 4 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-milwaukee-offices/", to: "https://mgtfilms.com/services/decorative-window-film/", value: 4 },
+  { from: "https://mgtfilms.com/blog/category/commercial-window-tinting/", to: "https://mgtfilms.com/locations/", value: 4 },
+  { from: "https://mgtfilms.com/blog/architectural-resurfacing-chicago/", to: "https://mgtfilms.com/locations/", value: 4 },
+];
+const network = new vis.Network(
+  document.getElementById("network"),
+  { nodes, edges },
+  {
+    nodes: {
+      shape: "dot",
+      scaling: { min: 8, max: 38 },
+      font: { face: "Georgia", size: 15, color: "#1f1b17" },
+      borderWidth: 1
+    },
+    edges: {
+      smooth: true,
+      color: { color: "#9e8f7e", highlight: "#245d66" },
+      scaling: { min: 1, max: 9 }
+    },
+    physics: {
+      stabilization: true,
+      barnesHut: {
+        gravitationalConstant: -6200,
+        springLength: 135,
+        springConstant: 0.028
+      }
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 100,
+      navigationButtons: true,
+      keyboard: true
+    }
+  }
+);
+
+document.getElementById("fitBtn").addEventListener("click", () => network.fit());
+
+const searchBox = document.getElementById("searchBox");
+const rows = Array.from(document.querySelectorAll("#nodeTable tbody tr"));
+searchBox.addEventListener("input", () => {
+  const term = searchBox.value.trim().toLowerCase();
+  rows.forEach((row) => {
+    row.style.display = row.textContent.toLowerCase().includes(term) ? "" : "none";
+  });
+});
+  </script>
+</body>
+</html>

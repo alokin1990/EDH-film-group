@@ -1,19 +1,20 @@
-# EDH Film Group Internal Link Reports
+# Sitewide Internal Link Reports
 
-Static Screaming Frog deliverables for `edhfilmgroup.com`.
+Published Screaming Frog reporting packages for multiple client sites.
 
-## Main Reports
+## Projects
 
-- `index.html` - sitewide internal link visual
-- `important-pages-visual.html` - important and broken pages visual
-- `internal-link-force-graph.html` - interactive force graph
+- `edhfilmgroup.com/`
+- `mgtfilms.com/`
+- `campbellwindowfilm.com/`
+- `michgc.com/`
 
-## Supporting Exports
+## URL Pattern
 
-- `sitewide-inlinks-summary.csv`
-- `internal-link-edges.csv`
-- `section-hub-report.csv`
-- `section-hub-report.md`
-- per-page inlink exports under `inlinks/`
+Each client package uses:
 
-These files were generated from the managed Screaming Frog reporting workflow and are intended to be viewable directly through GitHub Pages.
+- `<site>/index.html` for the main sitewide visual
+- `<site>/important-pages-visual.html`
+- `<site>/internal-link-force-graph.html`
+
+This repo is structured for direct GitHub Pages viewing, with the root `index.html` acting as a landing page for all projects.
